@@ -13,7 +13,7 @@
     />
     <meta name="application-name" content="Peta Banjir Indonesia" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#b45309" />
+    <meta name="theme-color" content="#3f82ff" />
     <link rel="canonical" href="https://flood.faizkrisnadi.com/" />
 
     <meta property="og:type" content="website" />
@@ -46,7 +46,7 @@
       href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260316c" />
+    <link rel="stylesheet" href="./styles.css?v=20260316a" />
   </head>
   <body>
     <!-- ═══════════ FULL-VIEWPORT MAP ═══════════ -->
@@ -59,7 +59,7 @@
         <header class="sidebar-brand">
           <div class="brand-row">
             <div>
-              <h1 class="brand-title"><span data-i18n="app.title.prefix">Peta Banjir</span> <span class="brand-highlight" data-i18n="app.title.highlight">Indonesia</span></h1>
+              <h1 class="brand-title" data-i18n="app.title"></h1>
               <p class="brand-sub" data-i18n="app.subtitle"></p>
             </div>
             <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Toggle sidebar">
@@ -219,9 +219,6 @@
 
     <!-- ═══════════ TIMELINE SLIDER ═══════════ -->
     <div class="timeline-bar">
-      <button id="timeline-play" class="timeline-play-btn" type="button" aria-label="Play timeline">
-        <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
-      </button>
       <span class="timeline-value" id="timeline-from-label"></span>
       <div class="timeline-track-wrap">
         <input id="date-from" type="range" class="timeline-range timeline-range--from" />

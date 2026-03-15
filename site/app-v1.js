@@ -43,7 +43,7 @@ const state = {
 };
 
 /* ─── Choropleth colour ramp (YlOrRd inspired, warm palette) ─── */
-const COLOR_STEPS = ["#fef9c3", "#fde68a", "#f59e0b", "#b45309", "#78350f", "#451a03"];
+const COLOR_STEPS = ["#fef9c3", "#fcd34d", "#f59e0b", "#ea580c", "#dc2626", "#991b1b"];
 const APP_ASSET_VERSION = "20260316b";
 
 /* ─── DOM refs ─── */
@@ -97,19 +97,19 @@ const BOUNDARY_PAINT_PROFILES = {
   map: {
     fillOpacity: 0.72,
     selectedFillOpacity: 0.85,
-    lineColor: "rgba(60, 50, 30, 0.22)",
+    lineColor: "rgba(60, 60, 80, 0.22)",
     lineWidth: 0.8,
   },
   imagery: {
-    fillOpacity: 0.20,
-    selectedFillOpacity: 0.35,
-    lineColor: "rgba(60, 50, 30, 0.10)",
+    fillOpacity: 0.26,
+    selectedFillOpacity: 0.38,
+    lineColor: "rgba(60, 60, 80, 0.1)",
     lineWidth: 0.75,
   },
   hybrid: {
-    fillOpacity: 0.20,
-    selectedFillOpacity: 0.35,
-    lineColor: "rgba(60, 50, 30, 0.10)",
+    fillOpacity: 0.26,
+    selectedFillOpacity: 0.38,
+    lineColor: "rgba(60, 60, 80, 0.1)",
     lineWidth: 0.75,
   },
 };
@@ -148,7 +148,6 @@ async function boot() {
   initControls();
   initSidebar();
   initTimeline();
-  initPlayButton();
   applyTranslations();
   initMap();
 }
@@ -180,70 +179,6 @@ async function loadManifest() {
   state.currentMetric = state.manifest.default_metric;
   state.currentBasemapMode = state.manifest.default_basemap_mode || "map";
   state.adminByCode = new Map(state.searchIndex.map((row) => [row.code, row]));
-}
-
-// Timeline Play logic
-let timelinePlayInterval = null;
-
-function initPlayButton() {
-  const playBtn = document.getElementById("timeline-play");
-  if (!playBtn) return;
-  
-  playBtn.addEventListener("click", () => {
-    if (timelinePlayInterval) {
-      pauseTimeline();
-    } else {
-      playTimeline();
-    }
-  });
-}
-
-function playTimeline() {
-  const playBtn = document.getElementById("timeline-play");
-  if (playBtn) playBtn.classList.add("is-playing");
-  
-  // Pause icon
-  if (playBtn) playBtn.innerHTML = '<svg viewBox="0 0 16 16"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg>';
-
-  timelinePlayInterval = setInterval(() => {
-    const dates = state.allMonths; // Use state.allMonths for available dates
-    if (!dates || dates.length <= 1) {
-      pauseTimeline();
-      return;
-    }
-    
-    // Auto-advance the "to" slider, keeping "from" fixed. If at max, reset to "from" + 1
-    let fromIdx = parseInt(dateFromInput.value, 10);
-    let toIdx = parseInt(dateToInput.value, 10);
-    
-    if (toIdx >= dates.length - 1) {
-      toIdx = fromIdx; // Reset to "from" index
-    } else {
-      toIdx++;
-    }
-    
-    // Update state and UI
-    dateToInput.value = toIdx;
-    state.currentDateTo = dates[toIdx];
-    if (timelineToLabel) timelineToLabel.textContent = formatMonthLabel(dates[toIdx]);
-    
-    updateTimelineFill();
-    renderExplorer(); // Re-render map and charts
-  }, 800);
-}
-
-function pauseTimeline() {
-  if (timelinePlayInterval) {
-    clearInterval(timelinePlayInterval);
-    timelinePlayInterval = null;
-  }
-  
-  const playBtn = document.getElementById("timeline-play");
-  if (playBtn) {
-    playBtn.classList.remove("is-playing");
-    // Play icon
-    playBtn.innerHTML = '<svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>';
-  }
 }
 
 /* ─── Sidebar ─── */
@@ -1140,11 +1075,7 @@ function ensureBoundaryLayers() {
         "case",
         ["==", ["get", "is_selected"], true],
         profile.selectedFillOpacity,
-        ["interpolate", ["linear"], ["get", "metric_value"],
-          0, 0.08,
-          1, profile.fillOpacity * 0.6,
-          10, profile.fillOpacity
-        ],
+        profile.fillOpacity,
       ],
     },
   });
@@ -1165,7 +1096,7 @@ function ensureBoundaryLayers() {
     source: "boundaries",
     filter: ["==", ["get", "is_selected"], true],
     paint: {
-      "line-color": "#b45309",
+      "line-color": "#3b82f6",
       "line-width": 2.5,
     },
   });
@@ -1467,14 +1398,14 @@ async function renderTrendChart(code, renderVersion) {
         {
           label: t(`metric.${state.currentMetric}`),
           data: rows.map((row) => row[state.currentMetric]),
-          borderColor: "#14b8a6",
-          backgroundColor: "rgba(20, 184, 166, 0.10)",
+          borderColor: "#3b82f6",
+          backgroundColor: "rgba(59, 130, 246, 0.08)",
           borderWidth: 2,
           fill: true,
           tension: 0.3,
           pointRadius: 0,
           pointHoverRadius: 4,
-          pointHoverBackgroundColor: "#14b8a6",
+          pointHoverBackgroundColor: "#3b82f6",
         },
       ],
     },
@@ -1488,10 +1419,10 @@ async function renderTrendChart(code, renderVersion) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "rgba(44, 36, 24, 0.90)",
-          titleColor: "#f5f1eb",
-          bodyColor: "#f5f1eb",
-          borderColor: "rgba(20, 184, 166, 0.3)",
+          backgroundColor: "rgba(26, 35, 50, 0.92)",
+          titleColor: "#e8ecf1",
+          bodyColor: "#e8ecf1",
+          borderColor: "rgba(59, 130, 246, 0.3)",
           borderWidth: 1,
           cornerRadius: 8,
           padding: 10,
@@ -1502,21 +1433,21 @@ async function renderTrendChart(code, renderVersion) {
       scales: {
         x: {
           ticks: {
-            color: "#9a8e7f",
+            color: "#8a9bb0",
             maxRotation: 0,
             autoSkip: true,
             maxTicksLimit: 6,
             font: { family: "Inter", size: 10 },
           },
-          grid: { color: "rgba(120, 90, 50, 0.06)" },
+          grid: { color: "rgba(0, 0, 0, 0.04)" },
           border: { display: false },
         },
         y: {
           ticks: {
-            color: "#9a8e7f",
+            color: "#8a9bb0",
             font: { family: "Inter", size: 10 },
           },
-          grid: { color: "rgba(120, 90, 50, 0.06)" },
+          grid: { color: "rgba(0, 0, 0, 0.04)" },
           border: { display: false },
         },
       },
