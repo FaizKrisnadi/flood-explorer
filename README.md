@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/readme-preview.svg" alt="flood-explorer dashboard preview" width="100%" />
+  <img src="docs/readme-preview.png" alt="flood-explorer dashboard preview" width="100%" />
 </p>
 
 <h1 align="center">flood-explorer</h1>
