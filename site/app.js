@@ -44,7 +44,7 @@ const state = {
 
 /* ─── Choropleth colour ramp (YlOrRd inspired, warm palette) ─── */
 const COLOR_STEPS = ["#fef9c3", "#fde68a", "#f59e0b", "#b45309", "#78350f", "#451a03"];
-const APP_ASSET_VERSION = "20260316b";
+const APP_ASSET_VERSION = "20260316d";
 
 /* ─── DOM refs ─── */
 const levelSelect = document.querySelector("#level-select");
@@ -113,6 +113,8 @@ const BOUNDARY_PAINT_PROFILES = {
     lineWidth: 0.75,
   },
 };
+const SIDEBAR_TRANSITION_MS = 170;
+let sidebarResizeTimer = null;
 
 /* ─── Utilities ─── */
 async function loadJson(path) {
@@ -282,13 +284,26 @@ function toggleSidebar() {
 }
 
 function setSidebarCollapsed(nextCollapsed) {
+  if (state.sidebarCollapsed === nextCollapsed) return;
+
   state.sidebarCollapsed = nextCollapsed;
   document.body.classList.toggle("sidebar-collapsed", nextCollapsed);
   sidebarToggle?.setAttribute("aria-expanded", String(!nextCollapsed));
-  // Resize map after transition
-  setTimeout(() => {
-    if (state.map) state.map.resize();
-  }, 300);
+
+  if (!state.map) return;
+
+  if (sidebarResizeTimer) {
+    clearTimeout(sidebarResizeTimer);
+  }
+
+  requestAnimationFrame(() => {
+    state.map?.resize();
+  });
+
+  sidebarResizeTimer = window.setTimeout(() => {
+    state.map?.resize();
+    sidebarResizeTimer = null;
+  }, SIDEBAR_TRANSITION_MS + 30);
 }
 
 function applyResponsiveSidebarMode({ force = false } = {}) {
