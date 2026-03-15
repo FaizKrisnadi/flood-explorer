@@ -1,5 +1,7 @@
 {
-  "app.title": "flood-explorer",
+  "app.title": "Indonesia Flood Map",
+  "app.title.prefix": "Flood Map",
+  "app.title.highlight": "Indonesia",
   "app.subtitle": "Explore flood events across Indonesia.\nContact: hi@faizkrisnadi.com",
   "badge.public": "Public / static / Cloudflare-ready",
   "badge.coverage": "Coverage and methodology are explicit",
@@ -75,5 +77,7 @@
   "method.note.village_optional": "Village detail is not included in this public release.",
   "method.note.prebuilt_assets": "Map values, charts, and summaries update with the metric and time range you choose.",
   "method.note.disclaimer": "This dashboard is for public information only, not early warning or operational use.",
-  "footer.copy": "© 2026 Faiz Krisnadi. All rights reserved."
+  "footer.copy": "© 2026 Faiz Krisnadi. All rights reserved.",
+  "footer.map_attribution_label": "Basemap:",
+  "footer.map_attribution_data": "Data from"
 }
