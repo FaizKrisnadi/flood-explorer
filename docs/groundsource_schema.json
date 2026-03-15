@@ -1,0 +1,72 @@
+{
+  "url": "https://zenodo.org/api/records/18647054/files/groundsource_2026.parquet/content",
+  "num_rows": 2646302,
+  "num_row_groups": 3,
+  "created_by": "parquet-cpp-arrow version 13.0.0",
+  "format_version": "2.6",
+  "fields": [
+    {
+      "name": "uuid",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "area_km2",
+      "type": "double",
+      "nullable": true
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "nullable": true
+    },
+    {
+      "name": "start_date",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "end_date",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "__index_level_0__",
+      "type": "int64",
+      "nullable": true
+    }
+  ],
+  "geo_metadata": "{\"primary_column\": \"geometry\", \"columns\": {\"geometry\": {\"encoding\": \"WKB\", \"crs\": {\"$schema\": \"https://proj.org/schemas/v0.2/projjson.schema.json\", \"type\": \"GeographicCRS\", \"name\": \"WGS 84\", \"datum\": {\"type\": \"GeodeticReferenceFrame\", \"name\": \"World Geodetic System 1984\", \"ellipsoid\": {\"name\": \"WGS 84\", \"semi_major_axis\": 6378137, \"inverse_flattening\": 298.257223563}}, \"coordinate_system\": {\"subtype\": \"ellipsoidal\", \"axis\": [{\"name\": \"Geodetic latitude\", \"abbreviation\": \"Lat\", \"direction\": \"north\", \"unit\": \"degree\"}, {\"name\": \"Geodetic longitude\", \"abbreviation\": \"Lon\", \"direction\": \"east\", \"unit\": \"degree\"}]}, \"area\": \"World\", \"bbox\": {\"south_latitude\": -90, \"west_longitude\": -180, \"north_latitude\": 90, \"east_longitude\": 180}, \"id\": {\"authority\": \"EPSG\", \"code\": 4326}}, \"geometry_type\": [\"MultiPolygon\", \"Polygon\"], \"bbox\": [-180.0, -76.812618, 180.0, 81.164611]}}, \"version\": \"0.4.0\", \"creator\": {\"library\": \"geopandas\", \"version\": \"0+unknown\"}}",
+  "row_groups": [
+    {
+      "row_group": 0,
+      "rows": 1048576,
+      "start_date_min": "2000-01-01",
+      "start_date_max": "2020-08-27",
+      "end_date_min": "2000-01-01",
+      "end_date_max": "2020-09-02",
+      "area_km2_min": 4.196662531088474e-06,
+      "area_km2_max": 4998.544861875116
+    },
+    {
+      "row_group": 1,
+      "rows": 1048576,
+      "start_date_min": "2020-08-27",
+      "start_date_max": "2024-09-12",
+      "end_date_min": "2020-08-27",
+      "end_date_max": "2024-09-18",
+      "area_km2_min": 1.7489639049426842e-06,
+      "area_km2_max": 4998.825448311713
+    },
+    {
+      "row_group": 2,
+      "rows": 549150,
+      "start_date_min": "2024-09-12",
+      "start_date_max": "2026-02-03",
+      "end_date_min": "2024-09-12",
+      "end_date_max": "2026-02-03",
+      "area_km2_min": 2.759182779452773e-06,
+      "area_km2_max": 4998.825448311713
+    }
+  ]
+}

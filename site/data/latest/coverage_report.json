@@ -1,0 +1,880 @@
+{
+  "generated_at": "2026-03-14T21:46:46.460032+00:00",
+  "release_gate": {
+    "district_threshold": 0.98,
+    "warning_code": null,
+    "district_release_ready": true
+  },
+  "overall": {
+    "province": {
+      "admin_total": 38,
+      "boundary_total": 38,
+      "coverage_ratio": 1.0,
+      "boundary_source_mix": {
+        "raw": 38
+      }
+    },
+    "regency": {
+      "admin_total": 514,
+      "boundary_total": 514,
+      "coverage_ratio": 1.0,
+      "boundary_source_mix": {
+        "raw": 514
+      }
+    },
+    "district": {
+      "admin_total": 7285,
+      "boundary_total": 7285,
+      "coverage_ratio": 1.0,
+      "boundary_source_mix": {
+        "raw": 7285
+      }
+    },
+    "village": {
+      "admin_total": 83762,
+      "boundary_total": 267,
+      "coverage_ratio": 0.003188,
+      "boundary_source_mix": {
+        "raw": 267
+      }
+    }
+  },
+  "by_province": {
+    "11": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 23,
+        "boundary_total": 23,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 290,
+        "boundary_total": 290,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 6500,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "12": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 33,
+        "boundary_total": 33,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 455,
+        "boundary_total": 455,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 6110,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "13": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 19,
+        "boundary_total": 19,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 179,
+        "boundary_total": 179,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1265,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "14": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 12,
+        "boundary_total": 12,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 172,
+        "boundary_total": 172,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1862,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "15": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 11,
+        "boundary_total": 11,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 144,
+        "boundary_total": 144,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1585,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "16": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 17,
+        "boundary_total": 17,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 241,
+        "boundary_total": 241,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 3259,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "17": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 10,
+        "boundary_total": 10,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 129,
+        "boundary_total": 129,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1513,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "18": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 15,
+        "boundary_total": 15,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 229,
+        "boundary_total": 229,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 2651,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "19": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 7,
+        "boundary_total": 7,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 47,
+        "boundary_total": 47,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 393,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "21": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 7,
+        "boundary_total": 7,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 80,
+        "boundary_total": 80,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 419,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "31": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 6,
+        "boundary_total": 6,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 44,
+        "boundary_total": 44,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 267,
+        "boundary_total": 267,
+        "coverage_ratio": 1.0
+      }
+    },
+    "32": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 27,
+        "boundary_total": 27,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 627,
+        "boundary_total": 627,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 5957,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "33": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 35,
+        "boundary_total": 35,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 576,
+        "boundary_total": 576,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 8563,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "34": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 5,
+        "boundary_total": 5,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 78,
+        "boundary_total": 78,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 438,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "35": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 38,
+        "boundary_total": 38,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 666,
+        "boundary_total": 666,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 8494,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "36": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 8,
+        "boundary_total": 8,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 155,
+        "boundary_total": 155,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1552,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "51": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 9,
+        "boundary_total": 9,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 57,
+        "boundary_total": 57,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 716,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "52": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 10,
+        "boundary_total": 10,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 117,
+        "boundary_total": 117,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1166,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "53": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 22,
+        "boundary_total": 22,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 315,
+        "boundary_total": 315,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 3442,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "61": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 14,
+        "boundary_total": 14,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 174,
+        "boundary_total": 174,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 2145,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "62": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 14,
+        "boundary_total": 14,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 136,
+        "boundary_total": 136,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1571,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "63": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 13,
+        "boundary_total": 13,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 156,
+        "boundary_total": 156,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 2016,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "64": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 10,
+        "boundary_total": 10,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 105,
+        "boundary_total": 105,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1038,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "65": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 5,
+        "boundary_total": 5,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 55,
+        "boundary_total": 55,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 482,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "71": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 15,
+        "boundary_total": 15,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 171,
+        "boundary_total": 171,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1839,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "72": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 13,
+        "boundary_total": 13,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 177,
+        "boundary_total": 177,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 2017,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "73": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 24,
+        "boundary_total": 24,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 313,
+        "boundary_total": 313,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 3059,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "74": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 17,
+        "boundary_total": 17,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 221,
+        "boundary_total": 221,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 2285,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "75": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 6,
+        "boundary_total": 6,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 77,
+        "boundary_total": 77,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 729,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "76": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 6,
+        "boundary_total": 6,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 69,
+        "boundary_total": 69,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 648,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "81": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 11,
+        "boundary_total": 11,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 119,
+        "boundary_total": 119,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1235,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "82": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 10,
+        "boundary_total": 10,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 118,
+        "boundary_total": 118,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1185,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "91": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 9,
+        "boundary_total": 9,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 105,
+        "boundary_total": 105,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 999,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "92": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 7,
+        "boundary_total": 7,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 91,
+        "boundary_total": 91,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 824,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "93": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 4,
+        "boundary_total": 4,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 82,
+        "boundary_total": 82,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 690,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "94": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 8,
+        "boundary_total": 8,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 131,
+        "boundary_total": 131,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1208,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "95": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 8,
+        "boundary_total": 8,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 252,
+        "boundary_total": 252,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 2627,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    },
+    "96": {
+      "province": {
+        "admin_total": 1,
+        "boundary_total": 1,
+        "coverage_ratio": 1.0
+      },
+      "regency": {
+        "admin_total": 6,
+        "boundary_total": 6,
+        "coverage_ratio": 1.0
+      },
+      "district": {
+        "admin_total": 132,
+        "boundary_total": 132,
+        "coverage_ratio": 1.0
+      },
+      "village": {
+        "admin_total": 1013,
+        "boundary_total": 0,
+        "coverage_ratio": 0.0
+      }
+    }
+  }
+}

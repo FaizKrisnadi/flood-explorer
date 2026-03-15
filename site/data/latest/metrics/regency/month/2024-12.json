@@ -1,0 +1,3410 @@
+[
+  {
+    "code": "11.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 60,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 7457.104123894151,
+    "max_coverage_ratio": 0.990948878806835
+  },
+  {
+    "code": "11.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 146,
+    "flood_days": 19,
+    "sum_intersection_area_km2": 25304.99399579687,
+    "max_coverage_ratio": 0.9788403275723043
+  },
+  {
+    "code": "11.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 487.5390165607866,
+    "max_coverage_ratio": 0.04859817841575284
+  },
+  {
+    "code": "11.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 39,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 9684.037322553995,
+    "max_coverage_ratio": 0.9700776348770719
+  },
+  {
+    "code": "11.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 267.17971529104096,
+    "max_coverage_ratio": 0.025910211812307116
+  },
+  {
+    "code": "11.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 6201.9438318129605,
+    "max_coverage_ratio": 0.983677921485535
+  },
+  {
+    "code": "11.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 64,
+    "flood_days": 19,
+    "sum_intersection_area_km2": 9065.219231187266,
+    "max_coverage_ratio": 0.8972447444454605
+  },
+  {
+    "code": "11.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 36,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 3107.0263431391763,
+    "max_coverage_ratio": 0.9867202796466888
+  },
+  {
+    "code": "11.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 13.498994282852285,
+    "max_coverage_ratio": 0.007416734999200413
+  },
+  {
+    "code": "11.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 766.079817490451,
+    "max_coverage_ratio": 0.11573299531998903
+  },
+  {
+    "code": "11.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 38,
+    "flood_days": 19,
+    "sum_intersection_area_km2": 4948.877181989388,
+    "max_coverage_ratio": 0.969089115144373
+  },
+  {
+    "code": "11.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 24.280718636779195,
+    "max_coverage_ratio": 0.0030845157311048367
+  },
+  {
+    "code": "11.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 33,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 1806.1129455239684,
+    "max_coverage_ratio": 0.11890588173848378
+  },
+  {
+    "code": "11.14",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 4809.422236441504,
+    "max_coverage_ratio": 0.9931566301571336
+  },
+  {
+    "code": "11.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 10708.046306980465,
+    "max_coverage_ratio": 0.9469133458283912
+  },
+  {
+    "code": "11.16",
+    "month_start": "2024-12-01",
+    "unique_event_count": 26,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 1234.3383572131927,
+    "max_coverage_ratio": 0.18244121862047255
+  },
+  {
+    "code": "11.17",
+    "month_start": "2024-12-01",
+    "unique_event_count": 17,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 4023.4596790423975,
+    "max_coverage_ratio": 0.9718506202983338
+  },
+  {
+    "code": "11.18",
+    "month_start": "2024-12-01",
+    "unique_event_count": 29,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 3400.3947287197993,
+    "max_coverage_ratio": 0.9830603748379513
+  },
+  {
+    "code": "11.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 166.0180186530997,
+    "max_coverage_ratio": 0.9214978564496377
+  },
+  {
+    "code": "11.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 228.1053834038815,
+    "max_coverage_ratio": 0.9136445802719407
+  },
+  {
+    "code": "11.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 25.194663726097456,
+    "max_coverage_ratio": 0.09850301756005957
+  },
+  {
+    "code": "11.75",
+    "month_start": "2024-12-01",
+    "unique_event_count": 68,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 2834.876415505632,
+    "max_coverage_ratio": 0.9481130872844206
+  },
+  {
+    "code": "12.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 67,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 7099.166554151066,
+    "max_coverage_ratio": 0.9570715450451371
+  },
+  {
+    "code": "12.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 65,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 9052.322010895685,
+    "max_coverage_ratio": 0.9253254888389365
+  },
+  {
+    "code": "12.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 59,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 5155.902283261061,
+    "max_coverage_ratio": 0.9484368029947523
+  },
+  {
+    "code": "12.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 1706.3600744300288,
+    "max_coverage_ratio": 0.9933391420529486
+  },
+  {
+    "code": "12.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 44,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 354.96223070609136,
+    "max_coverage_ratio": 0.027665901072150233
+  },
+  {
+    "code": "12.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 31,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 4779.513382520287,
+    "max_coverage_ratio": 0.9637667235947599
+  },
+  {
+    "code": "12.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 80,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 3523.387909896758,
+    "max_coverage_ratio": 0.9747963575070501
+  },
+  {
+    "code": "12.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 17,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 13428.289776341542,
+    "max_coverage_ratio": 0.9322331571437465
+  },
+  {
+    "code": "12.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 26,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 3961.0071319006465,
+    "max_coverage_ratio": 0.9805344657691195
+  },
+  {
+    "code": "12.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 106.54234707007174,
+    "max_coverage_ratio": 0.01913220916680559
+  },
+  {
+    "code": "12.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 22,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 4073.287456805158,
+    "max_coverage_ratio": 0.9506255115926019
+  },
+  {
+    "code": "12.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 2142.599668048155,
+    "max_coverage_ratio": 0.8851870434217922
+  },
+  {
+    "code": "12.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 39,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 9502.831769145792,
+    "max_coverage_ratio": 0.2591176988506856
+  },
+  {
+    "code": "12.14",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 1372.0343783792227,
+    "max_coverage_ratio": 0.5218726482227887
+  },
+  {
+    "code": "12.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 1416.554142853271,
+    "max_coverage_ratio": 0.9463277625703123
+  },
+  {
+    "code": "12.16",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 5102.673003971794,
+    "max_coverage_ratio": 0.9859890954723
+  },
+  {
+    "code": "12.17",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 1468.0217836539,
+    "max_coverage_ratio": 0.6466491925676481
+  },
+  {
+    "code": "12.18",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 329.1119716831049,
+    "max_coverage_ratio": 0.10986948849374278
+  },
+  {
+    "code": "12.19",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 878.6557512197219,
+    "max_coverage_ratio": 0.9596535326884892
+  },
+  {
+    "code": "12.20",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 79.61276297286982,
+    "max_coverage_ratio": 0.007648609835380154
+  },
+  {
+    "code": "12.21",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 107.78695686256393,
+    "max_coverage_ratio": 0.009789765708417312
+  },
+  {
+    "code": "12.22",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.04248147193225676,
+    "max_coverage_ratio": 1.3823541563479945e-05
+  },
+  {
+    "code": "12.23",
+    "month_start": "2024-12-01",
+    "unique_event_count": 26,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 9632.06080143048,
+    "max_coverage_ratio": 0.960099120779721
+  },
+  {
+    "code": "12.24",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 1261.882496238344,
+    "max_coverage_ratio": 0.9849436863600611
+  },
+  {
+    "code": "12.25",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 1303.00879232324,
+    "max_coverage_ratio": 0.9602830955160488
+  },
+  {
+    "code": "12.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 94,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 898.0719331933361,
+    "max_coverage_ratio": 0.9149001461996406
+  },
+  {
+    "code": "12.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 19.795874952299197,
+    "max_coverage_ratio": 0.08599114742064098
+  },
+  {
+    "code": "12.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 8.936112702542662,
+    "max_coverage_ratio": 0.43212298405339344
+  },
+  {
+    "code": "12.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 110.2103217486933,
+    "max_coverage_ratio": 0.3740443295831616
+  },
+  {
+    "code": "12.75",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 134.3877131418169,
+    "max_coverage_ratio": 0.917471820874169
+  },
+  {
+    "code": "12.76",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 38.13542651253148,
+    "max_coverage_ratio": 0.8766791171238222
+  },
+  {
+    "code": "12.77",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 482.8008388340205,
+    "max_coverage_ratio": 0.7983395587856725
+  },
+  {
+    "code": "12.78",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 847.6411236186404,
+    "max_coverage_ratio": 0.9865629262481866
+  },
+  {
+    "code": "13.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 38,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 4830.314475387237,
+    "max_coverage_ratio": 0.09231178402574268
+  },
+  {
+    "code": "13.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 45,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 4077.8184465486693,
+    "max_coverage_ratio": 0.8976328837646722
+  },
+  {
+    "code": "13.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 191.9144134971533,
+    "max_coverage_ratio": 0.024621381512210126
+  },
+  {
+    "code": "13.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 31,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 5444.51427950369,
+    "max_coverage_ratio": 0.9179342095396714
+  },
+  {
+    "code": "13.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 45,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 10066.882927866518,
+    "max_coverage_ratio": 0.9749982210967254
+  },
+  {
+    "code": "13.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 74,
+    "flood_days": 23,
+    "sum_intersection_area_km2": 14049.15312426054,
+    "max_coverage_ratio": 0.9761871582238778
+  },
+  {
+    "code": "13.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 6723.198108510709,
+    "max_coverage_ratio": 0.9737962843329794
+  },
+  {
+    "code": "13.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 410.7045455874992,
+    "max_coverage_ratio": 0.053220261612954844
+  },
+  {
+    "code": "13.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 439.4328407633651,
+    "max_coverage_ratio": 0.05625501697753736
+  },
+  {
+    "code": "13.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 3096.127594271972,
+    "max_coverage_ratio": 0.9686719411117004
+  },
+  {
+    "code": "13.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 3266.5088960719377,
+    "max_coverage_ratio": 0.9869740791571802
+  },
+  {
+    "code": "13.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 22,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 9245.581660357313,
+    "max_coverage_ratio": 0.9494603737643372
+  },
+  {
+    "code": "13.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 55,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 1821.13751787772,
+    "max_coverage_ratio": 0.3167255210178163
+  },
+  {
+    "code": "13.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 222.9128283196518,
+    "max_coverage_ratio": 0.8621562126292304
+  },
+  {
+    "code": "13.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 51.59955610780039,
+    "max_coverage_ratio": 0.1624147931182561
+  },
+  {
+    "code": "13.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 79.22738409208515,
+    "max_coverage_ratio": 0.6944094329467938
+  },
+  {
+    "code": "13.75",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 108.49220671121084,
+    "max_coverage_ratio": 0.8060784076109492
+  },
+  {
+    "code": "13.76",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 287.69971050384186,
+    "max_coverage_ratio": 0.9593023996385073
+  },
+  {
+    "code": "13.77",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 278.74731316030613,
+    "max_coverage_ratio": 0.9319740030378622
+  },
+  {
+    "code": "14.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 338.931170913855,
+    "max_coverage_ratio": 0.009439161562475627
+  },
+  {
+    "code": "14.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 8,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 1359.086786641996,
+    "max_coverage_ratio": 0.09824518457606658
+  },
+  {
+    "code": "14.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 1658.940807797953,
+    "max_coverage_ratio": 0.139153617085582
+  },
+  {
+    "code": "14.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 3258.7617270176634,
+    "max_coverage_ratio": 0.06953625549755281
+  },
+  {
+    "code": "14.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 8,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 390.2777399783753,
+    "max_coverage_ratio": 0.016010542768521745
+  },
+  {
+    "code": "14.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 1475.4947769616817,
+    "max_coverage_ratio": 0.10250924220715307
+  },
+  {
+    "code": "14.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 26,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 3039.9367189880536,
+    "max_coverage_ratio": 0.14180478162943733
+  },
+  {
+    "code": "14.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 111.14212437056226,
+    "max_coverage_ratio": 0.0060880559328769564
+  },
+  {
+    "code": "14.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 101.27642537061031,
+    "max_coverage_ratio": 0.013741101862986226
+  },
+  {
+    "code": "14.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 3570.3146207146488,
+    "max_coverage_ratio": 0.9860331574035336
+  },
+  {
+    "code": "14.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 1255.2844674587127,
+    "max_coverage_ratio": 0.9316522045989607
+  },
+  {
+    "code": "14.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 2213.6675459931866,
+    "max_coverage_ratio": 0.970349120471957
+  },
+  {
+    "code": "15.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 23.210395657308815,
+    "max_coverage_ratio": 0.0022589209347753936
+  },
+  {
+    "code": "15.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 9.010515881477206,
+    "max_coverage_ratio": 0.0015173577882996246
+  },
+  {
+    "code": "15.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 330.6654000065046,
+    "max_coverage_ratio": 0.05594308250010797
+  },
+  {
+    "code": "15.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 203.91892115292845,
+    "max_coverage_ratio": 0.038607484988356255
+  },
+  {
+    "code": "15.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 8,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 1419.0938012795084,
+    "max_coverage_ratio": 0.20592327928748966
+  },
+  {
+    "code": "15.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 591.6207704838221,
+    "max_coverage_ratio": 0.06642492768363124
+  },
+  {
+    "code": "15.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 413.3955252386936,
+    "max_coverage_ratio": 0.07701863075716742
+  },
+  {
+    "code": "15.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 435.22989758048357,
+    "max_coverage_ratio": 0.06876340048008514
+  },
+  {
+    "code": "15.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 5.340157127725465,
+    "max_coverage_ratio": 0.01677377968801054
+  },
+  {
+    "code": "15.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 6.470257914619049,
+    "max_coverage_ratio": 0.017666874989332015
+  },
+  {
+    "code": "16.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 26.745727093918653,
+    "max_coverage_ratio": 0.006771509408717687
+  },
+  {
+    "code": "16.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 38.57106912786905,
+    "max_coverage_ratio": 0.0021970791906336202
+  },
+  {
+    "code": "16.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 402.12388264227235,
+    "max_coverage_ratio": 0.03669252085512068
+  },
+  {
+    "code": "16.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 0.35933248112171984,
+    "max_coverage_ratio": 8.245011817197493e-05
+  },
+  {
+    "code": "16.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 1256.9017371960172,
+    "max_coverage_ratio": 0.049832871965118326
+  },
+  {
+    "code": "16.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 343.29373437986976,
+    "max_coverage_ratio": 0.015440198525034683
+  },
+  {
+    "code": "16.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 194.98985054857351,
+    "max_coverage_ratio": 0.05615563193623684
+  },
+  {
+    "code": "16.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 6.486885950249806,
+    "max_coverage_ratio": 0.0014882062764175314
+  },
+  {
+    "code": "16.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 2187.7885233508828,
+    "max_coverage_ratio": 0.9516563319234317
+  },
+  {
+    "code": "16.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 6.114863440943258,
+    "max_coverage_ratio": 0.0027410993133647047
+  },
+  {
+    "code": "16.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 10.22163795895084,
+    "max_coverage_ratio": 0.0023889021067547375
+  },
+  {
+    "code": "16.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 213.84629440187211,
+    "max_coverage_ratio": 0.48257606176300855
+  },
+  {
+    "code": "16.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 4.1973349339856485,
+    "max_coverage_ratio": 0.0065058334445559415
+  },
+  {
+    "code": "16.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 35.12600553145958,
+    "max_coverage_ratio": 0.03426016742213591
+  },
+  {
+    "code": "17.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 33.0927469084088,
+    "max_coverage_ratio": 0.015429528405222125
+  },
+  {
+    "code": "17.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 27.971471726817935,
+    "max_coverage_ratio": 0.0062427226158728736
+  },
+  {
+    "code": "17.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 10.847667946679746,
+    "max_coverage_ratio": 0.00415315039118797
+  },
+  {
+    "code": "17.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 2892.7869914831044,
+    "max_coverage_ratio": 0.9843354514843146
+  },
+  {
+    "code": "17.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 50.15638371109653,
+    "max_coverage_ratio": 0.01632522373102971
+  },
+  {
+    "code": "17.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 44,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 265.1425294506897,
+    "max_coverage_ratio": 0.6343237473898604
+  },
+  {
+    "code": "18.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 323.06725907693993,
+    "max_coverage_ratio": 0.04214851683711426
+  },
+  {
+    "code": "18.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 8.883040412808546,
+    "max_coverage_ratio": 0.0013135068986566
+  },
+  {
+    "code": "18.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 4.865817745664342,
+    "max_coverage_ratio": 0.001823551736880226
+  },
+  {
+    "code": "18.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 2.5304197577040193,
+    "max_coverage_ratio": 0.0012005314330920346
+  },
+  {
+    "code": "18.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 1445.7934910209433,
+    "max_coverage_ratio": 0.160237722963526
+  },
+  {
+    "code": "18.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 31.74599875095649,
+    "max_coverage_ratio": 0.010477825404501807
+  },
+  {
+    "code": "18.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 16,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 474.59288053791556,
+    "max_coverage_ratio": 0.0362569626977496
+  },
+  {
+    "code": "18.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 1.6989210606886151,
+    "max_coverage_ratio": 0.0004828357969803187
+  },
+  {
+    "code": "18.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 1191.5234762194773,
+    "max_coverage_ratio": 0.9200302006001516
+  },
+  {
+    "code": "18.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 64.46308072140054,
+    "max_coverage_ratio": 0.08711253039584736
+  },
+  {
+    "code": "18.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 4.168313932364345,
+    "max_coverage_ratio": 0.0009448572621696398
+  },
+  {
+    "code": "18.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 890.1092537959645,
+    "max_coverage_ratio": 0.14227071034582967
+  },
+  {
+    "code": "18.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 319.18275440241905,
+    "max_coverage_ratio": 0.9065359403847776
+  },
+  {
+    "code": "19.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 4.2248876255281615,
+    "max_coverage_ratio": 0.0013968901196050984
+  },
+  {
+    "code": "19.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 2858.493515789306,
+    "max_coverage_ratio": 0.9043877878400455
+  },
+  {
+    "code": "19.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 1163.800180915921,
+    "max_coverage_ratio": 0.22196899368096246
+  },
+  {
+    "code": "19.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 3.7226202954017085,
+    "max_coverage_ratio": 0.001145514815289593
+  },
+  {
+    "code": "19.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 58.069262654847904,
+    "max_coverage_ratio": 0.020314826744839542
+  },
+  {
+    "code": "19.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 7546.503029029971,
+    "max_coverage_ratio": 0.9838089479604696
+  },
+  {
+    "code": "19.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 198.27904784267284,
+    "max_coverage_ratio": 0.9376135313782095
+  },
+  {
+    "code": "21.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 1048.4308533790424,
+    "max_coverage_ratio": 0.7694015663745631
+  },
+  {
+    "code": "21.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 2151.0200893226165,
+    "max_coverage_ratio": 0.8967570394083265
+  },
+  {
+    "code": "21.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 515.0128445696546,
+    "max_coverage_ratio": 0.21924485330368249
+  },
+  {
+    "code": "21.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 2162.651686875462,
+    "max_coverage_ratio": 0.9327854177456221
+  },
+  {
+    "code": "21.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 0.08173796886999742,
+    "max_coverage_ratio": 5.4414303965169595e-05
+  },
+  {
+    "code": "21.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 16,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 198.961750361617,
+    "max_coverage_ratio": 0.82575777687721
+  },
+  {
+    "code": "31.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 25,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 36.90649436618709,
+    "max_coverage_ratio": 0.6800465182993631
+  },
+  {
+    "code": "31.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 168.68158318712977,
+    "max_coverage_ratio": 1.0
+  },
+  {
+    "code": "31.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 118,
+    "flood_days": 23,
+    "sum_intersection_area_km2": 802.1111495760587,
+    "max_coverage_ratio": 0.9102422203395113
+  },
+  {
+    "code": "31.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 44,
+    "flood_days": 19,
+    "sum_intersection_area_km2": 541.7789455623832,
+    "max_coverage_ratio": 0.9592357040237638
+  },
+  {
+    "code": "31.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 26,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 707.2456994583013,
+    "max_coverage_ratio": 0.9488271850282951
+  },
+  {
+    "code": "31.75",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 714.0485495227164,
+    "max_coverage_ratio": 0.972098399060128
+  },
+  {
+    "code": "32.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 83,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 880.7468264213028,
+    "max_coverage_ratio": 0.02650506908261041
+  },
+  {
+    "code": "32.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 372,
+    "flood_days": 28,
+    "sum_intersection_area_km2": 14490.688631727235,
+    "max_coverage_ratio": 0.9894482751601551
+  },
+  {
+    "code": "32.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 112,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 9886.03015487913,
+    "max_coverage_ratio": 0.9835743859898597
+  },
+  {
+    "code": "32.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 58,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 1997.2024499012628,
+    "max_coverage_ratio": 0.9689628700457837
+  },
+  {
+    "code": "32.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 3322.8455572967123,
+    "max_coverage_ratio": 0.9835468507734108
+  },
+  {
+    "code": "32.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 290.88093769648077,
+    "max_coverage_ratio": 0.02390163901472317
+  },
+  {
+    "code": "32.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 51,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 779.6373752624995,
+    "max_coverage_ratio": 0.06968533507223082
+  },
+  {
+    "code": "32.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 80.9186421967891,
+    "max_coverage_ratio": 0.009600016235887814
+  },
+  {
+    "code": "32.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 31,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 2254.1027118945303,
+    "max_coverage_ratio": 0.9706299901621627
+  },
+  {
+    "code": "32.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 15,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 52.060614713497515,
+    "max_coverage_ratio": 0.01641167815016106
+  },
+  {
+    "code": "32.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 35,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 242.84349801243218,
+    "max_coverage_ratio": 0.027187376866878457
+  },
+  {
+    "code": "32.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 36,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 4696.2684622787065,
+    "max_coverage_ratio": 0.9862197854873476
+  },
+  {
+    "code": "32.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 50,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 5424.09280264428,
+    "max_coverage_ratio": 0.9890926732161419
+  },
+  {
+    "code": "32.14",
+    "month_start": "2024-12-01",
+    "unique_event_count": 25,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 164.3130924173152,
+    "max_coverage_ratio": 0.07477801707056696
+  },
+  {
+    "code": "32.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 46,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 8178.296687695857,
+    "max_coverage_ratio": 0.9897853123622086
+  },
+  {
+    "code": "32.16",
+    "month_start": "2024-12-01",
+    "unique_event_count": 51,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 2596.034604195357,
+    "max_coverage_ratio": 0.9794150636074912
+  },
+  {
+    "code": "32.17",
+    "month_start": "2024-12-01",
+    "unique_event_count": 34,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 170.37932430595825,
+    "max_coverage_ratio": 0.03569960690222553
+  },
+  {
+    "code": "32.18",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 1243.2057747942613,
+    "max_coverage_ratio": 0.9718312143840118
+  },
+  {
+    "code": "32.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 118.93462543380306,
+    "max_coverage_ratio": 0.8853357361665379
+  },
+  {
+    "code": "32.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 30,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 269.0339021760102,
+    "max_coverage_ratio": 0.8350060925405317
+  },
+  {
+    "code": "32.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 233.11025784261932,
+    "max_coverage_ratio": 0.9559342167475638
+  },
+  {
+    "code": "32.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 86.28459979475954,
+    "max_coverage_ratio": 0.9577467807717119
+  },
+  {
+    "code": "32.75",
+    "month_start": "2024-12-01",
+    "unique_event_count": 15,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 35.16958169401094,
+    "max_coverage_ratio": 0.02773025414444717
+  },
+  {
+    "code": "32.76",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 293.69707306046786,
+    "max_coverage_ratio": 0.9800677484781534
+  },
+  {
+    "code": "32.77",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 16.263454711205373,
+    "max_coverage_ratio": 0.19899095581040466
+  },
+  {
+    "code": "32.78",
+    "month_start": "2024-12-01",
+    "unique_event_count": 30,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 480.3827716065198,
+    "max_coverage_ratio": 0.7767994263285497
+  },
+  {
+    "code": "32.79",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 45.47562928826875,
+    "max_coverage_ratio": 0.11453733371588365
+  },
+  {
+    "code": "33.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 50,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 572.3544662914898,
+    "max_coverage_ratio": 0.08436911640417037
+  },
+  {
+    "code": "33.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 51,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 1835.4737879939535,
+    "max_coverage_ratio": 0.9749430058032593
+  },
+  {
+    "code": "33.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 61.1547523957084,
+    "max_coverage_ratio": 0.02092747317215986
+  },
+  {
+    "code": "33.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 1339.6633424666627,
+    "max_coverage_ratio": 0.9809553376292888
+  },
+  {
+    "code": "33.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 30.567995465563115,
+    "max_coverage_ratio": 0.006697303659867225
+  },
+  {
+    "code": "33.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 109.30449943362734,
+    "max_coverage_ratio": 0.04570352546294549
+  },
+  {
+    "code": "33.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 1220.26389224553,
+    "max_coverage_ratio": 0.9671840526149555
+  },
+  {
+    "code": "33.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 64.81367179453846,
+    "max_coverage_ratio": 0.04429240327368606
+  },
+  {
+    "code": "33.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 76.1326042807311,
+    "max_coverage_ratio": 0.026278150676828087
+  },
+  {
+    "code": "33.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 43,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 1265.3153519251093,
+    "max_coverage_ratio": 0.9811521821880068
+  },
+  {
+    "code": "33.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 27,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 617.1113529541524,
+    "max_coverage_ratio": 0.9843565265043979
+  },
+  {
+    "code": "33.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 37,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 2519.46721715565,
+    "max_coverage_ratio": 0.9821704105252241
+  },
+  {
+    "code": "33.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 138.23372484844296,
+    "max_coverage_ratio": 0.0761830007347501
+  },
+  {
+    "code": "33.14",
+    "month_start": "2024-12-01",
+    "unique_event_count": 28,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 2318.523574372154,
+    "max_coverage_ratio": 0.9682364765658426
+  },
+  {
+    "code": "33.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 27,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 2326.1965032426147,
+    "max_coverage_ratio": 0.9735958878240297
+  },
+  {
+    "code": "33.16",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 2181.2803495983335,
+    "max_coverage_ratio": 0.9865047480848077
+  },
+  {
+    "code": "33.17",
+    "month_start": "2024-12-01",
+    "unique_event_count": 22,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 1279.1940148669603,
+    "max_coverage_ratio": 0.9875545430801629
+  },
+  {
+    "code": "33.18",
+    "month_start": "2024-12-01",
+    "unique_event_count": 25,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 3462.43546094865,
+    "max_coverage_ratio": 0.985684429710676
+  },
+  {
+    "code": "33.19",
+    "month_start": "2024-12-01",
+    "unique_event_count": 17,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 541.4464729301277,
+    "max_coverage_ratio": 0.9374052657349133
+  },
+  {
+    "code": "33.20",
+    "month_start": "2024-12-01",
+    "unique_event_count": 16,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 1271.2046477306628,
+    "max_coverage_ratio": 0.9841289607677918
+  },
+  {
+    "code": "33.21",
+    "month_start": "2024-12-01",
+    "unique_event_count": 42,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 2193.5813550339526,
+    "max_coverage_ratio": 0.9795306058291156
+  },
+  {
+    "code": "33.22",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 2176.001143622897,
+    "max_coverage_ratio": 0.9629979985140336
+  },
+  {
+    "code": "33.23",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 91.9460928007849,
+    "max_coverage_ratio": 0.057136233156815756
+  },
+  {
+    "code": "33.24",
+    "month_start": "2024-12-01",
+    "unique_event_count": 58,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 1462.6506887147389,
+    "max_coverage_ratio": 0.9731379511615692
+  },
+  {
+    "code": "33.25",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 856.0140384024039,
+    "max_coverage_ratio": 0.9838556530090222
+  },
+  {
+    "code": "33.26",
+    "month_start": "2024-12-01",
+    "unique_event_count": 17,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 86.43045302304378,
+    "max_coverage_ratio": 0.022094231215798822
+  },
+  {
+    "code": "33.27",
+    "month_start": "2024-12-01",
+    "unique_event_count": 8,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 91.90056326141995,
+    "max_coverage_ratio": 0.058887728933871585
+  },
+  {
+    "code": "33.28",
+    "month_start": "2024-12-01",
+    "unique_event_count": 15,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 81.1971218147541,
+    "max_coverage_ratio": 0.026822137522959213
+  },
+  {
+    "code": "33.29",
+    "month_start": "2024-12-01",
+    "unique_event_count": 28,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 1968.0405550985256,
+    "max_coverage_ratio": 0.9744772443609881
+  },
+  {
+    "code": "33.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 135.53346767169344,
+    "max_coverage_ratio": 0.8673417628592072
+  },
+  {
+    "code": "33.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 12.366665438276815,
+    "max_coverage_ratio": 0.11401684792283144
+  },
+  {
+    "code": "33.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 76,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 1103.5000901852748,
+    "max_coverage_ratio": 0.9545099399624333
+  },
+  {
+    "code": "33.75",
+    "month_start": "2024-12-01",
+    "unique_event_count": 16,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 97.9094897270562,
+    "max_coverage_ratio": 0.6351650142262164
+  },
+  {
+    "code": "33.76",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 62.97354086841384,
+    "max_coverage_ratio": 0.8160465756133575
+  },
+  {
+    "code": "34.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 737.9580442177928,
+    "max_coverage_ratio": 0.9675827735045454
+  },
+  {
+    "code": "34.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 1171.0374153167736,
+    "max_coverage_ratio": 0.9760112953679569
+  },
+  {
+    "code": "34.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 32,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 1897.5829327671681,
+    "max_coverage_ratio": 0.9710926558799488
+  },
+  {
+    "code": "34.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 15,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 117.19508185377462,
+    "max_coverage_ratio": 0.07086932162338143
+  },
+  {
+    "code": "34.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 6.6396920580085546,
+    "max_coverage_ratio": 0.06952553110888642
+  },
+  {
+    "code": "35.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 3181.3626251219557,
+    "max_coverage_ratio": 0.9618712331558862
+  },
+  {
+    "code": "35.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 131,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 5136.641581151627,
+    "max_coverage_ratio": 0.981880881285503
+  },
+  {
+    "code": "35.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 49,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 3063.342800169648,
+    "max_coverage_ratio": 0.9697852396525116
+  },
+  {
+    "code": "35.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 31,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 1758.7106267383767,
+    "max_coverage_ratio": 0.9834753452802079
+  },
+  {
+    "code": "35.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 230.71210424859578,
+    "max_coverage_ratio": 0.04343785197491382
+  },
+  {
+    "code": "35.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 55,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 494.1977878913927,
+    "max_coverage_ratio": 0.040450197131015886
+  },
+  {
+    "code": "35.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 55,
+    "flood_days": 19,
+    "sum_intersection_area_km2": 944.0279448636715,
+    "max_coverage_ratio": 0.07659676264464839
+  },
+  {
+    "code": "35.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 25,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 2112.665045792546,
+    "max_coverage_ratio": 0.9890524417385519
+  },
+  {
+    "code": "35.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 165,
+    "flood_days": 24,
+    "sum_intersection_area_km2": 17727.748250412165,
+    "max_coverage_ratio": 0.9851547230654196
+  },
+  {
+    "code": "35.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 70,
+    "flood_days": 21,
+    "sum_intersection_area_km2": 12338.26385538458,
+    "max_coverage_ratio": 0.9849377926297247
+  },
+  {
+    "code": "35.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 91,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 7091.68178780198,
+    "max_coverage_ratio": 0.9756901760870437
+  },
+  {
+    "code": "35.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 57,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 5006.249139036881,
+    "max_coverage_ratio": 0.9835578284535518
+  },
+  {
+    "code": "35.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 35,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 3597.0110465345724,
+    "max_coverage_ratio": 0.9868700389940184
+  },
+  {
+    "code": "35.14",
+    "month_start": "2024-12-01",
+    "unique_event_count": 142,
+    "flood_days": 24,
+    "sum_intersection_area_km2": 5425.965253046792,
+    "max_coverage_ratio": 0.9886590157276295
+  },
+  {
+    "code": "35.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 215,
+    "flood_days": 24,
+    "sum_intersection_area_km2": 2389.4082208379878,
+    "max_coverage_ratio": 0.9821113558639758
+  },
+  {
+    "code": "35.16",
+    "month_start": "2024-12-01",
+    "unique_event_count": 120,
+    "flood_days": 21,
+    "sum_intersection_area_km2": 1668.2235451694005,
+    "max_coverage_ratio": 0.9680187913526774
+  },
+  {
+    "code": "35.17",
+    "month_start": "2024-12-01",
+    "unique_event_count": 106,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 946.5126116266259,
+    "max_coverage_ratio": 0.05300589147138402
+  },
+  {
+    "code": "35.18",
+    "month_start": "2024-12-01",
+    "unique_event_count": 37,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 312.5343169729737,
+    "max_coverage_ratio": 0.12091251040111772
+  },
+  {
+    "code": "35.19",
+    "month_start": "2024-12-01",
+    "unique_event_count": 53,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 1801.7460356030265,
+    "max_coverage_ratio": 0.9762383901881482
+  },
+  {
+    "code": "35.20",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 721.8478580864943,
+    "max_coverage_ratio": 0.9816259022081127
+  },
+  {
+    "code": "35.21",
+    "month_start": "2024-12-01",
+    "unique_event_count": 44,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 1821.3776476137336,
+    "max_coverage_ratio": 0.9813507380931873
+  },
+  {
+    "code": "35.22",
+    "month_start": "2024-12-01",
+    "unique_event_count": 104,
+    "flood_days": 23,
+    "sum_intersection_area_km2": 12835.877295706614,
+    "max_coverage_ratio": 0.9809486679951979
+  },
+  {
+    "code": "35.23",
+    "month_start": "2024-12-01",
+    "unique_event_count": 96,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 4400.6293929487865,
+    "max_coverage_ratio": 0.9879930515529395
+  },
+  {
+    "code": "35.24",
+    "month_start": "2024-12-01",
+    "unique_event_count": 43,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 659.4593256109378,
+    "max_coverage_ratio": 0.055832101678113796
+  },
+  {
+    "code": "35.25",
+    "month_start": "2024-12-01",
+    "unique_event_count": 51,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 3115.20546801242,
+    "max_coverage_ratio": 0.9640610396612617
+  },
+  {
+    "code": "35.26",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 2742.4406721636115,
+    "max_coverage_ratio": 0.9866172669038518
+  },
+  {
+    "code": "35.27",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 1291.0422857546616,
+    "max_coverage_ratio": 0.9776953052183659
+  },
+  {
+    "code": "35.28",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 1007.4490207560605,
+    "max_coverage_ratio": 0.989787772772954
+  },
+  {
+    "code": "35.29",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 3192.1780113462314,
+    "max_coverage_ratio": 0.9492124765809924
+  },
+  {
+    "code": "35.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 60.65159657139891,
+    "max_coverage_ratio": 0.5746874140454652
+  },
+  {
+    "code": "35.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 2.8753645447781926,
+    "max_coverage_ratio": 0.05068422716021642
+  },
+  {
+    "code": "35.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 70,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 456.6818409782401,
+    "max_coverage_ratio": 0.9402580265154552
+  },
+  {
+    "code": "35.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 5.131632239071915,
+    "max_coverage_ratio": 0.04508695469578753
+  },
+  {
+    "code": "35.75",
+    "month_start": "2024-12-01",
+    "unique_event_count": 40,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 224.14920166918114,
+    "max_coverage_ratio": 0.9246066762605868
+  },
+  {
+    "code": "35.76",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 67.17719237958087,
+    "max_coverage_ratio": 0.8416101122042695
+  },
+  {
+    "code": "35.77",
+    "month_start": "2024-12-01",
+    "unique_event_count": 17,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 109.31003066530764,
+    "max_coverage_ratio": 0.8353041948213521
+  },
+  {
+    "code": "35.78",
+    "month_start": "2024-12-01",
+    "unique_event_count": 271,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 1354.892065108859,
+    "max_coverage_ratio": 0.6852639776912115
+  },
+  {
+    "code": "35.79",
+    "month_start": "2024-12-01",
+    "unique_event_count": 15,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 218.2757983630965,
+    "max_coverage_ratio": 0.9227143531870672
+  },
+  {
+    "code": "36.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 135,
+    "flood_days": 19,
+    "sum_intersection_area_km2": 8856.222496670664,
+    "max_coverage_ratio": 0.9811435024616032
+  },
+  {
+    "code": "36.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 106,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 5418.798158800715,
+    "max_coverage_ratio": 0.9823530458859059
+  },
+  {
+    "code": "36.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 36,
+    "flood_days": 16,
+    "sum_intersection_area_km2": 1238.7729748283793,
+    "max_coverage_ratio": 0.9805850400316933
+  },
+  {
+    "code": "36.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 107,
+    "flood_days": 20,
+    "sum_intersection_area_km2": 4288.507681091483,
+    "max_coverage_ratio": 0.9570136642427862
+  },
+  {
+    "code": "36.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 185.79501659461283,
+    "max_coverage_ratio": 0.9653507803320961
+  },
+  {
+    "code": "36.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 26,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 537.4015061307638,
+    "max_coverage_ratio": 0.9277802454722598
+  },
+  {
+    "code": "36.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 42,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 897.2825953949308,
+    "max_coverage_ratio": 0.9509360753895115
+  },
+  {
+    "code": "36.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 5.362567676177683,
+    "max_coverage_ratio": 0.0122425550507782
+  },
+  {
+    "code": "51.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 276.9629365722807,
+    "max_coverage_ratio": 0.10928364836579595
+  },
+  {
+    "code": "51.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 960.4443676891831,
+    "max_coverage_ratio": 0.9852086263776949
+  },
+  {
+    "code": "51.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 66,
+    "flood_days": 14,
+    "sum_intersection_area_km2": 1002.2460150145681,
+    "max_coverage_ratio": 0.9489595838899927
+  },
+  {
+    "code": "51.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 526.1156482211725,
+    "max_coverage_ratio": 0.9590108816918711
+  },
+  {
+    "code": "51.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 4.280069110766986,
+    "max_coverage_ratio": 0.004435361964015786
+  },
+  {
+    "code": "51.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 79.01036741374146,
+    "max_coverage_ratio": 0.022370849195732675
+  },
+  {
+    "code": "51.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 2410.6607953589773,
+    "max_coverage_ratio": 0.9795290687493204
+  },
+  {
+    "code": "51.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 35,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 2809.553445008327,
+    "max_coverage_ratio": 0.9594132769693526
+  },
+  {
+    "code": "51.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 61,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 286.04357424050187,
+    "max_coverage_ratio": 0.8617173905910933
+  },
+  {
+    "code": "52.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 65,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 5953.280138866076,
+    "max_coverage_ratio": 0.9816994246840954
+  },
+  {
+    "code": "52.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 51,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 5746.160911735461,
+    "max_coverage_ratio": 0.9910432270000955
+  },
+  {
+    "code": "52.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 25,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 5175.869469472292,
+    "max_coverage_ratio": 0.9827133991579126
+  },
+  {
+    "code": "52.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 55,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 3398.3727755782315,
+    "max_coverage_ratio": 0.06262528303716448
+  },
+  {
+    "code": "52.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 64,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 8122.233289958671,
+    "max_coverage_ratio": 0.9787689182277427
+  },
+  {
+    "code": "52.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 111,
+    "flood_days": 21,
+    "sum_intersection_area_km2": 23901.135076111834,
+    "max_coverage_ratio": 0.9738965189933683
+  },
+  {
+    "code": "52.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 35,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 3044.5143419636083,
+    "max_coverage_ratio": 0.9847959631975017
+  },
+  {
+    "code": "52.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 2408.3250634652854,
+    "max_coverage_ratio": 0.9815355471582072
+  },
+  {
+    "code": "52.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 36,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 278.4603548434582,
+    "max_coverage_ratio": 0.9998952869252518
+  },
+  {
+    "code": "52.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 67,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 514.0763213802329,
+    "max_coverage_ratio": 0.3142449898001272
+  },
+  {
+    "code": "53.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 577.6396114045922,
+    "max_coverage_ratio": 0.04035533493975432
+  },
+  {
+    "code": "53.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 24.276988694604498,
+    "max_coverage_ratio": 0.006171965877037054
+  },
+  {
+    "code": "53.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 305.8536748268955,
+    "max_coverage_ratio": 0.06092909047838629
+  },
+  {
+    "code": "53.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 1180.243787388699,
+    "max_coverage_ratio": 0.9623476772836648
+  },
+  {
+    "code": "53.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 1739.4665322948267,
+    "max_coverage_ratio": 0.9681182416639538
+  },
+  {
+    "code": "53.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 73.69350712947643,
+    "max_coverage_ratio": 0.013842133331387422
+  },
+  {
+    "code": "53.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 172.70397558527057,
+    "max_coverage_ratio": 0.07310143453245535
+  },
+  {
+    "code": "53.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 25.361895013985436,
+    "max_coverage_ratio": 0.012896780050007578
+  },
+  {
+    "code": "53.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 333.81376071246507,
+    "max_coverage_ratio": 0.23894120368114163
+  },
+  {
+    "code": "53.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 28.478462816025477,
+    "max_coverage_ratio": 0.004072404642036841
+  },
+  {
+    "code": "53.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 451.0587258923176,
+    "max_coverage_ratio": 0.1728773089021818
+  },
+  {
+    "code": "53.14",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 177.72568636466858,
+    "max_coverage_ratio": 0.1393515149339439
+  },
+  {
+    "code": "53.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 3209.458601406632,
+    "max_coverage_ratio": 0.9703739315406041
+  },
+  {
+    "code": "53.19",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 3056.5873512851863,
+    "max_coverage_ratio": 0.986140607801411
+  },
+  {
+    "code": "53.21",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 326.1698072322262,
+    "max_coverage_ratio": 0.1382172246811772
+  },
+  {
+    "code": "61.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 47,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 9558.386476296697,
+    "max_coverage_ratio": 0.1494421641524812
+  },
+  {
+    "code": "61.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 80,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 12432.789883687316,
+    "max_coverage_ratio": 0.9576732294443977
+  },
+  {
+    "code": "61.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 14,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 953.6397786999959,
+    "max_coverage_ratio": 0.04910068184772251
+  },
+  {
+    "code": "61.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 30,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 9405.234178229482,
+    "max_coverage_ratio": 0.08370064001391159
+  },
+  {
+    "code": "61.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 840.6736129043945,
+    "max_coverage_ratio": 0.0371487701222807
+  },
+  {
+    "code": "61.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 1108.659082228919,
+    "max_coverage_ratio": 0.01567739392150304
+  },
+  {
+    "code": "61.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 208.9720648098272,
+    "max_coverage_ratio": 0.005810461625087568
+  },
+  {
+    "code": "61.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 40,
+    "flood_days": 15,
+    "sum_intersection_area_km2": 1064.229882138157,
+    "max_coverage_ratio": 0.013951939870748798
+  },
+  {
+    "code": "61.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 870.8167158712369,
+    "max_coverage_ratio": 0.012094688572490426
+  },
+  {
+    "code": "61.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 1090.8343533223172,
+    "max_coverage_ratio": 0.10343037866634036
+  },
+  {
+    "code": "61.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 16,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 10182.38555686743,
+    "max_coverage_ratio": 0.9696853124843433
+  },
+  {
+    "code": "61.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 40,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 5194.617058354989,
+    "max_coverage_ratio": 0.15280291895480128
+  },
+  {
+    "code": "61.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 23,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 225.1364298821932,
+    "max_coverage_ratio": 0.6587258887862332
+  },
+  {
+    "code": "61.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 32,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 1677.5554525942791,
+    "max_coverage_ratio": 0.7964897791008335
+  },
+  {
+    "code": "62.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 56,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 15699.894076911045,
+    "max_coverage_ratio": 0.28314182565863144
+  },
+  {
+    "code": "62.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 3138.62973974751,
+    "max_coverage_ratio": 0.06982223913320273
+  },
+  {
+    "code": "62.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 18,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 4992.661778990813,
+    "max_coverage_ratio": 0.11972231824387224
+  },
+  {
+    "code": "62.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 296.8382427490581,
+    "max_coverage_ratio": 0.029538295745504643
+  },
+  {
+    "code": "62.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 119.03807855025912,
+    "max_coverage_ratio": 0.007106052789973639
+  },
+  {
+    "code": "62.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 139.80828121108007,
+    "max_coverage_ratio": 0.004321753139132925
+  },
+  {
+    "code": "62.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 52.35770222621615,
+    "max_coverage_ratio": 0.0009329862801487853
+  },
+  {
+    "code": "62.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 9834.34892635937,
+    "max_coverage_ratio": 0.937360111202749
+  },
+  {
+    "code": "62.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 15,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 898.8977092898182,
+    "max_coverage_ratio": 0.11170357290080248
+  },
+  {
+    "code": "62.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 995.5828682990661,
+    "max_coverage_ratio": 0.10543841942167893
+  },
+  {
+    "code": "62.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 3366.8369182666493,
+    "max_coverage_ratio": 0.09892742314077181
+  },
+  {
+    "code": "62.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 47.37586753987662,
+    "max_coverage_ratio": 0.0008002570935768021
+  },
+  {
+    "code": "62.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 58.33534375961683,
+    "max_coverage_ratio": 0.018301443148197212
+  },
+  {
+    "code": "62.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 39,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 7516.06788087291,
+    "max_coverage_ratio": 0.906829984652047
+  },
+  {
+    "code": "63.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 28,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 11876.914726513829,
+    "max_coverage_ratio": 0.9671772586463915
+  },
+  {
+    "code": "63.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 1129.3343608251785,
+    "max_coverage_ratio": 0.04226369684803406
+  },
+  {
+    "code": "63.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 62,
+    "flood_days": 21,
+    "sum_intersection_area_km2": 696.3558035083734,
+    "max_coverage_ratio": 0.0346063897589281
+  },
+  {
+    "code": "63.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 34,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 2764.3609451156153,
+    "max_coverage_ratio": 0.9651457679211005
+  },
+  {
+    "code": "63.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 33.94237874417489,
+    "max_coverage_ratio": 0.013845683115651146
+  },
+  {
+    "code": "63.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 8,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 14.725235700171243,
+    "max_coverage_ratio": 0.004411024480729396
+  },
+  {
+    "code": "63.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 48,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 2216.34165385556,
+    "max_coverage_ratio": 0.9450650513519057
+  },
+  {
+    "code": "63.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 34,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 652.6891392024163,
+    "max_coverage_ratio": 0.10169353248679086
+  },
+  {
+    "code": "63.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 3694.843704803063,
+    "max_coverage_ratio": 0.9872614290506398
+  },
+  {
+    "code": "63.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 46,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 11568.503709763494,
+    "max_coverage_ratio": 0.9774634208555745
+  },
+  {
+    "code": "63.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 29,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 1133.691302326299,
+    "max_coverage_ratio": 0.17447391806460194
+  },
+  {
+    "code": "63.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 96,
+    "flood_days": 18,
+    "sum_intersection_area_km2": 547.7943612281108,
+    "max_coverage_ratio": 0.7622955731355363
+  },
+  {
+    "code": "63.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 179.11599793238844,
+    "max_coverage_ratio": 0.31057264244241617
+  },
+  {
+    "code": "64.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 36.72825492986953,
+    "max_coverage_ratio": 0.0034133362522113793
+  },
+  {
+    "code": "64.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 134.61632887120822,
+    "max_coverage_ratio": 0.00286724790706626
+  },
+  {
+    "code": "64.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.554774924892726,
+    "max_coverage_ratio": 2.6390060614583915e-05
+  },
+  {
+    "code": "64.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 1374.8317374406433,
+    "max_coverage_ratio": 0.03231503166335746
+  },
+  {
+    "code": "64.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 1117.2690195571008,
+    "max_coverage_ratio": 0.3279197297318917
+  },
+  {
+    "code": "64.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 21.073344839614407,
+    "max_coverage_ratio": 0.02387041615063835
+  },
+  {
+    "code": "64.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 92.1385965410756,
+    "max_coverage_ratio": 0.057330285943513616
+  },
+  {
+    "code": "64.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 17.766325494614932,
+    "max_coverage_ratio": 0.05615050401089684
+  },
+  {
+    "code": "65.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 27,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 6615.670240759637,
+    "max_coverage_ratio": 0.15235938562200313
+  },
+  {
+    "code": "65.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 369.11698050857365,
+    "max_coverage_ratio": 0.008166817147375133
+  },
+  {
+    "code": "65.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 5534.375754946333,
+    "max_coverage_ratio": 0.1667416103566054
+  },
+  {
+    "code": "65.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 20,
+    "flood_days": 9,
+    "sum_intersection_area_km2": 1195.4641867895693,
+    "max_coverage_ratio": 0.13186038315412377
+  },
+  {
+    "code": "65.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 6,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 340.61188686940386,
+    "max_coverage_ratio": 0.9221641641328028
+  },
+  {
+    "code": "71.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 486.30984461855553,
+    "max_coverage_ratio": 0.1139559133280088
+  },
+  {
+    "code": "71.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 0.1048612969576888,
+    "max_coverage_ratio": 4.633923835394781e-05
+  },
+  {
+    "code": "71.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 5.162794991116553,
+    "max_coverage_ratio": 0.0035323485442284286
+  },
+  {
+    "code": "71.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 9.990731791710111,
+    "max_coverage_ratio": 0.009994322145963453
+  },
+  {
+    "code": "71.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 103.61315309299711,
+    "max_coverage_ratio": 0.4849043455197005
+  },
+  {
+    "code": "71.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 3.811264504004033,
+    "max_coverage_ratio": 0.0021505545033919326
+  },
+  {
+    "code": "71.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 134.48230528822893,
+    "max_coverage_ratio": 0.3846177199568744
+  },
+  {
+    "code": "71.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 92.67166963420972,
+    "max_coverage_ratio": 0.2790224438514389
+  },
+  {
+    "code": "71.74",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 37.2520730844912,
+    "max_coverage_ratio": 0.33417063721621454
+  },
+  {
+    "code": "72.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.024615644062500528,
+    "max_coverage_ratio": 2.9840909582579634e-06
+  },
+  {
+    "code": "72.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 113.87700861332398,
+    "max_coverage_ratio": 0.008585234554845538
+  },
+  {
+    "code": "72.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 95.63858374101835,
+    "max_coverage_ratio": 0.01014988989348894
+  },
+  {
+    "code": "72.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 362.08312969450685,
+    "max_coverage_ratio": 0.06905993190309044
+  },
+  {
+    "code": "72.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 6339.864178836564,
+    "max_coverage_ratio": 0.8885216555045137
+  },
+  {
+    "code": "72.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 83.13698288321169,
+    "max_coverage_ratio": 0.01401011394645706
+  },
+  {
+    "code": "72.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.444260497757379,
+    "max_coverage_ratio": 8.505514613983379e-05
+  },
+  {
+    "code": "72.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 8.170172891173342,
+    "max_coverage_ratio": 0.0006391500061110357
+  },
+  {
+    "code": "73.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 164.46315152519185,
+    "max_coverage_ratio": 0.12206692506284669
+  },
+  {
+    "code": "73.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 48.95557354200005,
+    "max_coverage_ratio": 0.016411999398455755
+  },
+  {
+    "code": "73.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 12,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 151.04871113547566,
+    "max_coverage_ratio": 0.10369808947026855
+  },
+  {
+    "code": "73.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 26,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 1274.6044706071405,
+    "max_coverage_ratio": 0.969500958637053
+  },
+  {
+    "code": "73.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 1677.156636099488,
+    "max_coverage_ratio": 0.9289432791869032
+  },
+  {
+    "code": "73.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 64,
+    "flood_days": 17,
+    "sum_intersection_area_km2": 5640.818060756114,
+    "max_coverage_ratio": 0.9734563635907737
+  },
+  {
+    "code": "73.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 1865.576242444076,
+    "max_coverage_ratio": 0.9729305278613698
+  },
+  {
+    "code": "73.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 52,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 11033.422644148866,
+    "max_coverage_ratio": 0.9897672686543172
+  },
+  {
+    "code": "73.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 106,
+    "flood_days": 19,
+    "sum_intersection_area_km2": 4100.977168509476,
+    "max_coverage_ratio": 0.9744175978848618
+  },
+  {
+    "code": "73.10",
+    "month_start": "2024-12-01",
+    "unique_event_count": 65,
+    "flood_days": 12,
+    "sum_intersection_area_km2": 2319.217194709397,
+    "max_coverage_ratio": 0.9543163520467124
+  },
+  {
+    "code": "73.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 64,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 1538.3154547083273,
+    "max_coverage_ratio": 0.25421220438302305
+  },
+  {
+    "code": "73.12",
+    "month_start": "2024-12-01",
+    "unique_event_count": 53,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 1978.2224368364132,
+    "max_coverage_ratio": 0.21077315831669832
+  },
+  {
+    "code": "73.13",
+    "month_start": "2024-12-01",
+    "unique_event_count": 44,
+    "flood_days": 13,
+    "sum_intersection_area_km2": 6039.046074770941,
+    "max_coverage_ratio": 0.9352565133306787
+  },
+  {
+    "code": "73.14",
+    "month_start": "2024-12-01",
+    "unique_event_count": 29,
+    "flood_days": 11,
+    "sum_intersection_area_km2": 3712.9312803100333,
+    "max_coverage_ratio": 0.9718447994432368
+  },
+  {
+    "code": "73.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 4279.423709307026,
+    "max_coverage_ratio": 0.9738835150971021
+  },
+  {
+    "code": "73.16",
+    "month_start": "2024-12-01",
+    "unique_event_count": 7,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 85.24655656214709,
+    "max_coverage_ratio": 0.016134724179124194
+  },
+  {
+    "code": "73.17",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 2881.9375125736556,
+    "max_coverage_ratio": 0.9630974207255903
+  },
+  {
+    "code": "73.18",
+    "month_start": "2024-12-01",
+    "unique_event_count": 10,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 68.35344120276862,
+    "max_coverage_ratio": 0.013418899539526437
+  },
+  {
+    "code": "73.22",
+    "month_start": "2024-12-01",
+    "unique_event_count": 19,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 435.9617454107432,
+    "max_coverage_ratio": 0.028988429980341655
+  },
+  {
+    "code": "73.24",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 13.090192726077648,
+    "max_coverage_ratio": 0.0018784855341990837
+  },
+  {
+    "code": "73.26",
+    "month_start": "2024-12-01",
+    "unique_event_count": 11,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 178.08126805044253,
+    "max_coverage_ratio": 0.02675385796777862
+  },
+  {
+    "code": "73.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 284,
+    "flood_days": 22,
+    "sum_intersection_area_km2": 873.0449642526665,
+    "max_coverage_ratio": 0.8915995540331971
+  },
+  {
+    "code": "73.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 21,
+    "flood_days": 8,
+    "sum_intersection_area_km2": 227.37319787384334,
+    "max_coverage_ratio": 0.8980327368989773
+  },
+  {
+    "code": "73.73",
+    "month_start": "2024-12-01",
+    "unique_event_count": 17,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 439.54998839976525,
+    "max_coverage_ratio": 0.9619619690809076
+  },
+  {
+    "code": "74.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 14.806694746608013,
+    "max_coverage_ratio": 0.000909096739247817
+  },
+  {
+    "code": "74.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 9.022340630999743,
+    "max_coverage_ratio": 0.005417563540747672
+  },
+  {
+    "code": "74.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 4.800124253157984,
+    "max_coverage_ratio": 0.0011338547057842222
+  },
+  {
+    "code": "74.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 3.768577114706286,
+    "max_coverage_ratio": 0.008416369136009853
+  },
+  {
+    "code": "74.09",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 42.2559026416802,
+    "max_coverage_ratio": 0.010015694159894513
+  },
+  {
+    "code": "74.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 195.79823326919876,
+    "max_coverage_ratio": 0.37093468815083247
+  },
+  {
+    "code": "74.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 5,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 73.6774728797858,
+    "max_coverage_ratio": 0.17966204600623092
+  },
+  {
+    "code": "74.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.36812783860249215,
+    "max_coverage_ratio": 0.0012369743418021936
+  },
+  {
+    "code": "75.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 41.83645627908124,
+    "max_coverage_ratio": 0.01932772010347811
+  },
+  {
+    "code": "75.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 25.442165924455175,
+    "max_coverage_ratio": 0.013877979968241192
+  },
+  {
+    "code": "75.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 488.3233976999387,
+    "max_coverage_ratio": 0.07880023317215064
+  },
+  {
+    "code": "75.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 6.444223291932614,
+    "max_coverage_ratio": 0.0032034230876308504
+  },
+  {
+    "code": "76.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 266.32409864524004,
+    "max_coverage_ratio": 0.07550717505892128
+  },
+  {
+    "code": "76.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 15,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 13323.033448714239,
+    "max_coverage_ratio": 0.9394690432794919
+  },
+  {
+    "code": "76.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 13,
+    "flood_days": 7,
+    "sum_intersection_area_km2": 148.6511097490142,
+    "max_coverage_ratio": 0.01661611571847285
+  },
+  {
+    "code": "76.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 24,
+    "flood_days": 10,
+    "sum_intersection_area_km2": 2245.5826240949896,
+    "max_coverage_ratio": 0.9775318823276001
+  },
+  {
+    "code": "76.05",
+    "month_start": "2024-12-01",
+    "unique_event_count": 9,
+    "flood_days": 5,
+    "sum_intersection_area_km2": 1777.989056978511,
+    "max_coverage_ratio": 0.9455226876789669
+  },
+  {
+    "code": "76.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 3,
+    "flood_days": 3,
+    "sum_intersection_area_km2": 19.08328004843228,
+    "max_coverage_ratio": 0.0033669084324173524
+  },
+  {
+    "code": "82.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 13.219062328088915,
+    "max_coverage_ratio": 0.005118664775064227
+  },
+  {
+    "code": "82.02",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.19722602081103513,
+    "max_coverage_ratio": 8.742787704855088e-05
+  },
+  {
+    "code": "82.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 306.29181821305536,
+    "max_coverage_ratio": 0.08163813790477621
+  },
+  {
+    "code": "82.06",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.02461672450921052,
+    "max_coverage_ratio": 3.7974490215380193e-06
+  },
+  {
+    "code": "82.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 551.9872423660672,
+    "max_coverage_ratio": 0.18479464297423134
+  },
+  {
+    "code": "82.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 27,
+    "flood_days": 6,
+    "sum_intersection_area_km2": 512.3519165157221,
+    "max_coverage_ratio": 0.9489213020915795
+  },
+  {
+    "code": "82.72",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 78.93696412863416,
+    "max_coverage_ratio": 0.044472381931819044
+  },
+  {
+    "code": "91.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 193.70256693336327,
+    "max_coverage_ratio": 0.006881139256407949
+  },
+  {
+    "code": "91.11",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.009610575415664605,
+    "max_coverage_ratio": 1.0689342931334151e-06
+  },
+  {
+    "code": "91.15",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 0.18348543818677152,
+    "max_coverage_ratio": 1.6798315255244796e-05
+  },
+  {
+    "code": "91.71",
+    "month_start": "2024-12-01",
+    "unique_event_count": 8,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 449.80504823235145,
+    "max_coverage_ratio": 0.1787551900599635
+  },
+  {
+    "code": "92.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 62.001270819974735,
+    "max_coverage_ratio": 0.012773232474185929
+  },
+  {
+    "code": "93.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 103.53768775950547,
+    "max_coverage_ratio": 0.004267945039941433
+  },
+  {
+    "code": "94.01",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 1755.8462963151221,
+    "max_coverage_ratio": 0.1471119712559194
+  },
+  {
+    "code": "94.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 303.74128773889447,
+    "max_coverage_ratio": 0.03301039627619611
+  },
+  {
+    "code": "94.04",
+    "month_start": "2024-12-01",
+    "unique_event_count": 4,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 624.5903269154596,
+    "max_coverage_ratio": 0.014733541420857142
+  },
+  {
+    "code": "94.07",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 427.81403794956873,
+    "max_coverage_ratio": 0.03295868162374253
+  },
+  {
+    "code": "94.08",
+    "month_start": "2024-12-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 6.242890902050643,
+    "max_coverage_ratio": 0.0023942384704119506
+  },
+  {
+    "code": "96.03",
+    "month_start": "2024-12-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 140.1854976477594,
+    "max_coverage_ratio": 0.01903394133199868
+  }
+]

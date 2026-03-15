@@ -1,0 +1,82 @@
+[
+  {
+    "code": "74.12",
+    "month_start": "2017-05-01",
+    "unique_event_count": 7,
+    "flood_days": 4,
+    "sum_intersection_area_km2": 720.4994988176892,
+    "max_coverage_ratio": 0.9641899279722352
+  },
+  {
+    "code": "74.12",
+    "month_start": "2018-05-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 27.98304150609169,
+    "max_coverage_ratio": 0.03958785177677266
+  },
+  {
+    "code": "74.12",
+    "month_start": "2019-05-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 30.84292146801875,
+    "max_coverage_ratio": 0.04363374878934309
+  },
+  {
+    "code": "74.12",
+    "month_start": "2020-02-01",
+    "unique_event_count": 4,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 804.8369022452346,
+    "max_coverage_ratio": 0.9706198107614558
+  },
+  {
+    "code": "74.12",
+    "month_start": "2020-03-01",
+    "unique_event_count": 3,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 198.88192058900773,
+    "max_coverage_ratio": 0.1532865272318989
+  },
+  {
+    "code": "74.12",
+    "month_start": "2024-03-01",
+    "unique_event_count": 3,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 173.82141090457185,
+    "max_coverage_ratio": 0.14303167645370604
+  },
+  {
+    "code": "74.12",
+    "month_start": "2024-05-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 34.24100956767735,
+    "max_coverage_ratio": 0.03958785177677266
+  },
+  {
+    "code": "74.12",
+    "month_start": "2024-07-01",
+    "unique_event_count": 4,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 778.257050444971,
+    "max_coverage_ratio": 0.9641899279722352
+  },
+  {
+    "code": "74.12",
+    "month_start": "2025-06-01",
+    "unique_event_count": 11,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 203.55410892810494,
+    "max_coverage_ratio": 0.1532865272318989
+  },
+  {
+    "code": "74.12",
+    "month_start": "2025-07-01",
+    "unique_event_count": 6,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 311.3211506245629,
+    "max_coverage_ratio": 0.1532865272318989
+  }
+]

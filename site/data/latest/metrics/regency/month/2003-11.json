@@ -1,0 +1,26 @@
+[
+  {
+    "code": "11.02",
+    "month_start": "2003-11-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 22.666258559165854,
+    "max_coverage_ratio": 0.005421299143732399
+  },
+  {
+    "code": "12.05",
+    "month_start": "2003-11-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 1105.4525943601734,
+    "max_coverage_ratio": 0.17707349987003593
+  },
+  {
+    "code": "12.06",
+    "month_start": "2003-11-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 3.9761463758814988,
+    "max_coverage_ratio": 0.0018039497023101961
+  }
+]

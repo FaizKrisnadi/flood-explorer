@@ -1,0 +1,20 @@
+{
+  "sources": [
+    "Groundsource flood footprints from Zenodo",
+    "Kemendagri-style admin hierarchy from cahyadsn/wilayah",
+    "Postal codes from cahyadsn/wilayah_kodepos",
+    "Boundaries from downloaded reference SQL, with higher levels derived when raw layers are missing"
+  ],
+  "notes": [
+    "method.note.release_gate",
+    "method.note.village_optional",
+    "method.note.prebuilt_assets",
+    "method.note.disclaimer"
+  ],
+  "metrics": {
+    "unique_event_count": "Count of intersecting Groundsource events.",
+    "flood_days": "Number of day buckets with at least one intersecting event.",
+    "sum_intersection_area_km2": "Summed intersection area across matched events in square kilometers.",
+    "max_coverage_ratio": "Largest observed share of a geography covered by a single event in the selected period."
+  }
+}

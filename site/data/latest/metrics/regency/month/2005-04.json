@@ -1,0 +1,26 @@
+[
+  {
+    "code": "36.01",
+    "month_start": "2005-04-01",
+    "unique_event_count": 2,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 2767.2029278060722,
+    "max_coverage_ratio": 0.9811435024616032
+  },
+  {
+    "code": "36.02",
+    "month_start": "2005-04-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 13.21208636015203,
+    "max_coverage_ratio": 0.003987090731358267
+  },
+  {
+    "code": "36.04",
+    "month_start": "2005-04-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 7.709170971213888,
+    "max_coverage_ratio": 0.005248045019407315
+  }
+]

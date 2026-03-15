@@ -1,0 +1,26 @@
+[
+  {
+    "code": "31",
+    "month_start": "2009-05-01",
+    "unique_event_count": 12,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 60.489137502627514,
+    "max_coverage_ratio": 0.0424871834897101
+  },
+  {
+    "code": "32",
+    "month_start": "2009-05-01",
+    "unique_event_count": 2,
+    "flood_days": 2,
+    "sum_intersection_area_km2": 4.2089620224359745,
+    "max_coverage_ratio": 0.00011323558792833617
+  },
+  {
+    "code": "35",
+    "month_start": "2009-05-01",
+    "unique_event_count": 1,
+    "flood_days": 1,
+    "sum_intersection_area_km2": 3.847817140447785,
+    "max_coverage_ratio": 8.012488459064232e-05
+  }
+]

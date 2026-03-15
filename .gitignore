@@ -1,0 +1,14 @@
+.DS_Store
+**/.DS_Store
+.venv*/
+.wrangler/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Local build workspace
+data/raw/
+data/processed/
+
+# Python/tool caches
+.pytest_cache/
