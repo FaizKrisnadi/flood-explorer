@@ -188,7 +188,9 @@ let timelinePlayInterval = null;
 function initPlayButton() {
   const playBtn = document.getElementById("timeline-play");
   if (!playBtn) return;
-  
+  if (playBtn.dataset.bound === "true") return;
+
+  playBtn.dataset.bound = "true";
   playBtn.addEventListener("click", () => {
     if (timelinePlayInterval) {
       pauseTimeline();
@@ -200,35 +202,47 @@ function initPlayButton() {
 
 function playTimeline() {
   const playBtn = document.getElementById("timeline-play");
-  if (playBtn) playBtn.classList.add("is-playing");
-  
-  // Pause icon
-  if (playBtn) playBtn.innerHTML = '<svg viewBox="0 0 16 16"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg>';
+  if (!state.allMonths.length) {
+    syncDateRangeDefaults();
+    syncTimelineSliders();
+  }
+
+  const dates = state.allMonths;
+  if (!dates || dates.length <= 1) return;
+
+  if (playBtn) {
+    playBtn.classList.add("is-playing");
+    playBtn.setAttribute("aria-label", "Pause timeline");
+    playBtn.innerHTML = '<svg viewBox="0 0 16 16"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg>';
+  }
 
   timelinePlayInterval = setInterval(() => {
-    const dates = state.allMonths; // Use state.allMonths for available dates
-    if (!dates || dates.length <= 1) {
+    if (!state.allMonths.length) {
+      syncDateRangeDefaults();
+      syncTimelineSliders();
+    }
+    const availableDates = state.allMonths;
+    if (!availableDates || availableDates.length <= 1) {
       pauseTimeline();
       return;
     }
-    
-    // Auto-advance the "to" slider, keeping "from" fixed. If at max, reset to "from" + 1
+
+    // Auto-advance the "to" slider, keeping "from" fixed.
     let fromIdx = parseInt(dateFromInput.value, 10);
     let toIdx = parseInt(dateToInput.value, 10);
-    
-    if (toIdx >= dates.length - 1) {
-      toIdx = fromIdx; // Reset to "from" index
+
+    if (toIdx >= availableDates.length - 1) {
+      toIdx = fromIdx;
     } else {
       toIdx++;
     }
-    
-    // Update state and UI
+
     dateToInput.value = toIdx;
-    state.currentDateTo = dates[toIdx];
-    if (timelineToLabel) timelineToLabel.textContent = formatMonthLabel(dates[toIdx]);
-    
+    state.currentDateTo = availableDates[toIdx];
+    if (timelineToLabel) timelineToLabel.textContent = formatMonthLabel(availableDates[toIdx]);
+
     updateTimelineFill();
-    renderExplorer(); // Re-render map and charts
+    void renderExplorer();
   }, 800);
 }
 
@@ -241,7 +255,7 @@ function pauseTimeline() {
   const playBtn = document.getElementById("timeline-play");
   if (playBtn) {
     playBtn.classList.remove("is-playing");
-    // Play icon
+    playBtn.setAttribute("aria-label", "Play timeline");
     playBtn.innerHTML = '<svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>';
   }
 }
