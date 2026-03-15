@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">flood-explorer social card</title>
+  <desc id="desc">A stylized preview of the flood-explorer dashboard with a left control panel and flood intensity map over Indonesia.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f1f6ff"/>
+      <stop offset="50%" stop-color="#f8fbff"/>
+      <stop offset="100%" stop-color="#fff3e7"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f7fbff"/>
+    </linearGradient>
+    <linearGradient id="range" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4b86ff"/>
+      <stop offset="100%" stop-color="#ff7a18"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#95a7c4" flood-opacity="0.22"/>
+    </filter>
+    <style>
+      .title { font: 700 18px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #24344d; }
+      .body { font: 500 14px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #7d8ea6; }
+      .label { font: 700 14px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #6f8199; letter-spacing: 0.08em; }
+      .value { font: 700 20px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #1d2b44; }
+      .valueBlue { font: 700 20px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #3f82ff; }
+      .pill { font: 700 14px 'Inter', 'Segoe UI', Arial, sans-serif; }
+      .mapText { font: 700 15px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #1f2430; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="34" y="28" width="1132" height="574" rx="28" fill="#f9fbff"/>
+  </g>
+
+  <rect x="34" y="28" width="1132" height="574" rx="28" fill="#f9fbff"/>
+  <rect x="34" y="28" width="340" height="574" rx="28" fill="url(#panel)"/>
+  <rect x="380" y="28" width="786" height="574" rx="28" fill="#ccd3da"/>
+  <rect x="372" y="28" width="8" height="574" fill="#e1e8f2"/>
+
+  <text x="62" y="84" class="title">Peta Banjir Indonesia</text>
+  <text x="62" y="112" class="body">Telusuri peristiwa banjir di seluruh Indonesia.</text>
+  <text x="62" y="136" class="body">Kontak: hi@faizkrisnadi.com</text>
+
+  <rect x="62" y="170" width="284" height="44" rx="18" fill="#ffffff" stroke="#dfe7f1"/>
+  <circle cx="87" cy="192" r="9" fill="none" stroke="#91a6c2" stroke-width="3"/>
+  <line x1="93" y1="198" x2="101" y2="206" stroke="#91a6c2" stroke-width="3" stroke-linecap="round"/>
+  <text x="114" y="197" class="body">Cari lokasi...</text>
+
+  <text x="62" y="258" class="label">RINGKASAN</text>
+  <rect x="274" y="239" width="72" height="24" rx="12" fill="#eef3ff"/>
+  <text x="292" y="256" class="pill" fill="#3f82ff">Provinsi</text>
+
+  <rect x="62" y="276" width="132" height="84" rx="18" fill="#eef4ff" stroke="#d0ddff"/>
+  <rect x="206" y="276" width="140" height="84" rx="18" fill="#ffffff" stroke="#dfe7f1"/>
+  <rect x="62" y="372" width="132" height="84" rx="18" fill="#ffffff" stroke="#dfe7f1"/>
+  <rect x="206" y="372" width="140" height="84" rx="18" fill="#ffffff" stroke="#dfe7f1"/>
+
+  <text x="80" y="308" class="label">TOTAL PERISTIWA</text>
+  <text x="80" y="334" class="valueBlue">353.411</text>
+  <text x="224" y="308" class="label">UNIT DENGAN DATA</text>
+  <text x="224" y="334" class="value">38</text>
+  <text x="80" y="404" class="label">UNIT DI PETA</text>
+  <text x="80" y="430" class="value">38</text>
+  <text x="224" y="404" class="label">JENDELA WAKTU</text>
+  <text x="224" y="430" class="value">Seluruh data</text>
+
+  <text x="62" y="500" class="label">FILTER</text>
+  <rect x="62" y="520" width="284" height="44" rx="18" fill="#ffffff" stroke="#dfe7f1"/>
+  <text x="80" y="548" class="value">Provinsi</text>
+  <path d="M316 536 L326 546 L336 536" fill="none" stroke="#5e7594" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g transform="translate(904 46)">
+    <rect x="0" y="0" width="92" height="34" rx="17" fill="#ffffff" stroke="#c6d3e5"/>
+    <rect x="0" y="0" width="46" height="34" rx="17" fill="#3f82ff"/>
+    <text x="18" y="22" class="pill" fill="#ffffff">ID</text>
+    <text x="58" y="22" class="pill" fill="#55697f">EN</text>
+  </g>
+
+  <g transform="translate(1008 46)">
+    <rect x="0" y="0" width="144" height="34" rx="17" fill="#ffffff" stroke="#c6d3e5"/>
+    <rect x="0" y="0" width="52" height="34" rx="17" fill="#3f82ff"/>
+    <text x="16" y="22" class="pill" fill="#ffffff">Peta</text>
+    <text x="66" y="22" class="pill" fill="#55697f">Citra</text>
+    <text x="108" y="22" class="pill" fill="#55697f">Hybrid</text>
+  </g>
+
+  <text x="516" y="124" class="mapText">Thailand</text>
+  <text x="635" y="116" class="mapText">Vietnam</text>
+  <text x="920" y="160" class="mapText">Philippines</text>
+  <text x="608" y="322" class="mapText">Malaysia</text>
+  <text x="840" y="400" class="mapText">Indonesia</text>
+
+  <g opacity="0.55" fill="#f9faf7">
+    <path d="M468 176 C514 158, 566 166, 598 202 C560 228, 514 226, 468 176 Z"/>
+    <path d="M654 294 C730 278, 790 288, 848 320 C818 368, 746 378, 664 346 Z"/>
+    <path d="M888 310 C968 300, 1038 314, 1094 344 C1070 382, 992 392, 916 372 Z"/>
+    <path d="M968 450 C1050 440, 1126 454, 1160 486 C1122 522, 1044 530, 962 514 Z"/>
+  </g>
+
+  <g stroke="#b39a63" stroke-width="1.8">
+    <path d="M502 330 L560 316 L596 342 L578 384 L526 390 L492 360 Z" fill="#e65b62"/>
+    <path d="M576 320 L638 312 L678 334 L662 370 L610 378 L580 350 Z" fill="#f28a3a"/>
+    <path d="M648 330 L716 322 L764 342 L746 386 L684 392 L646 362 Z" fill="#ffc451"/>
+    <path d="M774 286 L854 274 L910 296 L898 352 L826 366 L770 340 Z" fill="#ffc451"/>
+    <path d="M910 262 L974 252 L1032 266 L1022 308 L962 318 L908 298 Z" fill="#ffe17b"/>
+    <path d="M986 334 L1042 326 L1094 340 L1084 372 L1026 380 L980 360 Z" fill="#ffe17b"/>
+    <path d="M676 454 L752 446 L822 460 L814 492 L736 500 L670 486 Z" fill="#ffe17b"/>
+    <path d="M784 432 L846 422 L890 438 L882 474 L816 482 L776 462 Z" fill="#b74a57"/>
+    <path d="M894 440 L952 432 L1016 446 L1008 482 L940 490 L888 470 Z" fill="#d76467"/>
+    <path d="M1006 474 L1070 468 L1140 478 L1132 508 L1058 514 L1000 500 Z" fill="#ffe17b"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="402" y="468" width="212" height="70" rx="22" fill="#ffffff"/>
+  </g>
+  <text x="430" y="495" class="label">INTENSITAS</text>
+  <rect x="430" y="512" width="34" height="10" rx="5" fill="#fff1a2"/>
+  <rect x="470" y="512" width="34" height="10" rx="5" fill="#ffd34d"/>
+  <rect x="510" y="512" width="34" height="10" rx="5" fill="#f59e0b"/>
+  <rect x="550" y="512" width="34" height="10" rx="5" fill="#ea580c"/>
+  <rect x="590" y="512" width="34" height="10" rx="5" fill="#dc2626"/>
+  <text x="540" y="495" class="value">Provinsi</text>
+
+  <g filter="url(#shadow)">
+    <rect x="416" y="544" width="706" height="58" rx="22" fill="#ffffff"/>
+  </g>
+  <text x="442" y="579" class="pill" fill="#4b86ff">Apr 2000</text>
+  <rect x="534" y="571" width="476" height="8" rx="4" fill="url(#range)"/>
+  <circle cx="556" cy="575" r="15" fill="#4b86ff" stroke="#ffffff" stroke-width="5"/>
+  <circle cx="994" cy="575" r="15" fill="#ff7a18" stroke="#ffffff" stroke-width="5"/>
+  <text x="1032" y="579" class="pill" fill="#4b86ff">Feb 2026</text>
+</svg>
