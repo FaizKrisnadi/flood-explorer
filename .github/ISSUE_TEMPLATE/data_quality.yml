@@ -1,0 +1,25 @@
+name: Data quality report
+description: Report a coverage issue, geometry mismatch, methodology concern, or release-data inconsistency.
+title: "[Data] "
+labels:
+  - data-quality
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Data issue
+      description: Describe the suspected coverage, geometry, metric, or methodology problem.
+    validations:
+      required: true
+  - type: input
+    id: geography
+    attributes:
+      label: Geography or code
+      description: Province, regency/city, district, or admin code if known.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Include manifest files, screenshots, or specific asset paths that show the problem.
+    validations:
+      required: true

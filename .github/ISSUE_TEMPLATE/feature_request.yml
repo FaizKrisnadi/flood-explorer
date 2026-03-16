@@ -1,0 +1,29 @@
+name: Feature request
+description: Propose a bounded improvement that fits the static explorer and reproducible pipeline scope.
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Explain the user or maintainer problem first.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the smallest useful version of the feature.
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Primary surface
+      options:
+        - ETL
+        - Frontend
+        - Docs
+        - Release assets
