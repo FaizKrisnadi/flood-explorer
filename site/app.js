@@ -44,7 +44,7 @@ const state = {
 
 /* ─── Choropleth colour ramp (YlOrRd inspired, warm palette) ─── */
 const COLOR_STEPS = ["#fef9c3", "#fde68a", "#f59e0b", "#b45309", "#78350f", "#451a03"];
-const APP_ASSET_VERSION = "20260316d";
+const APP_ASSET_VERSION = "20260317d";
 
 /* ─── DOM refs ─── */
 const levelSelect = document.querySelector("#level-select");
