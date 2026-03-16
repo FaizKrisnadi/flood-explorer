@@ -5,82 +5,98 @@
 <h1 align="center">Indonesia Flood Explorer</h1>
 
 <p align="center">
-  <strong>Public-facing flood intelligence dashboard for exploring Groundsource flood events across Indonesia's administrative geography.</strong>
+  <strong>Reproducible Indonesia flood-data pipeline and static explorer built around Groundsource flood events and auditable administrative geography.</strong>
 </p>
 
 <p align="center">
-  Static site delivery · bilingual UI · province to district drill-down · manifest-driven public assets
+  Open civic-tech data infrastructure · static public explorer · bilingual UI · manifest-driven release assets
 </p>
 
 <p align="center">
-  <a href="https://flood.faizkrisnadi.com">
-    <img src="https://img.shields.io/badge/LIVE%20DASHBOARD-flood.faizkrisnadi.com-b45309?style=for-the-badge&labelColor=5f4a3a" alt="Live dashboard" />
+  <a href="https://github.com/FaizKrisnadi/flood-explorer/actions/workflows/tests.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/FaizKrisnadi/flood-explorer/tests.yml?branch=main&label=tests&style=for-the-badge" alt="Tests status" />
   </a>
-  <img src="https://img.shields.io/badge/STACK-Static%20HTML%20%7C%20CSS%20%7C%20JS-f5a623?style=for-the-badge&labelColor=2c2418" alt="Stack" />
-  <img src="https://img.shields.io/badge/UI-Bilingual%20(ID%20%2F%20EN)-4f7ec4?style=for-the-badge&labelColor=2c2418" alt="Bilingual UI" />
-  <img src="https://img.shields.io/badge/GEOGRAPHY-Province%20%E2%86%92%20Regency%2FCity%20%E2%86%92%20District-0f766e?style=for-the-badge&labelColor=2c2418" alt="Geography coverage" />
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-1f6feb?style=for-the-badge" alt="MIT license" />
+  </a>
+  <a href="https://flood.faizkrisnadi.com">
+    <img src="https://img.shields.io/badge/live-flood.faizkrisnadi.com-b45309?style=for-the-badge&labelColor=5f4a3a" alt="Live dashboard" />
+  </a>
 </p>
 
 <p align="center">
   <a href="#overview"><code>Overview</code></a>
   <span>·</span>
-  <a href="#why-this-repo-exists"><code>Why This Repo Exists</code></a>
+  <a href="#who-this-is-for"><code>Who This Is For</code></a>
+  <span>·</span>
+  <a href="#why-this-matters"><code>Why This Matters</code></a>
   <span>·</span>
   <a href="#repository-layout"><code>Repository Layout</code></a>
   <span>·</span>
   <a href="#local-setup"><code>Local Setup</code></a>
   <span>·</span>
-  <a href="#rebuild-workflow"><code>Rebuild Workflow</code></a>
+  <a href="#how-to-reuse-this-repo"><code>How to Reuse This Repo</code></a>
   <span>·</span>
-  <a href="#public-release-contract"><code>Public Release Contract</code></a>
+  <a href="#public-data-contract"><code>Public Data Contract</code></a>
 </p>
 
 ---
 
 ## Overview
 
-> Open the deployed dashboard at [flood.faizkrisnadi.com](https://flood.faizkrisnadi.com).
+> Open the deployed explorer at [flood.faizkrisnadi.com](https://flood.faizkrisnadi.com).
+
+This repository packages the ETL, release gating, and static delivery workflow for publishing Groundsource flood activity against Indonesia's administrative geography. The shipped frontend under `site/` is the public proof layer; the maintainer value is the reproducible path from reference data and flood footprints to browser-ready release assets under `site/data/latest/`.
 
 <table>
   <tr>
     <td width="33%" valign="top">
-      <strong>Map-first public product</strong><br />
-      The shipped app is a plain static dashboard under <code>site/</code> designed for direct public delivery, not a private analyst workspace.
+      <strong>Auditable geography joins</strong><br />
+      Flood footprints are aligned to canonical Indonesian province, regency/city, and district codes instead of loose name matching.
     </td>
     <td width="33%" valign="top">
-      <strong>Indonesia-first admin hierarchy</strong><br />
-      Flood footprints are aligned to a canonical Indonesian geography keyed by province, regency/city, and district administrative codes.
+      <strong>Manifest-driven public release</strong><br />
+      The browser reads committed JSON and GeoJSON payloads from <code>site/data/latest/</code> for deterministic static hosting.
     </td>
     <td width="33%" valign="top">
-      <strong>Manifest-driven runtime</strong><br />
-      The frontend reads prebuilt assets from <code>site/data/latest/</code> so deployment stays simple, deterministic, and cache-friendly.
+      <strong>Low-friction civic-tech deployment</strong><br />
+      The release artifact is a plain static site that can be served from GitHub Pages, Cloudflare Pages, or any static host.
     </td>
   </tr>
 </table>
 
-## Why This Repo Exists
+## Who This Is For
 
-This repository packages a public-facing view of Groundsource flood activity into a dashboard that can be inspected, shared, and deployed without exposing the local build chain or raw source materials. The goal is to make flood patterns legible by place and time while keeping data coverage caveats visible in the product itself.
+- Civic-tech teams publishing map-first public information products.
+- Researchers and journalists who need auditable flood geography joins and transparent caveats.
+- NGOs and local-government analysts who want static delivery instead of a complex app stack.
+- Contributors interested in data QA, release gating, documentation, or frontend accessibility.
 
-## What the Dashboard Does
+## Why This Matters
 
-- Maps flood intensity across Indonesia using prebuilt JSON and GeoJSON assets.
-- Supports Indonesian and English labels from the same static frontend.
-- Exposes search, overview metrics, time filtering, and admin-level drill-down.
-- Keeps methodology and coverage visible instead of burying caveats outside the product.
-- Ships as static files, so hosting stays straightforward on GitHub and Cloudflare Pages.
+- Indonesian flood data is fragmented across source systems, geometry quality varies, and public products often hide release caveats. This repo keeps those caveats in the artifact itself.
+- Administrative joins must stay auditable. The pipeline uses stable Kemendagri-style codes and coverage reporting instead of fragile name-based matching.
+- Public-interest products need cheap, reliable deployment. Shipping prebuilt assets from `site/data/latest/` keeps hosting simple and reviewable.
+
+## How Location Assignment Works
+
+- Groundsource does not provide Indonesia province, regency, district, village, or postal-code fields.
+- Every Indonesia location result in this repo is produced by geometry overlap, not by text matching or name inference.
+- The ETL decodes Groundsource flood polygons from WKB, intersects them with Indonesian administrative polygons, and aggregates the overlap results by province, regency/city, and district.
+- A single flood event can intersect multiple districts, regencies, or provinces. The dashboard should therefore be read as an overlap-based aggregate view, not as a single authoritative district label for each event.
+- Public metrics such as `unique_event_count`, `sum_intersection_area_km2`, and `max_coverage_ratio` describe intersecting events within each geography and period.
 
 ## Repository Layout
 
 | Path | Purpose |
 | --- | --- |
 | `site/` | Static frontend, translations, and committed runtime payload |
-| `site/data/latest/` | Public release assets consumed directly by the browser |
-| `scripts/` | ETL, packaging, data inspection, and build helpers |
-| `tests/` | Lightweight Python test coverage |
-| `docs/` | Schema notes, reference material, and README assets |
+| `site/data/latest/` | Browser-consumed public release assets committed with the repo |
+| `scripts/` | ETL, packaging, validation, and build helpers |
+| `tests/` | Python test coverage for pipeline and repo validation helpers |
+| `docs/` | Data model notes, maintainer docs, and project positioning |
 
-Local build inputs and intermediate outputs under `data/raw/` and `data/processed/` are intentionally not tracked.
+Local source downloads and intermediate build outputs under `data/raw/` and `data/processed/` are intentionally not tracked.
 
 ## Local Setup
 
@@ -142,19 +158,45 @@ That packaging step refreshes:
 - `site/data/latest/methodology.json`
 - `site/data/latest/metrics/...`
 
-## Public Release Contract
+## How to Reuse This Repo
 
-- Groundsource is the flood-event source of truth.
-- Indonesian admin codes are the canonical join keys.
-- The public release currently includes province, regency/city, and district layers.
-- The frontend reads only manifest-driven assets from `site/data/latest/`.
-- The dashboard is for public information only, not early warning or operational use.
+1. Inspect and build the dataset locally.
+   Run the ETL scripts in `scripts/` to inspect Groundsource availability, fetch references, build canonical geography, and package public assets.
+2. Publish the static explorer.
+   Serve `site/` as static files after updating `site/data/latest/`. The frontend is already wired to manifest-driven public assets.
+3. Adapt the pipeline for another release.
+   Reuse the reference-build and packaging workflow to swap source windows, tighten release gates, or target another Indonesian subnational release cadence.
+
+## Public Data Contract
+
+The public artifact consumed by the browser is the committed `site/data/latest/` tree. The stable release contract is:
+
+- `build_manifest.json`: runtime entrypoint for default language, levels, metrics, and asset paths.
+- `boundaries/province.geojson`, `boundaries/regency.geojson`, `boundaries/district.geojson`: simplified browser-facing geometry layers.
+- `metrics/<level>/summary_all_time.json`: rolled-up metrics per published level.
+- `metrics/<level>/month/*.json`: month buckets listed in the build manifest.
+- `metrics/<level>/trend/*.json`: geography-specific trend shards consumed on drill-down.
+- `coverage_report.json`: release-gate and coverage metadata for the published geography.
+- `search_index.json`: lookup index for province, regency/city, and district search.
+- `methodology.json`: source, metric, and caveat metadata rendered by the frontend.
+
+Groundsource remains the flood-event source of truth. Indonesian admin codes remain the canonical join keys. The public release currently publishes province, regency/city, and district layers only. The dashboard is for public information, not early warning or operational emergency response.
+
+## Project Health
+
+- Contributor guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Security policy: [SECURITY.md](SECURITY.md)
+- Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- Changelog: [CHANGELOG.md](CHANGELOG.md)
+- Citation metadata: [CITATION.cff](CITATION.cff)
+- Maintainer release notes: [docs/maintainer-release.md](docs/maintainer-release.md)
+- Project positioning for Codex for Open Source: [docs/project-positioning.md](docs/project-positioning.md)
 
 ## Notes
 
 - `wilayah_boundaries` coordinates are stored as `[lat, lng]`, so the ETL swaps them to `[lng, lat]` before writing geometry outputs.
-- With the current downloaded sample, the district release gate is expected to fail because nationwide coverage is still incomplete.
+- With incomplete nationwide district coverage, the district release gate may fail until the reference geography crosses the configured threshold.
 
 ## Rights and Reuse
 
-This repository is public for transparency and deployment, but no open-source license is granted here. Unless stated otherwise, all rights are reserved by Faiz Krisnadi.
+This repository is released under the MIT License. See [LICENSE](LICENSE) for the full text.

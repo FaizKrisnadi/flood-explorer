@@ -1,0 +1,18 @@
+name: Documentation improvement
+description: Suggest a docs fix or missing maintainer guidance.
+title: "[Docs] "
+labels:
+  - documentation
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What needs to change?
+      description: Point to the missing or confusing documentation.
+    validations:
+      required: true
+  - type: input
+    id: path
+    attributes:
+      label: Related file or section
+      description: README section, docs path, or script name if known.

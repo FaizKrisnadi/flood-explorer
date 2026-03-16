@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: Indonesia Flood Explorer
+message: If you use this repository, please cite the software metadata below.
+type: software
+authors:
+  - family-names: Krisnadi
+    given-names: Faiz
+    email: 0123mfk@gmail.com
+repository-code: https://github.com/FaizKrisnadi/flood-explorer
+url: https://github.com/FaizKrisnadi/flood-explorer
+license: MIT
+abstract: >-
+  Reproducible Indonesia flood-data pipeline and static explorer built around
+  Groundsource flood events, auditable administrative geography joins, release
+  gating, and manifest-driven public assets.
+keywords:
+  - flood
+  - Indonesia
+  - civic-tech
+  - geospatial
+  - static-site

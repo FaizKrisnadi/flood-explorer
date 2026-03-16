@@ -23,5 +23,14 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt pytest
 
-      - name: Run tests
+      - name: Run unit tests
         run: pytest -q
+
+      - name: Check repo hygiene
+        run: python scripts/check_repo_hygiene.py
+
+      - name: Validate public site data
+        run: python scripts/validate_public_site_data.py
+
+      - name: Validate README links
+        run: python scripts/validate_readme_links.py README.md
