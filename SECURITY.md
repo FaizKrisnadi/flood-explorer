@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Please report suspected vulnerabilities privately by emailing `0123mfk@gmail.com` with:
+Please report suspected vulnerabilities privately by emailing `hi@faizkrisnadi.com` with:
 
 - a short description of the issue,
 - affected files or release assets,
