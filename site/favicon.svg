@@ -1,5 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
-  <rect width="96" height="96" rx="24" fill="#162236"/>
-  <path d="M22 58C30.5 44 39 44 47 58C55 72 63.5 72 74 58" stroke="#E5882B" stroke-width="10" stroke-linecap="round"/>
-  <path d="M24 36C31 31 38 31 45 36C52 41 59 41 72 33" stroke="#EFE4D0" stroke-width="8" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <clipPath id="pin">
+      <path d="M32 6C20 6 12 14 12 26c0 14 20 32 20 32s20-18 20-32C52 14 44 6 32 6z"/>
+    </clipPath>
+  </defs>
+
+  <path
+    d="M32 6C20 6 12 14 12 26c0 14 20 32 20 32s20-18 20-32C52 14 44 6 32 6z"
+    fill="#0B1F33"
+  />
+
+  <rect
+    x="0"
+    y="30"
+    width="64"
+    height="34"
+    fill="#2A9DF4"
+    clip-path="url(#pin)"
+  />
+
+  <path
+    d="M16 34 Q24 28 32 34 T48 34"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="3.5"
+    stroke-linecap="round"
+  />
+
+  <circle cx="32" cy="24" r="4" fill="#F97316"/>
 </svg>
