@@ -34,6 +34,12 @@ This repository publishes a committed static release artifact under `site/data/l
    ./.venv/bin/python scripts/build_public_site_data.py
    ```
 
+6. Rebuild the qualitative regency index when any regency bundle changed.
+
+   ```bash
+   ./.venv/bin/python scripts/build_regency_qualitative_index.py
+   ```
+
 ## What a valid public release must contain
 
 - `site/data/latest/build_manifest.json`
@@ -46,6 +52,9 @@ This repository publishes a committed static release artifact under `site/data/l
 - `site/data/latest/metrics/<level>/summary_all_time.json`
 - `site/data/latest/metrics/<level>/month/*.json`
 - `site/data/latest/metrics/<level>/trend/*.json`
+- `site/data/latest/qualitative_events.json`
+- `site/data/latest/geography_review_states.json`
+- `site/data/latest/regencies/index.json`
 
 Run the release checks before opening a PR:
 
@@ -71,4 +80,5 @@ If the expected Groundsource parquet is not present locally, `scripts/build_grou
 - The manifest still points only to committed files under `site/data/latest/`.
 - Coverage and methodology metadata are consistent with the shipped release.
 - Search index and boundaries still align to province, regency/city, and district levels.
+- Qualitative root assets and regency bundles still match the published contract in `docs/qualitative-contract.md`.
 - Any release-gate or methodology change is called out in the PR description.

@@ -28,6 +28,31 @@ GEOJSON_PROPERTY_KEYS = {
 SUMMARY_KEYS = {"code", "unique_event_count", "flood_days", "sum_intersection_area_km2", "max_coverage_ratio"}
 TIME_SERIES_KEYS = SUMMARY_KEYS | {"month_start"}
 MONTH_PATTERN = re.compile(r"^\d{4}-\d{2}$")
+QUALITATIVE_SUPPORTED_LEVELS = ("province", "regency", "district")
+QUALITATIVE_PUBLIC_STATES = {
+    "not_reviewed_yet",
+    "reviewed_but_no_publishable_report",
+    "has_featured_report_only",
+    "has_featured_report_and_more",
+}
+QUALITATIVE_MANIFEST_KEYS = {
+    "global_events_path",
+    "global_states_path",
+    "regency_index_path",
+    "regency_assets_base_path",
+    "supported_levels",
+    "route_version",
+}
+QUALITATIVE_INDEX_KEYS = {
+    "admin_code",
+    "admin_level",
+    "province_code",
+    "slug",
+    "events_path",
+    "states_path",
+}
+QUALITATIVE_EVENT_KEYS = {"admin_code", "admin_level", "source_name", "source_date", "summary"}
+QUALITATIVE_STATE_KEYS = {"admin_code", "admin_level", "public_state"}
 
 
 def load_json(path: Path):
@@ -61,6 +86,7 @@ def validate_public_site_data(site_dir: Path) -> list[str]:
     errors.extend(validate_search_index(search_index))
     errors.extend(validate_boundary_assets(manifest, site_dir))
     errors.extend(validate_metric_assets(manifest, site_dir))
+    errors.extend(validate_qualitative_assets(manifest, site_dir))
     return errors
 
 
@@ -82,6 +108,7 @@ def validate_manifest(manifest: dict) -> list[str]:
         "coverage_report",
         "search_index",
         "methodology",
+        "qualitative",
         "groundsource_status",
         "groundsource_summary",
         "warning_codes",
@@ -105,6 +132,17 @@ def validate_manifest(manifest: dict) -> list[str]:
         errors.append("search_index path must point to search_index.json.")
     if manifest["methodology"] != "methodology.json":
         errors.append("methodology path must point to methodology.json.")
+    qualitative = manifest["qualitative"]
+    if not isinstance(qualitative, dict):
+        errors.append("qualitative must be an object.")
+    else:
+        missing_qualitative = sorted(QUALITATIVE_MANIFEST_KEYS - set(qualitative))
+        if missing_qualitative:
+            errors.append(f"qualitative is missing keys: {', '.join(missing_qualitative)}")
+        if qualitative.get("supported_levels") != list(QUALITATIVE_SUPPORTED_LEVELS):
+            errors.append("qualitative.supported_levels must match province, regency, and district.")
+        if not isinstance(qualitative.get("route_version"), str) or not qualitative["route_version"]:
+            errors.append("qualitative.route_version must be a non-empty string.")
     if not isinstance(manifest["warning_codes"], list):
         errors.append("warning_codes must be a list.")
     if manifest["groundsource_status"] not in {"ok", "missing_groundsource_source"}:
@@ -116,6 +154,114 @@ def validate_manifest(manifest: dict) -> list[str]:
         built_levels = groundsource_summary.get("built_levels")
         if built_levels != list(PUBLIC_LEVELS):
             errors.append("groundsource_summary.built_levels must match published levels when status is ok.")
+    return errors
+
+
+def qualitative_rows(payload, list_key: str) -> list[dict] | None:
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict) and isinstance(payload.get(list_key), list):
+        return payload[list_key]
+    return None
+
+
+def normalize_regency_index(payload) -> list[dict] | None:
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict):
+        rows = []
+        for slug, row in payload.items():
+            if not isinstance(row, dict):
+                return None
+            normalized = dict(row)
+            normalized.setdefault("slug", slug)
+            rows.append(normalized)
+        return rows
+    return None
+
+
+def validate_qualitative_assets(manifest: dict, site_dir: Path) -> list[str]:
+    errors: list[str] = []
+    qualitative = manifest["qualitative"]
+    if not isinstance(qualitative, dict):
+        return ["qualitative must be an object."]
+    if not QUALITATIVE_MANIFEST_KEYS.issubset(set(qualitative)):
+        return errors
+
+    events_path = site_dir / qualitative["global_events_path"]
+    states_path = site_dir / qualitative["global_states_path"]
+    regency_index_path = site_dir / qualitative["regency_index_path"]
+
+    for label, path, list_key, required_keys in (
+        ("global qualitative events", events_path, "events", QUALITATIVE_EVENT_KEYS),
+        ("global review states", states_path, "states", QUALITATIVE_STATE_KEYS),
+    ):
+        if not path.exists():
+            errors.append(f"Missing {label} asset: {path.relative_to(site_dir)}")
+            continue
+        rows = qualitative_rows(load_json(path), list_key)
+        if rows is None:
+            errors.append(f"{path.relative_to(site_dir)} must contain a list or a `{list_key}` list.")
+            continue
+        if rows and not required_keys.issubset(set(rows[0])):
+            errors.append(f"{path.relative_to(site_dir)} is missing required qualitative fields.")
+
+    if not regency_index_path.exists():
+        errors.append(f"Missing regency qualitative index: {regency_index_path.relative_to(site_dir)}")
+        return errors
+
+    regency_index = normalize_regency_index(load_json(regency_index_path))
+    if regency_index is None:
+        errors.append(f"{regency_index_path.relative_to(site_dir)} must contain a list of rows or a legacy row map.")
+        return errors
+
+    seen_admin_codes: set[str] = set()
+    seen_slugs: set[str] = set()
+    for row in regency_index:
+        missing = sorted(QUALITATIVE_INDEX_KEYS - set(row))
+        if missing:
+            errors.append(
+                f"{regency_index_path.relative_to(site_dir)} row is missing keys: {', '.join(missing)}"
+            )
+            continue
+        admin_code = row["admin_code"]
+        slug = row["slug"]
+        if admin_code in seen_admin_codes:
+            errors.append(f"Duplicate regency qualitative index entry for admin_code `{admin_code}`.")
+        if slug in seen_slugs:
+            errors.append(f"Duplicate regency qualitative index entry for slug `{slug}`.")
+        seen_admin_codes.add(admin_code)
+        seen_slugs.add(slug)
+
+        if row["admin_level"] != "regency":
+            errors.append(f"Regency qualitative index row `{slug}` must use admin_level `regency`.")
+        if not str(admin_code).startswith(str(row["province_code"])):
+            errors.append(f"Regency qualitative index row `{slug}` has a mismatched province_code.")
+
+        for payload_label, relative_path, list_key, required_keys in (
+            ("events", row["events_path"], "events", QUALITATIVE_EVENT_KEYS),
+            ("states", row["states_path"], "states", QUALITATIVE_STATE_KEYS),
+        ):
+            payload_path = site_dir / relative_path
+            if not payload_path.exists():
+                errors.append(
+                    f"Regency qualitative index row `{slug}` points to missing {payload_label} file: {relative_path}"
+                )
+                continue
+            payload_rows = qualitative_rows(load_json(payload_path), list_key)
+            if payload_rows is None:
+                errors.append(f"{relative_path} must contain a list or a `{list_key}` list.")
+                continue
+            if payload_rows and not required_keys.issubset(set(payload_rows[0])):
+                errors.append(f"{relative_path} is missing required qualitative fields.")
+            if payload_label == "states":
+                invalid_states = sorted(
+                    {item.get("public_state") for item in payload_rows if item.get("public_state") not in QUALITATIVE_PUBLIC_STATES}
+                )
+                if invalid_states:
+                    errors.append(
+                        f"{relative_path} contains unsupported public_state values: {', '.join(str(state) for state in invalid_states)}"
+                    )
     return errors
 
 

@@ -904,6 +904,18 @@
   "coverage_report": "coverage_report.json",
   "search_index": "search_index.json",
   "methodology": "methodology.json",
+  "qualitative": {
+    "global_events_path": "qualitative_events.json",
+    "global_states_path": "geography_review_states.json",
+    "regency_index_path": "regencies/index.json",
+    "regency_assets_base_path": "regencies",
+    "supported_levels": [
+      "province",
+      "regency",
+      "district"
+    ],
+    "route_version": "qualitative-v1"
+  },
   "groundsource_status": "ok",
   "groundsource_summary": {
     "intersecting_events": 336079,

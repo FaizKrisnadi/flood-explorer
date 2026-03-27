@@ -26,6 +26,24 @@ class PublicSiteDataValidationTest(unittest.TestCase):
             errors = validate_public_site_data(site_dir)
             self.assertTrue(any("Missing monthly metric shard" in error for error in errors))
 
+    def test_validate_public_site_data_flags_missing_qualitative_asset(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            site_dir = Path(temp_dir)
+            self._write_fixture(site_dir)
+            (site_dir / "regencies" / "aceh__kota_banda_aceh_qualitative_events.json").unlink()
+            errors = validate_public_site_data(site_dir)
+            self.assertTrue(any("points to missing events file" in error for error in errors))
+
+    def test_validate_public_site_data_flags_duplicate_regency_index_rows(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            site_dir = Path(temp_dir)
+            self._write_fixture(site_dir)
+            payload = json.loads((site_dir / "regencies" / "index.json").read_text(encoding="utf-8"))
+            payload.append(dict(payload[0]))
+            (site_dir / "regencies" / "index.json").write_text(json.dumps(payload), encoding="utf-8")
+            errors = validate_public_site_data(site_dir)
+            self.assertTrue(any("Duplicate regency qualitative index entry" in error for error in errors))
+
     def _write_fixture(self, site_dir: Path) -> None:
         (site_dir / "boundaries").mkdir(parents=True)
         for level in ("province", "regency", "district"):
@@ -92,6 +110,14 @@ class PublicSiteDataValidationTest(unittest.TestCase):
                 "coverage_report": "coverage_report.json",
                 "search_index": "search_index.json",
                 "methodology": "methodology.json",
+                "qualitative": {
+                    "global_events_path": "qualitative_events.json",
+                    "global_states_path": "geography_review_states.json",
+                    "regency_index_path": "regencies/index.json",
+                    "regency_assets_base_path": "regencies",
+                    "supported_levels": ["province", "regency", "district"],
+                    "route_version": "qualitative-v1",
+                },
                 "groundsource_status": "ok",
                 "groundsource_summary": {
                     "intersecting_events": 1,
@@ -143,6 +169,45 @@ class PublicSiteDataValidationTest(unittest.TestCase):
                     "regency_code": None,
                     "district_code": None,
                     "village_code": None,
+                }
+            ],
+        )
+        self._write_json(site_dir / "qualitative_events.json", [])
+        self._write_json(site_dir / "geography_review_states.json", [])
+        self._write_json(
+            site_dir / "regencies" / "aceh__kota_banda_aceh_qualitative_events.json",
+            [
+                {
+                    "admin_code": "11.71",
+                    "admin_level": "regency",
+                    "source_name": "Fixture Source",
+                    "source_date": "2024-01-01",
+                    "summary": "Fixture summary",
+                }
+            ],
+        )
+        self._write_json(
+            site_dir / "regencies" / "aceh__kota_banda_aceh_geography_review_states.json",
+            [
+                {
+                    "admin_code": "11.71",
+                    "admin_level": "regency",
+                    "public_state": "has_featured_report_only",
+                }
+            ],
+        )
+        self._write_json(
+            site_dir / "regencies" / "index.json",
+            [
+                {
+                    "admin_code": "11.71",
+                    "admin_level": "regency",
+                    "province_code": "11",
+                    "slug": "aceh__kota_banda_aceh",
+                    "events_path": "regencies/aceh__kota_banda_aceh_qualitative_events.json",
+                    "states_path": "regencies/aceh__kota_banda_aceh_geography_review_states.json",
+                    "updated_at": "2024-01-01T00:00:00+00:00",
+                    "public_state_summary": {"has_featured_report_only": 1},
                 }
             ],
         )

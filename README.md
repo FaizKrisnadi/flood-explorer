@@ -157,6 +157,9 @@ That packaging step refreshes:
 - `site/data/latest/coverage_report.json`
 - `site/data/latest/methodology.json`
 - `site/data/latest/metrics/...`
+- `site/data/latest/qualitative_events.json`
+- `site/data/latest/geography_review_states.json`
+- `site/data/latest/regencies/index.json`
 
 ## How to Reuse This Repo
 
@@ -179,6 +182,9 @@ The public artifact consumed by the browser is the committed `site/data/latest/`
 - `coverage_report.json`: release-gate and coverage metadata for the published geography.
 - `search_index.json`: lookup index for province, regency/city, and district search.
 - `methodology.json`: source, metric, and caveat metadata rendered by the frontend.
+- `qualitative_events.json`: global qualitative evidence fallback payload.
+- `geography_review_states.json`: global review-state fallback payload.
+- `regencies/index.json`: registry for regency-specific qualitative bundles loaded on demand.
 
 Groundsource remains the flood-event source of truth. Indonesian admin codes remain the canonical join keys. The public release currently publishes province, regency/city, and district layers only. The dashboard is for public information, not early warning or operational emergency response.
 
@@ -190,6 +196,8 @@ Groundsource remains the flood-event source of truth. Indonesian admin codes rem
 - Changelog: [CHANGELOG.md](CHANGELOG.md)
 - Citation metadata: [CITATION.cff](CITATION.cff)
 - Maintainer release notes: [docs/maintainer-release.md](docs/maintainer-release.md)
+- Qualitative runtime contract: [docs/qualitative-contract.md](docs/qualitative-contract.md)
+- Regency release runbook: [docs/regency-release-runbook.md](docs/regency-release-runbook.md)
 - Project positioning for Codex for Open Source: [docs/project-positioning.md](docs/project-positioning.md)
 
 ## Notes

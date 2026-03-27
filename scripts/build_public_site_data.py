@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pyarrow.parquet as pq
 
+from build_regency_qualitative_index import build_regency_index
 from pipeline_utils import read_geoparquet_rows, write_json
 
 
@@ -23,6 +24,11 @@ METRICS = (
     "sum_intersection_area_km2",
     "max_coverage_ratio",
 )
+QUALITATIVE_SUPPORTED_LEVELS = ("province", "regency", "district")
+QUALITATIVE_ROUTE_VERSION = "qualitative-v1"
+QUALITATIVE_GLOBAL_EVENTS_FILE = "qualitative_events.json"
+QUALITATIVE_GLOBAL_STATES_FILE = "geography_review_states.json"
+QUALITATIVE_REGENCY_DIR = "regencies"
 
 FREE_BASEMAPS = {
     "map": {
@@ -285,6 +291,38 @@ def write_metric_shards(site_dir: Path, level: str, month_rows: list[dict]) -> d
     return assets
 
 
+def copy_or_write_json(src: Path | None, dest: Path, default_payload) -> None:
+    if src and src.exists():
+        write_json(dest, json.loads(src.read_text(encoding="utf-8")))
+        return
+    if dest.exists():
+        return
+    write_json(dest, default_payload)
+
+
+def sync_qualitative_assets(processed_dir: Path, site_dir: Path) -> dict:
+    copy_or_write_json(processed_dir / QUALITATIVE_GLOBAL_EVENTS_FILE, site_dir / QUALITATIVE_GLOBAL_EVENTS_FILE, [])
+    copy_or_write_json(processed_dir / QUALITATIVE_GLOBAL_STATES_FILE, site_dir / QUALITATIVE_GLOBAL_STATES_FILE, [])
+
+    site_regency_dir = site_dir / QUALITATIVE_REGENCY_DIR
+    processed_regency_dir = processed_dir / QUALITATIVE_REGENCY_DIR
+    if processed_regency_dir.exists():
+        if site_regency_dir.exists():
+            shutil.rmtree(site_regency_dir)
+        shutil.copytree(processed_regency_dir, site_regency_dir)
+    site_regency_dir.mkdir(parents=True, exist_ok=True)
+    write_json(site_regency_dir / "index.json", build_regency_index(site_regency_dir, site_dir))
+
+    return {
+        "global_events_path": QUALITATIVE_GLOBAL_EVENTS_FILE,
+        "global_states_path": QUALITATIVE_GLOBAL_STATES_FILE,
+        "regency_index_path": f"{QUALITATIVE_REGENCY_DIR}/index.json",
+        "regency_assets_base_path": QUALITATIVE_REGENCY_DIR,
+        "supported_levels": list(QUALITATIVE_SUPPORTED_LEVELS),
+        "route_version": QUALITATIVE_ROUTE_VERSION,
+    }
+
+
 def main() -> int:
     args = parse_args()
     args.site_dir.mkdir(parents=True, exist_ok=True)
@@ -355,6 +393,7 @@ def main() -> int:
         },
     }
     write_json(args.site_dir / "methodology.json", methodology)
+    qualitative_manifest = sync_qualitative_assets(args.processed_dir, args.site_dir)
 
     manifest = {
         "dataset_version": args.dataset_version,
@@ -372,6 +411,7 @@ def main() -> int:
         "coverage_report": "coverage_report.json",
         "search_index": "search_index.json",
         "methodology": "methodology.json",
+        "qualitative": qualitative_manifest,
         "groundsource_status": groundsource_manifest.get("status", "unknown"),
         "groundsource_summary": {
             "intersecting_events": groundsource_manifest.get("intersecting_events"),
