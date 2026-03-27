@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "dki-jakpus-2026-01-19-main",
+    "event_date": "2026-01-19",
+    "admin_level": "regency",
+    "admin_code": "31.71",
+    "location_label": "Jakarta Pusat",
+    "source_name": "ANTARA Metro",
+    "source_url": "https://example.com/dki-jakpus-main",
+    "source_date": "2026-01-19",
+    "headline": "Central Jakarta flood affects office corridors",
+    "summary": "Banjir di Jakarta Pusat memperlambat mobilitas komuter pada koridor perkantoran dan simpang utama kota.",
+    "summary_id": "Banjir di Jakarta Pusat memperlambat mobilitas komuter pada koridor perkantoran dan simpang utama kota.",
+    "summary_en": "Flooding in Central Jakarta slowed commuter mobility along office corridors and key city intersections.",
+    "media_type": "article",
+    "media_url": "https://example.com/dki-jakpus-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-dki-jakpus-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

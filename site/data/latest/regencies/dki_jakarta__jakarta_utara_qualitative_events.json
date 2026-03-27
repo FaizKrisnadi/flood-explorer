@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "dki-jakut-2026-01-13-main",
+    "event_date": "2026-01-13",
+    "admin_level": "regency",
+    "admin_code": "31.72",
+    "location_label": "Jakarta Utara",
+    "source_name": "Kompas Metro",
+    "source_url": "https://example.com/dki-jakut-main",
+    "source_date": "2026-01-13",
+    "headline": "North Jakarta flood disrupts coastal access",
+    "summary": "Banjir di Jakarta Utara mengganggu akses pesisir dan memperlambat arus kendaraan pada ruas penghubung utama.",
+    "summary_id": "Banjir di Jakarta Utara mengganggu akses pesisir dan memperlambat arus kendaraan pada ruas penghubung utama.",
+    "summary_en": "Flooding in North Jakarta disrupted coastal access and slowed vehicle movement on major connector roads.",
+    "media_type": "article",
+    "media_url": "https://example.com/dki-jakut-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-dki-jakut-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

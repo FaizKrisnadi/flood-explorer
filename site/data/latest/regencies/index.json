@@ -1,1 +1,602 @@
-[]
+[
+  {
+    "admin_code": "31.73",
+    "admin_level": "regency",
+    "province_code": "31",
+    "slug": "dki_jakarta__jakarta_barat",
+    "events_path": "regencies/dki_jakarta__jakarta_barat_qualitative_events.json",
+    "states_path": "regencies/dki_jakarta__jakarta_barat_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.013286+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "31.71",
+    "admin_level": "regency",
+    "province_code": "31",
+    "slug": "dki_jakarta__jakarta_pusat",
+    "events_path": "regencies/dki_jakarta__jakarta_pusat_qualitative_events.json",
+    "states_path": "regencies/dki_jakarta__jakarta_pusat_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.014432+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "31.74",
+    "admin_level": "regency",
+    "province_code": "31",
+    "slug": "dki_jakarta__jakarta_selatan",
+    "events_path": "regencies/dki_jakarta__jakarta_selatan_qualitative_events.json",
+    "states_path": "regencies/dki_jakarta__jakarta_selatan_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.015787+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "31.75",
+    "admin_level": "regency",
+    "province_code": "31",
+    "slug": "dki_jakarta__jakarta_timur",
+    "events_path": "regencies/dki_jakarta__jakarta_timur_qualitative_events.json",
+    "states_path": "regencies/dki_jakarta__jakarta_timur_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.016708+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "31.72",
+    "admin_level": "regency",
+    "province_code": "31",
+    "slug": "dki_jakarta__jakarta_utara",
+    "events_path": "regencies/dki_jakarta__jakarta_utara_qualitative_events.json",
+    "states_path": "regencies/dki_jakarta__jakarta_utara_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.017451+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.04",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kabupaten_bandung",
+    "events_path": "regencies/jawa_barat__kabupaten_bandung_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kabupaten_bandung_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.018145+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.16",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kabupaten_bekasi",
+    "events_path": "regencies/jawa_barat__kabupaten_bekasi_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kabupaten_bekasi_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.018990+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.01",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kabupaten_bogor",
+    "events_path": "regencies/jawa_barat__kabupaten_bogor_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kabupaten_bogor_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.019761+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.03",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kabupaten_cianjur",
+    "events_path": "regencies/jawa_barat__kabupaten_cianjur_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kabupaten_cianjur_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.020517+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.05",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kabupaten_garut",
+    "events_path": "regencies/jawa_barat__kabupaten_garut_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kabupaten_garut_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.021238+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.15",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kabupaten_karawang",
+    "events_path": "regencies/jawa_barat__kabupaten_karawang_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kabupaten_karawang_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.021969+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.73",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kota_bandung",
+    "events_path": "regencies/jawa_barat__kota_bandung_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kota_bandung_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.023215+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.75",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kota_bekasi",
+    "events_path": "regencies/jawa_barat__kota_bekasi_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kota_bekasi_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.024080+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.71",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kota_bogor",
+    "events_path": "regencies/jawa_barat__kota_bogor_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kota_bogor_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.027936+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.77",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kota_cimahi",
+    "events_path": "regencies/jawa_barat__kota_cimahi_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kota_cimahi_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.029877+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.74",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kota_cirebon",
+    "events_path": "regencies/jawa_barat__kota_cirebon_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kota_cirebon_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.031305+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.76",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kota_depok",
+    "events_path": "regencies/jawa_barat__kota_depok_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kota_depok_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.032346+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "32.72",
+    "admin_level": "regency",
+    "province_code": "32",
+    "slug": "jawa_barat__kota_sukabumi",
+    "events_path": "regencies/jawa_barat__kota_sukabumi_qualitative_events.json",
+    "states_path": "regencies/jawa_barat__kota_sukabumi_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.033548+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.02",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kabupaten_banyumas",
+    "events_path": "regencies/jawa_tengah__kabupaten_banyumas_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kabupaten_banyumas_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.034306+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.01",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kabupaten_cilacap",
+    "events_path": "regencies/jawa_tengah__kabupaten_cilacap_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kabupaten_cilacap_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.035154+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.21",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kabupaten_demak",
+    "events_path": "regencies/jawa_tengah__kabupaten_demak_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kabupaten_demak_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.035901+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.19",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kabupaten_kudus",
+    "events_path": "regencies/jawa_tengah__kabupaten_kudus_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kabupaten_kudus_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.036778+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.18",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kabupaten_pati",
+    "events_path": "regencies/jawa_tengah__kabupaten_pati_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kabupaten_pati_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.039099+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.26",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kabupaten_pekalongan",
+    "events_path": "regencies/jawa_tengah__kabupaten_pekalongan_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kabupaten_pekalongan_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.040711+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.71",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kota_magelang",
+    "events_path": "regencies/jawa_tengah__kota_magelang_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kota_magelang_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.046420+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.75",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kota_pekalongan",
+    "events_path": "regencies/jawa_tengah__kota_pekalongan_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kota_pekalongan_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.048746+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.73",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kota_salatiga",
+    "events_path": "regencies/jawa_tengah__kota_salatiga_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kota_salatiga_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.049730+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.74",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kota_semarang",
+    "events_path": "regencies/jawa_tengah__kota_semarang_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kota_semarang_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.050487+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 2
+    }
+  },
+  {
+    "admin_code": "33.72",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kota_surakarta",
+    "events_path": "regencies/jawa_tengah__kota_surakarta_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kota_surakarta_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.051213+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "33.76",
+    "admin_level": "regency",
+    "province_code": "33",
+    "slug": "jawa_tengah__kota_tegal",
+    "events_path": "regencies/jawa_tengah__kota_tegal_qualitative_events.json",
+    "states_path": "regencies/jawa_tengah__kota_tegal_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.051888+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.10",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kabupaten_banyuwangi",
+    "events_path": "regencies/jawa_timur__kabupaten_banyuwangi_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kabupaten_banyuwangi_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.052567+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.25",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kabupaten_gresik",
+    "events_path": "regencies/jawa_timur__kabupaten_gresik_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kabupaten_gresik_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.053297+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.09",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kabupaten_jember",
+    "events_path": "regencies/jawa_timur__kabupaten_jember_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kabupaten_jember_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.054305+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.07",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kabupaten_malang",
+    "events_path": "regencies/jawa_timur__kabupaten_malang_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kabupaten_malang_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.055175+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.14",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kabupaten_pasuruan",
+    "events_path": "regencies/jawa_timur__kabupaten_pasuruan_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kabupaten_pasuruan_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.056093+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.15",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kabupaten_sidoarjo",
+    "events_path": "regencies/jawa_timur__kabupaten_sidoarjo_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kabupaten_sidoarjo_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.057257+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.72",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kota_blitar",
+    "events_path": "regencies/jawa_timur__kota_blitar_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kota_blitar_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.058095+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.71",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kota_kediri",
+    "events_path": "regencies/jawa_timur__kota_kediri_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kota_kediri_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.058955+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.77",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kota_madiun",
+    "events_path": "regencies/jawa_timur__kota_madiun_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kota_madiun_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.065235+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.73",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kota_malang",
+    "events_path": "regencies/jawa_timur__kota_malang_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kota_malang_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.066679+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.74",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kota_probolinggo",
+    "events_path": "regencies/jawa_timur__kota_probolinggo_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kota_probolinggo_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.068228+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "35.78",
+    "admin_level": "regency",
+    "province_code": "35",
+    "slug": "jawa_timur__kota_surabaya",
+    "events_path": "regencies/jawa_timur__kota_surabaya_qualitative_events.json",
+    "states_path": "regencies/jawa_timur__kota_surabaya_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.070034+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.09",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kabupaten_asahan",
+    "events_path": "regencies/sumatera_utara__kabupaten_asahan_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kabupaten_asahan_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.070978+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.19",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kabupaten_batu_bara",
+    "events_path": "regencies/sumatera_utara__kabupaten_batu_bara_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kabupaten_batu_bara_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.071980+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.07",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kabupaten_deli_serdang",
+    "events_path": "regencies/sumatera_utara__kabupaten_deli_serdang_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kabupaten_deli_serdang_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.072915+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.05",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kabupaten_langkat",
+    "events_path": "regencies/sumatera_utara__kabupaten_langkat_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kabupaten_langkat_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.073778+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.18",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kabupaten_serdang_bedagai",
+    "events_path": "regencies/sumatera_utara__kabupaten_serdang_bedagai_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kabupaten_serdang_bedagai_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.075030+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.76",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kota_binjai",
+    "events_path": "regencies/sumatera_utara__kota_binjai_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kota_binjai_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.076111+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.75",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kota_medan",
+    "events_path": "regencies/sumatera_utara__kota_medan_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kota_medan_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.076836+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  },
+  {
+    "admin_code": "12.73",
+    "admin_level": "regency",
+    "province_code": "12",
+    "slug": "sumatera_utara__kota_pematangsiantar",
+    "events_path": "regencies/sumatera_utara__kota_pematangsiantar_qualitative_events.json",
+    "states_path": "regencies/sumatera_utara__kota_pematangsiantar_geography_review_states.json",
+    "updated_at": "2026-03-27T16:04:55.080895+00:00",
+    "public_state_summary": {
+      "has_featured_report_only": 1
+    }
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jabar-sukabumi-2026-01-26-main",
+    "event_date": "2026-01-26",
+    "admin_level": "regency",
+    "admin_code": "32.72",
+    "location_label": "Kota Sukabumi",
+    "source_name": "Sukabumi Update",
+    "source_url": "https://example.com/jabar-sukabumi-main",
+    "source_date": "2026-01-26",
+    "headline": "Sukabumi flood causes minor road-access damage",
+    "summary": "Banjir di Sukabumi menyebabkan kerusakan ringan pada akses jalan lingkungan dan genangan di beberapa ruas permukiman.",
+    "summary_id": "Banjir di Sukabumi menyebabkan kerusakan ringan pada akses jalan lingkungan dan genangan di beberapa ruas permukiman.",
+    "summary_en": "Flooding in Sukabumi caused minor damage to neighborhood access roads and inundation across several residential segments.",
+    "media_type": "article",
+    "media_url": "https://example.com/jabar-sukabumi-main.jpg",
+    "claim_type": "damage",
+    "impact_tags": [
+      "road_damage",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jabar-sukabumi-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jatim-malang-2026-01-10-main",
+    "event_date": "2026-01-10",
+    "admin_level": "regency",
+    "admin_code": "35.73",
+    "location_label": "Kota Malang",
+    "source_name": "Malang Post",
+    "source_url": "https://example.com/jatim-malang-main",
+    "source_date": "2026-01-10",
+    "headline": "Malang flood disrupts mobility in education district",
+    "summary": "Banjir di Malang menyebabkan genangan pada jalan penghubung utama dan mengganggu mobilitas di kawasan pendidikan.",
+    "summary_id": "Banjir di Malang menyebabkan genangan pada jalan penghubung utama dan mengganggu mobilitas di kawasan pendidikan.",
+    "summary_en": "Flooding in Malang caused inundation on key connector roads and disrupted mobility in the education district.",
+    "media_type": "article",
+    "media_url": "https://example.com/jatim-malang-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jatim-malang-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

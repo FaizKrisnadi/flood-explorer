@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jawa_timur-kabupaten_sidoarjo-2026-01-05-main",
+    "event_date": "2026-01-05",
+    "admin_level": "regency",
+    "admin_code": "35.15",
+    "location_label": "Kabupaten Sidoarjo",
+    "source_name": "Jawa Pos",
+    "source_url": "https://example.com/jawa_timur__kabupaten_sidoarjo-main",
+    "source_date": "2026-01-05",
+    "headline": "Kabupaten Sidoarjo flood update for January 2026",
+    "summary": "Banjir di Kabupaten Sidoarjo prompted limited evacuation in low-lying neighborhoods selama periode peninjauan terbatas.",
+    "summary_id": "Banjir di Kabupaten Sidoarjo prompted limited evacuation in low-lying neighborhoods selama periode peninjauan terbatas.",
+    "summary_en": "Flooding in Kabupaten Sidoarjo prompted limited evacuation in low-lying neighborhoods during the bounded review window.",
+    "media_type": "article",
+    "media_url": "https://example.com/jawa_timur__kabupaten_sidoarjo-main.jpg",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "evacuation",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jawa_timur__kabupaten_sidoarjo-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

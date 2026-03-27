@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jabar-cimahi-2026-01-14-main",
+    "event_date": "2026-01-14",
+    "admin_level": "regency",
+    "admin_code": "32.77",
+    "location_label": "Kota Cimahi",
+    "source_name": "Ayo Bandung",
+    "source_url": "https://example.com/jabar-cimahi-main",
+    "source_date": "2026-01-14",
+    "headline": "Cimahi flood prompts limited neighborhood evacuation",
+    "summary": "Banjir di Cimahi menyebabkan genangan permukiman dan evakuasi terbatas pada rumah yang berada di titik terendah lingkungan.",
+    "summary_id": "Banjir di Cimahi menyebabkan genangan permukiman dan evakuasi terbatas pada rumah yang berada di titik terendah lingkungan.",
+    "summary_en": "Flooding in Cimahi caused residential inundation and limited evacuation from homes in the lowest-lying neighborhood pockets.",
+    "media_type": "article",
+    "media_url": "https://example.com/jabar-cimahi-main.jpg",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "evacuation",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jabar-cimahi-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

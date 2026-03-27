@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "sumatera_utara-kabupaten_batu_bara-2026-01-24-main",
+    "event_date": "2026-01-24",
+    "admin_level": "regency",
+    "admin_code": "12.19",
+    "location_label": "Kabupaten Batu Bara",
+    "source_name": "Harian Analisa",
+    "source_url": "https://example.com/sumatera_utara__kabupaten_batu_bara-main",
+    "source_date": "2026-01-24",
+    "headline": "Kabupaten Batu Bara flood update for January 2026",
+    "summary": "Banjir di Kabupaten Batu Bara caused minor damage to neighborhood access roads selama periode peninjauan terbatas.",
+    "summary_id": "Banjir di Kabupaten Batu Bara caused minor damage to neighborhood access roads selama periode peninjauan terbatas.",
+    "summary_en": "Flooding in Kabupaten Batu Bara caused minor damage to neighborhood access roads during the bounded review window.",
+    "media_type": "article",
+    "media_url": "https://example.com/sumatera_utara__kabupaten_batu_bara-main.jpg",
+    "claim_type": "damage",
+    "impact_tags": [
+      "road_damage",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-sumatera_utara__kabupaten_batu_bara-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

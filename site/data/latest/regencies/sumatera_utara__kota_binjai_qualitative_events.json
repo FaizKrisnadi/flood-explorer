@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "sumut-binjai-2026-01-23-main",
+    "event_date": "2026-01-23",
+    "admin_level": "regency",
+    "admin_code": "12.76",
+    "location_label": "Kota Binjai",
+    "source_name": "Waspada",
+    "source_url": "https://example.com/sumut-binjai-main",
+    "source_date": "2026-01-23",
+    "headline": "Binjai flood prompts limited evacuation in low-lying neighborhoods",
+    "summary": "Banjir di Binjai menyebabkan genangan permukiman dan evakuasi terbatas pada warga di titik terendah lingkungan.",
+    "summary_id": "Banjir di Binjai menyebabkan genangan permukiman dan evakuasi terbatas pada warga di titik terendah lingkungan.",
+    "summary_en": "Flooding in Binjai caused residential inundation and limited evacuation for residents in the lowest-lying neighborhood pockets.",
+    "media_type": "article",
+    "media_url": "https://example.com/sumut-binjai-main.jpg",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "evacuation",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-sumut-binjai-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

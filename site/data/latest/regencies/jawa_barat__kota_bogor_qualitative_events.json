@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jabar-bogor-2026-01-11-main",
+    "event_date": "2026-01-11",
+    "admin_level": "regency",
+    "admin_code": "32.71",
+    "location_label": "Kota Bogor",
+    "source_name": "Radar Bogor",
+    "source_url": "https://example.com/jabar-bogor-main",
+    "source_date": "2026-01-11",
+    "headline": "Bogor flood delays local school activity",
+    "summary": "Banjir di Kota Bogor menyebabkan genangan di koridor permukiman bantaran sungai dan menunda aktivitas sekolah setempat.",
+    "summary_id": "Banjir di Kota Bogor menyebabkan genangan di koridor permukiman bantaran sungai dan menunda aktivitas sekolah setempat.",
+    "summary_en": "Flooding in Bogor caused inundation along riverside residential corridors and delayed local school activity.",
+    "media_type": "article",
+    "media_url": "https://example.com/jabar-bogor-main.jpg",
+    "claim_type": "school_closure",
+    "impact_tags": [
+      "school_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jabar-bogor-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

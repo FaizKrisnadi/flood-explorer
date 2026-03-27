@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jateng-pekalongan-2026-01-20-main",
+    "event_date": "2026-01-20",
+    "admin_level": "regency",
+    "admin_code": "33.75",
+    "location_label": "Kota Pekalongan",
+    "source_name": "Radar Pekalongan",
+    "source_url": "https://example.com/jateng-pekalongan-main",
+    "source_date": "2026-01-20",
+    "headline": "Pekalongan flood disrupts urban coastal services",
+    "summary": "Banjir di Pekalongan menyebabkan genangan di kawasan pesisir perkotaan dan mengganggu layanan permukiman setempat.",
+    "summary_id": "Banjir di Pekalongan menyebabkan genangan di kawasan pesisir perkotaan dan mengganggu layanan permukiman setempat.",
+    "summary_en": "Flooding in Pekalongan caused inundation in urban coastal areas and disrupted local neighborhood services.",
+    "media_type": "article",
+    "media_url": "https://example.com/jateng-pekalongan-main.jpg",
+    "claim_type": "service_disruption",
+    "impact_tags": [
+      "service_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jateng-pekalongan-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

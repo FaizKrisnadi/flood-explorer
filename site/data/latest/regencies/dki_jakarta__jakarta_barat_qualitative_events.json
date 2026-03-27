@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "dki-jakbar-2026-01-16-main",
+    "event_date": "2026-01-16",
+    "admin_level": "regency",
+    "admin_code": "31.73",
+    "location_label": "Jakarta Barat",
+    "source_name": "detik Megapolitan",
+    "source_url": "https://example.com/dki-jakbar-main",
+    "source_date": "2026-01-16",
+    "headline": "West Jakarta flood closes local roads",
+    "summary": "Banjir di Jakarta Barat memicu genangan permukiman dan menutup sementara beberapa ruas penghubung lokal.",
+    "summary_id": "Banjir di Jakarta Barat memicu genangan permukiman dan menutup sementara beberapa ruas penghubung lokal.",
+    "summary_en": "Flooding in West Jakarta caused neighborhood inundation and temporarily closed several local connector roads.",
+    "media_type": "article",
+    "media_url": "https://example.com/dki-jakbar-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-dki-jakbar-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

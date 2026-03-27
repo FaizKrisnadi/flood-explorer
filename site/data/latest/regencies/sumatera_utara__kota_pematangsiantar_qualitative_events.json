@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "sumut-siantar-2026-01-15-main",
+    "event_date": "2026-01-15",
+    "admin_level": "regency",
+    "admin_code": "12.73",
+    "location_label": "Kota Pematangsiantar",
+    "source_name": "Siantar 24 Jam",
+    "source_url": "https://example.com/sumut-siantar-main",
+    "source_date": "2026-01-15",
+    "headline": "Pematangsiantar flood disrupts main connector roads",
+    "summary": "Banjir di Pematangsiantar menyebabkan genangan permukiman dan gangguan mobilitas pada jalan penghubung utama kota.",
+    "summary_id": "Banjir di Pematangsiantar menyebabkan genangan permukiman dan gangguan mobilitas pada jalan penghubung utama kota.",
+    "summary_en": "Flooding in Pematangsiantar caused residential inundation and disrupted mobility on the city's main connector roads.",
+    "media_type": "article",
+    "media_url": "https://example.com/sumut-siantar-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-sumut-siantar-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

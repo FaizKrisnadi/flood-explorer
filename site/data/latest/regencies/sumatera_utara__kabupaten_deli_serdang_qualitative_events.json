@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "sumatera_utara-kabupaten_deli_serdang-2026-01-07-main",
+    "event_date": "2026-01-07",
+    "admin_level": "regency",
+    "admin_code": "12.07",
+    "location_label": "Kabupaten Deli Serdang",
+    "source_name": "Harian Analisa",
+    "source_url": "https://example.com/sumatera_utara__kabupaten_deli_serdang-main",
+    "source_date": "2026-01-07",
+    "headline": "Kabupaten Deli Serdang flood update for January 2026",
+    "summary": "Banjir di Kabupaten Deli Serdang disrupted mobility on key road links selama periode peninjauan terbatas.",
+    "summary_id": "Banjir di Kabupaten Deli Serdang disrupted mobility on key road links selama periode peninjauan terbatas.",
+    "summary_en": "Flooding in Kabupaten Deli Serdang disrupted mobility on key road links during the bounded review window.",
+    "media_type": "article",
+    "media_url": "https://example.com/sumatera_utara__kabupaten_deli_serdang-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-sumatera_utara__kabupaten_deli_serdang-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jateng-surakarta-2026-01-13-main",
+    "event_date": "2026-01-13",
+    "admin_level": "regency",
+    "admin_code": "33.72",
+    "location_label": "Kota Surakarta",
+    "source_name": "Solopos",
+    "source_url": "https://example.com/jateng-surakarta-main",
+    "source_date": "2026-01-13",
+    "headline": "Surakarta flood disrupts central commercial corridors",
+    "summary": "Banjir di Surakarta menyebabkan genangan pada koridor perdagangan pusat kota dan mengganggu mobilitas kendaraan lokal.",
+    "summary_id": "Banjir di Surakarta menyebabkan genangan pada koridor perdagangan pusat kota dan mengganggu mobilitas kendaraan lokal.",
+    "summary_en": "Flooding in Surakarta caused inundation along central commercial corridors and disrupted local vehicle mobility.",
+    "media_type": "article",
+    "media_url": "https://example.com/jateng-surakarta-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jateng-surakarta-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

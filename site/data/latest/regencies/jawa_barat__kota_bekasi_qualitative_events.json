@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jabar-bekasi-2026-01-09-main",
+    "event_date": "2026-01-09",
+    "admin_level": "regency",
+    "admin_code": "32.75",
+    "location_label": "Kota Bekasi",
+    "source_name": "Kompas.com Jabar",
+    "source_url": "https://example.com/jabar-bekasi-main",
+    "source_date": "2026-01-09",
+    "headline": "Bekasi flood disrupts collector roads",
+    "summary": "Banjir di Bekasi menyebabkan genangan permukiman dan gangguan lalu lintas di jalan kolektor utama.",
+    "summary_id": "Banjir di Bekasi menyebabkan genangan permukiman dan gangguan lalu lintas di jalan kolektor utama.",
+    "summary_en": "Flooding in Bekasi caused residential inundation and traffic disruption on major collector roads.",
+    "media_type": "article",
+    "media_url": "https://example.com/jabar-bekasi-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jabar-bekasi-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jabar-bandung-2026-01-12-main",
+    "event_date": "2026-01-12",
+    "admin_level": "regency",
+    "admin_code": "32.73",
+    "location_label": "Kota Bandung",
+    "source_name": "Pikiran Rakyat Jabar",
+    "source_url": "https://example.com/jabar-bandung-main",
+    "source_date": "2026-01-12",
+    "headline": "Bandung flood disrupts major roads",
+    "summary": "Banjir di Kota Bandung menyebabkan genangan dan gangguan lalu lintas di beberapa ruas utama.",
+    "summary_id": "Banjir di Kota Bandung menyebabkan genangan dan gangguan lalu lintas di beberapa ruas utama.",
+    "summary_en": "Flooding in Bandung caused standing water and traffic disruption along several primary roads.",
+    "media_type": "article",
+    "media_url": "https://example.com/jabar-bandung-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jabar-bandung-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

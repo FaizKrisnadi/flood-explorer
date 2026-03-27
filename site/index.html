@@ -13,7 +13,7 @@
     />
     <meta name="application-name" content="Peta Banjir Indonesia" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#b45309" />
+    <meta name="theme-color" content="#0a84ff" />
     <link rel="canonical" href="https://flood.faizkrisnadi.com/" />
 
     <meta property="og:type" content="website" />
@@ -35,18 +35,13 @@
     />
     <meta name="twitter:image" content="https://flood.faizkrisnadi.com/social-card.svg" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=20260316b" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
     <link
       rel="stylesheet"
       href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260317d" />
+    <link rel="stylesheet" href="styles.css?v=20260327e" />
   </head>
   <body>
     <!-- ═══════════ FULL-VIEWPORT MAP ═══════════ -->
@@ -162,7 +157,7 @@
         <!-- Trend Chart -->
         <div class="sidebar-section">
           <div class="section-head">
-            <h2 data-i18n="panel.trends"></h2>
+            <h2 id="trend-section-title" data-i18n="panel.trends"></h2>
             <span id="trend-period" class="period-badge"></span>
           </div>
           <div class="chart-shell">
@@ -171,14 +166,94 @@
           <div id="trend-empty" class="empty-state" data-i18n="map.empty"></div>
         </div>
 
+        <!-- Evidence -->
+        <div id="evidence-section" class="sidebar-section">
+          <div class="section-head">
+            <h2 id="evidence-section-title" data-i18n="panel.evidence"></h2>
+          </div>
+          <div id="evidence-empty" class="empty-state" data-i18n="evidence.none_selected"></div>
+          <div id="evidence-panel" class="evidence-panel is-hidden">
+            <div class="evidence-topline">
+              <span id="evidence-month" class="period-badge"></span>
+              <span id="evidence-gap-signal" class="evidence-gap-signal"></span>
+            </div>
+            <p id="evidence-window-note" class="text-muted evidence-window-note is-hidden"></p>
+            <p id="evidence-note" class="evidence-note"></p>
+            <p id="evidence-gap-context" class="text-muted evidence-gap-context"></p>
+            <dl class="evidence-metric-grid">
+              <div>
+                <dt data-i18n="evidence.score.internal"></dt>
+                <dd id="evidence-internal-score"></dd>
+              </div>
+              <div>
+                <dt class="evidence-source-head">
+                  <span id="evidence-source-label"></span>
+                  <button id="evidence-source-info" class="info-dot" type="button" aria-label="Source details">?</button>
+                </dt>
+                <dd id="evidence-external-score"></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+        
+        <!-- Field Reports Panel -->
+        <div id="qualitative-section" class="sidebar-section is-hidden">
+          <div class="section-head">
+            <h2 data-i18n="panel.qualitative">Laporan Lapangan</h2>
+            <span id="qualitative-state-badge" class="period-badge is-hidden"></span>
+          </div>
+          <p id="qualitative-intro" class="section-intro" data-i18n="panel.qualitative_intro">Ringkasan laporan warga, media lokal, dan catatan lapangan untuk periode terpilih.</p>
+          <div id="qualitative-empty" class="empty-state" data-i18n="qualitative.empty">Belum ada laporan lapangan yang dapat ditampilkan untuk wilayah dan periode ini. Peta, metrik, dan sinyal kuantitatif di panel lain tetap tersedia.</div>
+          <div id="qualitative-panel" class="qualitative-panel is-hidden">
+            <div class="qualitative-topline">
+              <span id="qualitative-period" class="period-badge"></span>
+            </div>
+            <p id="qualitative-state-note" class="text-muted qualitative-state-note is-hidden"></p>
+            <div class="qualitative-featured-card">
+              <div class="qualitative-header">
+                <div class="qualitative-meta">
+                  <span id="qualitative-date" class="period-badge"></span>
+                  <span id="qualitative-source-name" class="qualitative-source-name is-hidden"></span>
+                </div>
+                <strong id="qualitative-location"></strong>
+                <h3 id="qualitative-headline" class="qualitative-headline"></h3>
+              </div>
+              <p id="qualitative-summary" class="qualitative-summary"></p>
+              <div id="qualitative-media" class="qualitative-media is-hidden"></div>
+              <div id="qualitative-tags" class="qualitative-tags is-hidden"></div>
+              <div class="qualitative-footer">
+                <a id="qualitative-source-link" href="#" target="_blank" rel="noreferrer" class="source-link">
+                  <span data-i18n="qualitative.source">Buka sumber</span>
+                </a>
+              </div>
+            </div>
+            <div id="qualitative-related-section" class="qualitative-related is-hidden">
+              <div class="section-head section-head--compact">
+                <h3 data-i18n="qualitative.related_title">Laporan lain dalam periode ini</h3>
+                <span id="qualitative-related-count" class="period-badge">0</span>
+              </div>
+              <div id="qualitative-related-list" class="qualitative-related-list"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- Methodology -->
         <div class="sidebar-section">
-          <div class="section-head">
-            <h2 data-i18n="panel.method"></h2>
-            <span id="methodology-status" class="period-badge"></span>
-          </div>
-          <p class="text-muted method-summary" data-i18n="method.summary">Dashboard ini menggabungkan jejak banjir Groundsource dengan batas administrasi Indonesia agar pola banjir dapat dibaca menurut wilayah dan waktu.</p>
-          <ul id="methodology-list" class="methodology-list"></ul>
+          <details id="methodology-panel" class="accordion-panel">
+            <summary class="accordion-summary">
+              <span class="accordion-copy">
+                <strong data-i18n="panel.method"></strong>
+                <span id="methodology-status" class="accordion-kicker"></span>
+              </span>
+              <span class="accordion-chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="accordion-content">
+              <p class="text-muted method-summary" data-i18n="method.summary">Dashboard ini menggabungkan jejak banjir Groundsource dengan batas administrasi Indonesia agar pola banjir dapat dibaca menurut wilayah dan waktu.</p>
+              <p class="text-muted method-summary" data-i18n="method.note.geometry_proxy">Geometri Groundsource diperlakukan sebagai proksi lokasi terdampak yang dilaporkan, bukan batas genangan presisi.</p>
+              <p class="text-muted method-summary" data-i18n="method.note.qualitative_sample">Bagian Laporan Lapangan saat ini masih berupa sampel kurasi awal dari laporan lokal, belum mencakup seluruh kejadian banjir nasional.</p>
+              <ul id="methodology-list" class="methodology-list"></ul>
+            </div>
+          </details>
         </div>
 
         <!-- Footer -->
@@ -246,6 +321,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="./app.js?v=20260317d" type="module"></script>
+    <script src="app.js?v=20260327e" type="module"></script>
   </body>
 </html>

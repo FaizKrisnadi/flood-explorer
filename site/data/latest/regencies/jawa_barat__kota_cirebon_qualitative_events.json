@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jabar-cirebon-2026-01-22-main",
+    "event_date": "2026-01-22",
+    "admin_level": "regency",
+    "admin_code": "32.74",
+    "location_label": "Kota Cirebon",
+    "source_name": "Tribun Cirebon",
+    "source_url": "https://example.com/jabar-cirebon-main",
+    "source_date": "2026-01-22",
+    "headline": "Cirebon flood disrupts neighborhood drainage service",
+    "summary": "Banjir di Cirebon mengganggu layanan drainase lingkungan dan menyebabkan genangan di permukiman padat.",
+    "summary_id": "Banjir di Cirebon mengganggu layanan drainase lingkungan dan menyebabkan genangan di permukiman padat.",
+    "summary_en": "Flooding in Cirebon disrupted neighborhood drainage service and caused inundation in dense residential areas.",
+    "media_type": "article",
+    "media_url": "https://example.com/jabar-cirebon-main.jpg",
+    "claim_type": "service_disruption",
+    "impact_tags": [
+      "service_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jabar-cirebon-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

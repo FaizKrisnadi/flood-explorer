@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jateng-magelang-2026-01-28-main",
+    "event_date": "2026-01-28",
+    "admin_level": "regency",
+    "admin_code": "33.71",
+    "location_label": "Kota Magelang",
+    "source_name": "Magelang Ekspres",
+    "source_url": "https://example.com/jateng-magelang-main",
+    "source_date": "2026-01-28",
+    "headline": "Magelang flood prompts limited evacuation near overflow channels",
+    "summary": "Banjir di Magelang menyebabkan genangan permukiman dan evakuasi terbatas pada rumah yang berada dekat saluran meluap.",
+    "summary_id": "Banjir di Magelang menyebabkan genangan permukiman dan evakuasi terbatas pada rumah yang berada dekat saluran meluap.",
+    "summary_en": "Flooding in Magelang caused residential inundation and limited evacuation from homes near overflowing channels.",
+    "media_type": "article",
+    "media_url": "https://example.com/jateng-magelang-main.jpg",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "evacuation",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jateng-magelang-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jatim-probolinggo-2026-01-22-main",
+    "event_date": "2026-01-22",
+    "admin_level": "regency",
+    "admin_code": "35.74",
+    "location_label": "Kota Probolinggo",
+    "source_name": "Memo X",
+    "source_url": "https://example.com/jatim-probolinggo-main",
+    "source_date": "2026-01-22",
+    "headline": "Probolinggo flood causes minor coastal road-access damage",
+    "summary": "Banjir di Probolinggo menyebabkan genangan kawasan permukiman pesisir dan kerusakan ringan pada akses jalan lingkungan.",
+    "summary_id": "Banjir di Probolinggo menyebabkan genangan kawasan permukiman pesisir dan kerusakan ringan pada akses jalan lingkungan.",
+    "summary_en": "Flooding in Probolinggo caused inundation in coastal residential areas and minor damage to neighborhood road access.",
+    "media_type": "article",
+    "media_url": "https://example.com/jatim-probolinggo-main.jpg",
+    "claim_type": "damage",
+    "impact_tags": [
+      "road_damage",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jatim-probolinggo-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "event_id": "jateng-semarang-2026-01-09-main",
+    "event_date": "2026-01-09",
+    "admin_level": "regency",
+    "admin_code": "33.74",
+    "location_label": "Kota Semarang",
+    "source_name": "Suara Merdeka",
+    "source_url": "https://example.com/jateng-semarang-main",
+    "source_date": "2026-01-09",
+    "headline": "Semarang flood affects coastal corridors",
+    "summary": "Banjir di Kota Semarang memicu genangan jalan dan gangguan akses pada koridor pesisir utama.",
+    "summary_id": "Banjir di Kota Semarang memicu genangan jalan dan gangguan akses pada koridor pesisir utama.",
+    "summary_en": "Flooding in Semarang caused road inundation and access disruption along major coastal corridors.",
+    "media_type": "article",
+    "media_url": "https://example.com/jateng-semarang-main.jpg",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "road_closure",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jateng-semarang-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  },
+  {
+    "event_id": "sem_004",
+    "event_date": "2024-01-03",
+    "admin_level": "regency",
+    "admin_code": "33.74",
+    "location_label": "Kota Semarang",
+    "source_name": "Tempo",
+    "source_url": "https://nasional.tempo.co/read/1814674/banjir-semarang-jalan-pantura-kaligawe-lumpuh-akibat-rendaman-air",
+    "source_date": "regency-01",
+    "headline": "news",
+    "summary": "Jalur Pantura di Kaligawe dan Terboyo lumpuh total direndam air 60 cm menyusul hujan badai",
+    "summary_id": "Jalur Pantura di Kaligawe dan Terboyo lumpuh total direndam air 60 cm menyusul hujan badai",
+    "summary_en": " mengunci arus logistik dan mobilitas.",
+    "media_type": "video",
+    "media_url": "https://www.youtube.com/embed/I0h5uVRQHmI",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "2024-01-03"
+    ],
+    "canonical_event_group": "ceg-33-74-2024-01-sem_004",
+    "period_start": "2024-01-01",
+    "period_end": "2024-01-01",
+    "supporting_records": []
+  }
+]

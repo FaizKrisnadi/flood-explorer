@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jawa_barat-kabupaten_cianjur-2026-01-10-main",
+    "event_date": "2026-01-10",
+    "admin_level": "regency",
+    "admin_code": "32.03",
+    "location_label": "Kabupaten Cianjur",
+    "source_name": "Pikiran Rakyat Jabar",
+    "source_url": "https://example.com/jawa_barat__kabupaten_cianjur-main",
+    "source_date": "2026-01-10",
+    "headline": "Kabupaten Cianjur flood update for January 2026",
+    "summary": "Banjir di Kabupaten Cianjur prompted limited evacuation in low-lying neighborhoods selama periode peninjauan terbatas.",
+    "summary_id": "Banjir di Kabupaten Cianjur prompted limited evacuation in low-lying neighborhoods selama periode peninjauan terbatas.",
+    "summary_en": "Flooding in Kabupaten Cianjur prompted limited evacuation in low-lying neighborhoods during the bounded review window.",
+    "media_type": "article",
+    "media_url": "https://example.com/jawa_barat__kabupaten_cianjur-main.jpg",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "evacuation",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jawa_barat__kabupaten_cianjur-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

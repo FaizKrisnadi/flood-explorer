@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jateng-tegal-2026-01-24-main",
+    "event_date": "2026-01-24",
+    "admin_level": "regency",
+    "admin_code": "33.76",
+    "location_label": "Kota Tegal",
+    "source_name": "Pantura Post",
+    "source_url": "https://example.com/jateng-tegal-main",
+    "source_date": "2026-01-24",
+    "headline": "Tegal flood causes minor neighborhood road damage",
+    "summary": "Banjir di Tegal menyebabkan genangan di jalan lingkungan padat dan kerusakan ringan pada akses permukiman.",
+    "summary_id": "Banjir di Tegal menyebabkan genangan di jalan lingkungan padat dan kerusakan ringan pada akses permukiman.",
+    "summary_en": "Flooding in Tegal caused inundation on dense neighborhood roads and minor damage to residential access routes.",
+    "media_type": "article",
+    "media_url": "https://example.com/jateng-tegal-main.jpg",
+    "claim_type": "damage",
+    "impact_tags": [
+      "road_damage",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jateng-tegal-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

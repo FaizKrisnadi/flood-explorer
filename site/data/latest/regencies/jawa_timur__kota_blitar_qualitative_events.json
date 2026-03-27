@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jatim-blitar-2026-01-27-main",
+    "event_date": "2026-01-27",
+    "admin_level": "regency",
+    "admin_code": "35.72",
+    "location_label": "Kota Blitar",
+    "source_name": "Kawentar",
+    "source_url": "https://example.com/jatim-blitar-main",
+    "source_date": "2026-01-27",
+    "headline": "Blitar flood delays classes near affected school areas",
+    "summary": "Banjir di Blitar menyebabkan genangan di kawasan sekolah dan menunda kegiatan belajar pada beberapa lokasi terdampak.",
+    "summary_id": "Banjir di Blitar menyebabkan genangan di kawasan sekolah dan menunda kegiatan belajar pada beberapa lokasi terdampak.",
+    "summary_en": "Flooding in Blitar caused inundation near school areas and delayed classes at several affected sites.",
+    "media_type": "article",
+    "media_url": "https://example.com/jatim-blitar-main.jpg",
+    "claim_type": "school_closure",
+    "impact_tags": [
+      "school_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jatim-blitar-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

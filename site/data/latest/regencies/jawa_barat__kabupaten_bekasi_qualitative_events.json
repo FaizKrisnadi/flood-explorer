@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jawa_barat-kabupaten_bekasi-2026-01-03-main",
+    "event_date": "2026-01-03",
+    "admin_level": "regency",
+    "admin_code": "32.16",
+    "location_label": "Kabupaten Bekasi",
+    "source_name": "Pikiran Rakyat Jabar",
+    "source_url": "https://example.com/jawa_barat__kabupaten_bekasi-main",
+    "source_date": "2026-01-03",
+    "headline": "Kabupaten Bekasi flood update for January 2026",
+    "summary": "Banjir di Kabupaten Bekasi disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
+    "summary_id": "Banjir di Kabupaten Bekasi disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
+    "summary_en": "Flooding in Kabupaten Bekasi disrupted local drainage and neighborhood services during the bounded review window.",
+    "media_type": "article",
+    "media_url": "https://example.com/jawa_barat__kabupaten_bekasi-main.jpg",
+    "claim_type": "service_disruption",
+    "impact_tags": [
+      "service_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jawa_barat__kabupaten_bekasi-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

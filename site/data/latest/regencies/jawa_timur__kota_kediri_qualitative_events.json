@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jatim-kediri-2026-01-16-main",
+    "event_date": "2026-01-16",
+    "admin_level": "regency",
+    "admin_code": "35.71",
+    "location_label": "Kota Kediri",
+    "source_name": "Radar Kediri",
+    "source_url": "https://example.com/jatim-kediri-main",
+    "source_date": "2026-01-16",
+    "headline": "Kediri flood disrupts drainage service in dense neighborhoods",
+    "summary": "Banjir di Kediri menyebabkan genangan permukiman dan gangguan layanan drainase pada beberapa lingkungan padat.",
+    "summary_id": "Banjir di Kediri menyebabkan genangan permukiman dan gangguan layanan drainase pada beberapa lingkungan padat.",
+    "summary_en": "Flooding in Kediri caused residential inundation and drainage service disruption in several dense neighborhoods.",
+    "media_type": "article",
+    "media_url": "https://example.com/jatim-kediri-main.jpg",
+    "claim_type": "service_disruption",
+    "impact_tags": [
+      "service_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jatim-kediri-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

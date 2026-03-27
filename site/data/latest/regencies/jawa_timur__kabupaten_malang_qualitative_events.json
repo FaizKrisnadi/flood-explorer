@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jawa_timur-kabupaten_malang-2026-01-06-main",
+    "event_date": "2026-01-06",
+    "admin_level": "regency",
+    "admin_code": "35.07",
+    "location_label": "Kabupaten Malang",
+    "source_name": "Jawa Pos",
+    "source_url": "https://example.com/jawa_timur__kabupaten_malang-main",
+    "source_date": "2026-01-06",
+    "headline": "Kabupaten Malang flood update for January 2026",
+    "summary": "Banjir di Kabupaten Malang delayed classes near affected school areas selama periode peninjauan terbatas.",
+    "summary_id": "Banjir di Kabupaten Malang delayed classes near affected school areas selama periode peninjauan terbatas.",
+    "summary_en": "Flooding in Kabupaten Malang delayed classes near affected school areas during the bounded review window.",
+    "media_type": "article",
+    "media_url": "https://example.com/jawa_timur__kabupaten_malang-main.jpg",
+    "claim_type": "school_closure",
+    "impact_tags": [
+      "school_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jawa_timur__kabupaten_malang-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]

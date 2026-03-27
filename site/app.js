@@ -8,6 +8,8 @@ const state = {
   manifest: null,
   coverageReport: null,
   methodology: null,
+  qualitativeStore: null,
+  evidenceIndex: null,
   searchIndex: [],
   adminByCode: new Map(),
   currentLevel: "province",
@@ -23,6 +25,7 @@ const state = {
   summaryCache: new Map(),
   monthCache: new Map(),
   trendCache: new Map(),
+  evidenceCache: new Map(),
   translations: new Map(),
   map: null,
   popup: null,
@@ -40,11 +43,14 @@ const state = {
   sidebarTouched: false,
   allMonths: [],
   renderVersion: 0,
+  qualitativeRouteOpen: false,
+  qualitativeSidebarFocusPending: false,
+  suppressRouteSync: false,
 };
 
 /* ─── Choropleth colour ramp (YlOrRd inspired, warm palette) ─── */
 const COLOR_STEPS = ["#fef9c3", "#fde68a", "#f59e0b", "#b45309", "#78350f", "#451a03"];
-const APP_ASSET_VERSION = "20260317d";
+const APP_ASSET_VERSION = "20260327e";
 
 /* ─── DOM refs ─── */
 const levelSelect = document.querySelector("#level-select");
@@ -75,6 +81,39 @@ const selectionPeriod = document.querySelector("#selection-period");
 const selectionLevelBadge = document.querySelector("#selection-level-badge");
 const trendEmpty = document.querySelector("#trend-empty");
 const trendPeriod = document.querySelector("#trend-period");
+const evidenceSection = document.querySelector("#evidence-section");
+const evidenceEmpty = document.querySelector("#evidence-empty");
+const evidencePanel = document.querySelector("#evidence-panel");
+const evidenceMonth = document.querySelector("#evidence-month");
+const evidenceGapSignal = document.querySelector("#evidence-gap-signal");
+const evidenceWindowNote = document.querySelector("#evidence-window-note");
+const evidenceNote = document.querySelector("#evidence-note");
+const evidenceGapContext = document.querySelector("#evidence-gap-context");
+const evidenceInternalScore = document.querySelector("#evidence-internal-score");
+const evidenceSourceLabel = document.querySelector("#evidence-source-label");
+const evidenceSourceInfo = document.querySelector("#evidence-source-info");
+const evidenceExternalScore = document.querySelector("#evidence-external-score");
+
+// Qualitative DOM
+const qualitativeSection = document.querySelector("#qualitative-section");
+const qualitativeIntro = document.querySelector("#qualitative-intro");
+const qualitativeEmpty = document.querySelector("#qualitative-empty");
+const qualitativePanel = document.querySelector("#qualitative-panel");
+const qualitativePeriod = document.querySelector("#qualitative-period");
+const qualitativeStateBadge = document.querySelector("#qualitative-state-badge");
+const qualitativeStateNote = document.querySelector("#qualitative-state-note");
+const qualitativeDate = document.querySelector("#qualitative-date");
+const qualitativeSourceName = document.querySelector("#qualitative-source-name");
+const qualitativeLocation = document.querySelector("#qualitative-location");
+const qualitativeHeadline = document.querySelector("#qualitative-headline");
+const qualitativeSummary = document.querySelector("#qualitative-summary");
+const qualitativeMedia = document.querySelector("#qualitative-media");
+const qualitativeTags = document.querySelector("#qualitative-tags");
+const qualitativeSourceLink = document.querySelector("#qualitative-source-link");
+const qualitativeRelatedSection = document.querySelector("#qualitative-related-section");
+const qualitativeRelatedCount = document.querySelector("#qualitative-related-count");
+const qualitativeRelatedList = document.querySelector("#qualitative-related-list");
+
 const mapLegend = document.querySelector("#map-legend");
 const mapTitle = document.querySelector("#map-title");
 const mapNote = document.querySelector("#map-note");
@@ -90,6 +129,8 @@ const statDateWindow = document.querySelector("#stat-date-window");
 const timelineFromLabel = document.querySelector("#timeline-from-label");
 const timelineToLabel = document.querySelector("#timeline-to-label");
 const timelineFill = document.querySelector("#timeline-fill");
+const trendSectionTitle = document.querySelector("#trend-section-title");
+const evidenceSectionTitle = document.querySelector("#evidence-section-title");
 const mobileViewport = window.matchMedia("(max-width: 768px)");
 const statAnimationFrames = new WeakMap();
 const customSelectControls = new Map();
@@ -115,6 +156,36 @@ const BOUNDARY_PAINT_PROFILES = {
 };
 const SIDEBAR_TRANSITION_MS = 170;
 let sidebarResizeTimer = null;
+const TREND_HIGHLIGHT_PLUGIN = {
+  id: "trendHighlight",
+  afterDatasetsDraw(chart, _args, options) {
+    const highlightedMonth = options?.highlightedMonth;
+    if (!highlightedMonth) return;
+    const labels = chart.data.labels || [];
+    const index = labels.findIndex((label) => label?.slice?.(0, 7) === highlightedMonth);
+    if (index < 0) return;
+
+    const { ctx, chartArea, scales } = chart;
+    const x = scales.x.getPixelForValue(index);
+    if (!Number.isFinite(x)) return;
+    const y = scales.y.getPixelForValue(chart.data.datasets?.[0]?.data?.[index] || 0);
+
+    ctx.save();
+    ctx.strokeStyle = "rgba(10, 132, 255, 0.42)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(x, chartArea.top);
+    ctx.lineTo(x, chartArea.bottom);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "#0a84ff";
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  },
+};
 
 /* ─── Utilities ─── */
 async function loadJson(path) {
@@ -143,6 +214,657 @@ function t(key) {
   return state.translations.get(state.language)?.[key] || key;
 }
 
+function formatTemplate(key, values = {}) {
+  return Object.entries(values).reduce(
+    (message, [token, value]) => message.replaceAll(`{${token}}`, value),
+    t(key)
+  );
+}
+
+function normalizeAssetPath(path) {
+  if (!path || typeof path !== "string") return "";
+  return path.replace(/^\.\//, "").replace(/^data\/latest\//, "");
+}
+
+function createEmptyQualitativeStore() {
+  return {
+    config: null,
+    global: { events: [], states: [] },
+    regencyIndexByCode: new Map(),
+    regencyIndexBySlug: new Map(),
+    regencyBundleCache: new Map(),
+  };
+}
+
+function normalizeQualitativeConfig() {
+  const config = state.manifest?.qualitative || {};
+  return {
+    globalEventsPath: normalizeAssetPath(config.global_events_path || "qualitative_events.json"),
+    globalStatesPath: normalizeAssetPath(config.global_states_path || "geography_review_states.json"),
+    regencyIndexPath: normalizeAssetPath(config.regency_index_path || "regencies/index.json"),
+    regencyAssetsBasePath: normalizeAssetPath(config.regency_assets_base_path || "regencies"),
+    supportedLevels: Array.isArray(config.supported_levels) ? config.supported_levels : ["province", "regency", "district"],
+    routeVersion: config.route_version || "v1",
+  };
+}
+
+function normalizeQualitativeEvent(event) {
+  return {
+    adminCode: event.admin_code || "",
+    adminLevel: event.admin_level || "",
+    canonicalEventGroup: event.canonical_event_group || "",
+    claimType: event.claim_type || "",
+    eventDate: event.event_date || "",
+    eventId: event.event_id || "",
+    headline: event.headline || "",
+    impactTags: Array.isArray(event.impact_tags) ? event.impact_tags.filter(Boolean) : [],
+    locationLabel: event.location_label || "",
+    mediaType: event.media_type || "",
+    mediaUrl: event.media_url || "",
+    sourceName: event.source_name || "",
+    sourceUrl: event.source_url || "",
+    summaryId: event.summary_id || "",
+    summaryEn: event.summary_en || "",
+    supportingRecords: Array.isArray(event.supporting_records)
+      ? event.supporting_records.map((record) => ({
+          kind: "supporting",
+          claimType: record.claim_type || "",
+          eventId: record.event_id || "",
+          headline: record.headline || "",
+          mediaType: record.media_type || "",
+          mediaUrl: record.media_url || "",
+          sourceDate: record.source_date || "",
+          sourceName: record.source_name || "",
+          sourceUrl: record.source_url || "",
+        }))
+      : [],
+  };
+}
+
+function normalizeQualitativeState(entry) {
+  return {
+    adminCode: entry.admin_code || "",
+    adminLevel: entry.admin_level || "",
+    featuredEventId: entry.featured_event_id || "",
+    geographyPeriodId: entry.geography_period_id || "",
+    periodStart: entry.period_start || "",
+    periodEnd: entry.period_end || "",
+    publicState: entry.public_state || "",
+    reviewStatusRollup: entry.review_status_rollup || "",
+    reviewedAt: entry.reviewed_at || "",
+    supportingEventCount: Number(entry.supporting_event_count || 0),
+  };
+}
+
+function normalizeRegencyIndex(rawIndex) {
+  const rows = Array.isArray(rawIndex)
+    ? rawIndex
+    : Object.entries(rawIndex || {}).map(([adminCode, entry]) => ({
+        admin_code: adminCode,
+        admin_level: "regency",
+        province_code: adminCode.split(".")[0] || "",
+        slug: entry.slug || "",
+        events_path: entry.events_path || "",
+        states_path: entry.states_path || "",
+        updated_at: entry.updated_at || "",
+        public_state_summary: entry.public_state_summary || "",
+      }));
+
+  return rows
+    .filter((entry) => entry?.admin_code)
+    .map((entry) => ({
+      adminCode: entry.admin_code,
+      adminLevel: entry.admin_level || "regency",
+      provinceCode: entry.province_code || entry.admin_code.split(".")[0] || "",
+      slug: entry.slug || "",
+      eventsPath: normalizeAssetPath(entry.events_path || ""),
+      statesPath: normalizeAssetPath(entry.states_path || ""),
+      updatedAt: entry.updated_at || "",
+      publicStateSummary: entry.public_state_summary || "",
+    }));
+}
+
+async function loadQualitativeStore() {
+  const store = createEmptyQualitativeStore();
+  const config = normalizeQualitativeConfig();
+  store.config = config;
+
+  try {
+    const globalEvents = await loadJson(`./data/latest/${config.globalEventsPath}`);
+    store.global.events = Array.isArray(globalEvents) ? globalEvents.map(normalizeQualitativeEvent) : [];
+  } catch (error) {
+    console.warn("Global qualitative events were not available", error);
+  }
+
+  try {
+    const globalStates = await loadJson(`./data/latest/${config.globalStatesPath}`);
+    store.global.states = Array.isArray(globalStates) ? globalStates.map(normalizeQualitativeState) : [];
+  } catch (error) {
+    console.warn("Global qualitative states were not available", error);
+  }
+
+  try {
+    const regencyIndex = await loadJson(`./data/latest/${config.regencyIndexPath}`);
+    normalizeRegencyIndex(regencyIndex).forEach((entry) => {
+      store.regencyIndexByCode.set(entry.adminCode, entry);
+      if (entry.slug) store.regencyIndexBySlug.set(entry.slug, entry);
+    });
+  } catch (error) {
+    console.warn("Regency qualitative index was not available", error);
+  }
+
+  return store;
+}
+
+async function loadRegencyQualitativeBundle(adminCode) {
+  const store = state.qualitativeStore;
+  if (!store?.regencyIndexByCode.has(adminCode)) return null;
+  if (store.regencyBundleCache.has(adminCode)) {
+    return store.regencyBundleCache.get(adminCode);
+  }
+
+  const entry = store.regencyIndexByCode.get(adminCode);
+  try {
+    const [events, states] = await Promise.all([
+      loadJson(`./data/latest/${entry.eventsPath}`),
+      loadJson(`./data/latest/${entry.statesPath}`),
+    ]);
+    const bundle = {
+      entry,
+      events: Array.isArray(events) ? events.map(normalizeQualitativeEvent) : [],
+      states: Array.isArray(states) ? states.map(normalizeQualitativeState) : [],
+    };
+    store.regencyBundleCache.set(adminCode, bundle);
+    return bundle;
+  } catch (error) {
+    console.warn("Failed to load regency qualitative bundle", adminCode, error);
+    store.regencyBundleCache.set(adminCode, null);
+    return null;
+  }
+}
+
+function monthTokenForDate(dateValue) {
+  return typeof dateValue === "string" ? dateValue.slice(0, 7) : "";
+}
+
+function monthInActiveRange(month) {
+  if (!month) return false;
+  if (state.currentDateFrom && month < state.currentDateFrom) return false;
+  if (state.currentDateTo && month > state.currentDateTo) return false;
+  return true;
+}
+
+function sortQualitativeEvents(left, right) {
+  if ((right.mediaUrl ? 1 : 0) !== (left.mediaUrl ? 1 : 0)) {
+    return (right.mediaUrl ? 1 : 0) - (left.mediaUrl ? 1 : 0);
+  }
+  if (right.eventDate !== left.eventDate) {
+    return (right.eventDate || "").localeCompare(left.eventDate || "");
+  }
+  return (right.eventId || "").localeCompare(left.eventId || "");
+}
+
+function sortQualitativeStates(left, right) {
+  if (right.periodStart !== left.periodStart) {
+    return (right.periodStart || "").localeCompare(left.periodStart || "");
+  }
+  return (right.reviewedAt || "").localeCompare(left.reviewedAt || "");
+}
+
+function humanizeClaimType(claimType) {
+  if (!claimType) return "";
+  return claimType.replaceAll("_", " ");
+}
+
+function summarizeStateForDisplay(publicState) {
+  if (!publicState) return "";
+  return t(`qualitative.state.${publicState}`);
+}
+
+function describeStateForDisplay(publicState) {
+  if (!publicState) return "";
+  return t(`qualitative.state_note.${publicState}`);
+}
+
+function emptyMessageForQualitative(publicState) {
+  if (publicState === "not_reviewed_yet") return t("qualitative.empty.not_reviewed_yet");
+  if (publicState === "reviewed_but_no_publishable_report") {
+    return t("qualitative.empty.reviewed_but_no_publishable_report");
+  }
+  return t("qualitative.empty.none_available");
+}
+
+function createRelatedRecordItems(events) {
+  const items = [];
+  events.slice(1).forEach((event) => {
+    items.push({
+      kind: "event",
+      badgeKey: "qualitative.additional_label",
+      eventId: event.eventId,
+      headline: event.headline,
+      mediaType: event.mediaType,
+      mediaUrl: event.mediaUrl,
+      sourceDate: event.eventDate,
+      sourceName: event.sourceName,
+      sourceUrl: event.sourceUrl,
+      summaryId: event.summaryId,
+      summaryEn: event.summaryEn,
+      locationLabel: event.locationLabel,
+      impactTags: event.impactTags,
+      claimType: event.claimType,
+    });
+  });
+  events.forEach((event) => {
+    event.supportingRecords.forEach((record) => {
+      items.push({
+        kind: "supporting",
+        badgeKey: "qualitative.supporting_label",
+        eventId: record.eventId,
+        headline: record.headline,
+        mediaType: record.mediaType,
+        mediaUrl: record.mediaUrl,
+        sourceDate: record.sourceDate,
+        sourceName: record.sourceName,
+        sourceUrl: record.sourceUrl,
+        summaryId: "",
+        summaryEn: "",
+        locationLabel: event.locationLabel,
+        impactTags: [],
+        claimType: record.claimType,
+      });
+    });
+  });
+  return items.sort((left, right) => (right.sourceDate || "").localeCompare(left.sourceDate || ""));
+}
+
+function deriveRangeState(events, states, relatedCount) {
+  if (events.length) {
+    return relatedCount > 0 ? "has_featured_report_and_more" : "has_featured_report_only";
+  }
+  if (!states.length) return "";
+  return states[0].publicState || "";
+}
+
+function buildQualitativeSummary(events, states, sourceMeta = {}) {
+  const sortedEvents = [...events].sort(sortQualitativeEvents);
+  const sortedStates = [...states].sort(sortQualitativeStates);
+  const relatedItems = createRelatedRecordItems(sortedEvents);
+  const featuredEvent = sortedEvents[0] || null;
+  const publicState = deriveRangeState(sortedEvents, sortedStates, relatedItems.length);
+
+  return {
+    hasData: Boolean(sortedEvents.length || sortedStates.length || sourceMeta.indexEntry),
+    featuredEvent,
+    relatedItems,
+    publicState,
+    stateNote: describeStateForDisplay(publicState),
+    stateLabel: summarizeStateForDisplay(publicState),
+    displayWindow:
+      state.currentDateFrom && state.currentDateTo && state.currentDateFrom !== state.currentDateTo
+        ? `${formatMonthLabel(state.currentDateFrom)} – ${formatMonthLabel(state.currentDateTo)}`
+        : state.currentDateFrom
+          ? formatMonthLabel(state.currentDateFrom)
+          : t("selection.all_time"),
+    sourceMeta,
+  };
+}
+
+function parseYouTubeEmbedUrl(url) {
+  if (!url) return "";
+  try {
+    const parsed = new URL(url, window.location.origin);
+    const host = parsed.hostname.replace(/^www\./, "");
+    let videoId = "";
+
+    if (host === "youtu.be") {
+      videoId = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    } else if (host === "youtube.com" || host === "m.youtube.com" || host === "youtube-nocookie.com") {
+      if (parsed.pathname === "/watch") {
+        videoId = parsed.searchParams.get("v") || "";
+      } else if (parsed.pathname.startsWith("/embed/")) {
+        videoId = parsed.pathname.split("/")[2] || "";
+      } else if (parsed.pathname.startsWith("/shorts/") || parsed.pathname.startsWith("/live/")) {
+        videoId = parsed.pathname.split("/")[2] || "";
+      }
+    }
+
+    if (!videoId) return "";
+    return `https://www.youtube-nocookie.com/embed/${videoId}`;
+  } catch {
+    return "";
+  }
+}
+
+function looksLikeImageUrl(url) {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url, window.location.origin);
+    return /\.(avif|gif|jpe?g|png|webp)$/i.test(parsed.pathname);
+  } catch {
+    return /\.(avif|gif|jpe?g|png|webp)$/i.test(url);
+  }
+}
+
+function normalizeMediaCandidate(mediaType, mediaUrl, sourceUrl = "") {
+  const youtubeEmbedUrl = parseYouTubeEmbedUrl(mediaUrl) || parseYouTubeEmbedUrl(sourceUrl);
+  if (youtubeEmbedUrl) {
+    return { kind: "video", url: youtubeEmbedUrl };
+  }
+
+  if (!mediaUrl) {
+    return { kind: "", url: "" };
+  }
+
+  if (mediaType === "video") {
+    return { kind: "link", url: mediaUrl };
+  }
+
+  if (looksLikeImageUrl(mediaUrl)) {
+    return { kind: "image", url: mediaUrl };
+  }
+
+  if (mediaType === "article" || mediaType === "report" || mediaType === "post") {
+    return { kind: "link", url: sourceUrl || mediaUrl };
+  }
+
+  return { kind: "link", url: sourceUrl || mediaUrl };
+}
+
+function resolveQualitativeMedia(event) {
+  if (!event) return { kind: "", url: "" };
+
+  const primaryCandidate = normalizeMediaCandidate(event.mediaType, event.mediaUrl, event.sourceUrl);
+  if (primaryCandidate.kind === "video") return primaryCandidate;
+
+  const supportingRecords = Array.isArray(event.supportingRecords) ? event.supportingRecords : [];
+  const supportingCandidates = supportingRecords
+    .map((record) => normalizeMediaCandidate(record.mediaType, record.mediaUrl, record.sourceUrl))
+    .filter((candidate) => candidate.url);
+
+  const supportingVideo = supportingCandidates.find((candidate) => candidate.kind === "video");
+  if (supportingVideo) return supportingVideo;
+
+  if (primaryCandidate.url) return primaryCandidate;
+  return supportingCandidates[0] || { kind: "", url: "" };
+}
+
+async function getQualitativeSummaryForGeography(level, code) {
+  if (!level || !code || !state.qualitativeStore?.config?.supportedLevels?.includes(level)) {
+    return { hasData: false, featuredEvent: null, relatedItems: [], publicState: "", stateNote: "", stateLabel: "", displayWindow: "", sourceMeta: {} };
+  }
+
+  let events = state.qualitativeStore.global.events.filter(
+    (event) => event.adminLevel === level && event.adminCode === code && monthInActiveRange(monthTokenForDate(event.eventDate))
+  );
+  let states = state.qualitativeStore.global.states.filter((entry) => {
+    if (entry.adminLevel !== level || entry.adminCode !== code) return false;
+    return monthInActiveRange(monthTokenForDate(entry.periodStart)) || monthInActiveRange(monthTokenForDate(entry.periodEnd));
+  });
+
+  const sourceMeta = {
+    indexEntry: null,
+    bundleLoaded: false,
+  };
+
+  if (level === "regency") {
+    sourceMeta.indexEntry = state.qualitativeStore.regencyIndexByCode.get(code) || null;
+    if (sourceMeta.indexEntry) {
+      const bundle = await loadRegencyQualitativeBundle(code);
+      if (bundle) {
+        sourceMeta.bundleLoaded = true;
+        events = bundle.events.filter(
+          (event) => event.adminCode === code && monthInActiveRange(monthTokenForDate(event.eventDate))
+        );
+        states = bundle.states.filter((entry) => {
+          if (entry.adminCode !== code) return false;
+          return monthInActiveRange(monthTokenForDate(entry.periodStart)) || monthInActiveRange(monthTokenForDate(entry.periodEnd));
+        });
+      }
+    }
+  }
+
+  return buildQualitativeSummary(events, states, sourceMeta);
+}
+
+function buildQualitativeMedia(node, media, altText) {
+  node.innerHTML = "";
+  if (!media?.url) {
+    node.classList.add("is-hidden");
+    return;
+  }
+
+  if (media.kind === "link") {
+    const anchor = document.createElement("a");
+    anchor.href = media.url;
+    anchor.target = "_blank";
+    anchor.rel = "noreferrer";
+    anchor.className = "source-link";
+    anchor.textContent = t("qualitative.open_media");
+    node.append(anchor);
+  } else if (media.kind === "video") {
+    const iframe = document.createElement("iframe");
+    iframe.src = media.url;
+    iframe.className = "qualitative-video";
+    iframe.title = altText || "Qualitative report video";
+    iframe.loading = "lazy";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.setAttribute("allowfullscreen", "true");
+    iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute(
+      "allow",
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    );
+    node.append(iframe);
+  } else {
+    const image = document.createElement("img");
+    image.src = media.url;
+    image.alt = altText || "Qualitative report media";
+    image.className = "qualitative-image";
+    node.append(image);
+  }
+
+  node.classList.remove("is-hidden");
+}
+
+function populateTagContainer(node, tags) {
+  node.innerHTML = "";
+  const normalizedTags = Array.isArray(tags) ? tags.filter(Boolean) : [];
+  node.classList.toggle("is-hidden", normalizedTags.length === 0);
+  normalizedTags.forEach((tag) => {
+    const pill = document.createElement("span");
+    pill.className = "tag-pill";
+    pill.textContent = humanizeClaimType(tag);
+    node.append(pill);
+  });
+}
+
+function createQualitativeRelatedItem(item) {
+  const article = document.createElement("article");
+  article.className = "qualitative-related-item";
+
+  const topline = document.createElement("div");
+  topline.className = "qualitative-related-topline";
+
+  const badge = document.createElement("span");
+  badge.className = "period-badge";
+  badge.textContent = t(item.badgeKey);
+  topline.append(badge);
+
+  if (item.sourceDate) {
+    const date = document.createElement("span");
+    date.className = "qualitative-related-date";
+    date.textContent = formatFullDateLabel(item.sourceDate);
+    topline.append(date);
+  }
+
+  const headline = document.createElement("strong");
+  headline.className = "qualitative-related-headline";
+  headline.textContent = item.headline || item.locationLabel || item.eventId;
+
+  const meta = document.createElement("p");
+  meta.className = "text-muted qualitative-related-meta";
+  meta.textContent = [item.sourceName, humanizeClaimType(item.claimType)].filter(Boolean).join(" · ");
+
+  article.append(topline, headline, meta);
+
+  const summaryText =
+    state.language === "id" ? item.summaryId || item.summaryEn : item.summaryEn || item.summaryId;
+  if (summaryText) {
+    const summary = document.createElement("p");
+    summary.className = "qualitative-related-summary";
+    summary.textContent = summaryText;
+    article.append(summary);
+  }
+
+  if (item.sourceUrl) {
+    const link = document.createElement("a");
+    link.href = item.sourceUrl;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.className = "source-link";
+    link.textContent = t("qualitative.source");
+    article.append(link);
+  }
+
+  return article;
+}
+
+function setQualitativeRouteOpen(nextValue) {
+  state.qualitativeRouteOpen = Boolean(nextValue && state.currentLevel === "regency" && state.selectedCode);
+}
+
+function queueQualitativeSidebarFocus() {
+  state.qualitativeSidebarFocusPending = true;
+}
+
+function focusQualitativeSidebarSection() {
+  if (!qualitativeSection) return;
+  if (state.sidebarCollapsed) {
+    setSidebarCollapsed(false);
+  }
+  requestAnimationFrame(() => {
+    qualitativeSection.scrollIntoView({
+      block: "start",
+      behavior: mobileViewport.matches ? "auto" : "smooth",
+    });
+  });
+}
+
+function buildRouteUrl() {
+  const url = new URL(window.location.href);
+  url.search = "";
+  if (state.language && state.language !== (state.manifest?.default_language || "id")) {
+    url.searchParams.set("lang", state.language);
+  }
+  if (state.currentLevel && state.currentLevel !== (state.manifest?.default_level || "province")) {
+    url.searchParams.set("level", state.currentLevel);
+  }
+  if (state.selectedCode) {
+    url.searchParams.set("code", state.selectedCode);
+  }
+  if (state.currentDateFrom) {
+    url.searchParams.set("from", state.currentDateFrom);
+  }
+  if (state.currentDateTo) {
+    url.searchParams.set("to", state.currentDateTo);
+  }
+  if (state.qualitativeRouteOpen) {
+    url.searchParams.set("view", "qualitative");
+  }
+  return url;
+}
+
+function syncRouteState({ replace = false } = {}) {
+  if (state.suppressRouteSync) return;
+  const url = buildRouteUrl();
+  const next = `${url.pathname}${url.search}${url.hash}`;
+  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  if (next === current) return;
+  const method = replace ? "replaceState" : "pushState";
+  window.history[method]({}, "", next);
+}
+
+function applyRouteStateFromUrl() {
+  const url = new URL(window.location.href);
+  const requestedLanguage = url.searchParams.get("lang");
+  const requestedLevel = url.searchParams.get("level");
+  const requestedCode = url.searchParams.get("code");
+  const requestedFrom = url.searchParams.get("from");
+  const requestedTo = url.searchParams.get("to");
+  const requestedView = url.searchParams.get("view");
+
+  state.currentLevel = state.manifest?.default_level || state.currentLevel;
+  state.selectedCode = null;
+  state.selectedFeature = null;
+  state.currentDateFrom = "";
+  state.currentDateTo = "";
+  state.qualitativeRouteOpen = false;
+  state.qualitativeSidebarFocusPending = false;
+
+  if (requestedLanguage && state.translations.has(requestedLanguage)) {
+    state.language = requestedLanguage;
+  } else {
+    state.language = state.manifest?.default_language || state.language;
+  }
+
+  if (requestedLevel && state.manifest?.available_levels?.includes(requestedLevel)) {
+    state.currentLevel = requestedLevel;
+  }
+  if (requestedCode) {
+    state.selectedCode = requestedCode;
+    state.selectedFeature = null;
+    state.pendingFit = "selection";
+  }
+  if (requestedFrom) state.currentDateFrom = requestedFrom;
+  if (requestedTo) state.currentDateTo = requestedTo;
+
+  if (requestedView === "qualitative" && state.currentLevel === "regency" && state.selectedCode) {
+    state.qualitativeRouteOpen = true;
+    state.qualitativeSidebarFocusPending = true;
+  }
+}
+
+function formatFullDateLabel(monthStart) {
+  if (!monthStart) return "—";
+  const date = new Date(monthStart);
+  const locale = state.language === "id" ? "id-ID" : "en-US";
+  return new Intl.DateTimeFormat(locale, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+function formatTrendAxisLabel(monthStart, index, total) {
+  if (!monthStart) return "";
+  const year = monthStart.slice(0, 4);
+  const step = Math.max(1, Math.ceil(total / 6));
+  if (index === 0 || index === total - 1 || index % step === 0) {
+    return year;
+  }
+  return "";
+}
+
+function levelLabelForEvidence() {
+  return t(`level.${state.currentLevel}`).toLowerCase();
+}
+
+function buildEvidenceExplanation(bundle) {
+  const { gap_signal: gapSignal, internal_score: internalScore, external_score: externalScore } = bundle.signals;
+  if (gapSignal !== "mixed") {
+    return t(`evidence.gap.note.${gapSignal}`);
+  }
+  const directionKey = internalScore >= externalScore ? "internal_higher" : "external_higher";
+  return t(`evidence.gap.note.mixed.${directionKey}`);
+}
+
+function buildEvidenceSourceTooltip(bundle) {
+  const sourceLabel = state.language === "id" ? bundle.source_label_id : bundle.source_label_en;
+  const vintage = state.language === "id" ? bundle.source_vintage_id : bundle.source_vintage_en;
+  const resolution = state.language === "id" ? bundle.source_resolution_id : bundle.source_resolution_en;
+  return [sourceLabel, vintage, resolution].filter(Boolean).join("\n");
+}
+
 /* ─── Boot ─── */
 async function boot() {
   await loadTranslations();
@@ -151,14 +873,19 @@ async function boot() {
   initSidebar();
   initTimeline();
   initPlayButton();
+  initQualitativeRoute();
+  applyRouteStateFromUrl();
+  if (levelSelect) levelSelect.value = state.currentLevel;
+  if (metricSelect) metricSelect.value = state.currentMetric;
+  syncCustomSelectValues();
   applyTranslations();
   initMap();
 }
 
 async function loadTranslations() {
   const [id, en] = await Promise.all([
-    loadJson("./translations/id.json"),
-    loadJson("./translations/en.json"),
+    loadJson(`./translations/id.json?v=${APP_ASSET_VERSION}`),
+    loadJson(`./translations/en.json?v=${APP_ASSET_VERSION}`),
   ]);
   state.translations.set("id", id);
   state.translations.set("en", en);
@@ -169,6 +896,9 @@ async function loadManifest() {
   state.coverageReport = await loadJson(`./data/latest/${state.manifest.coverage_report}`);
   state.methodology = await loadJson(`./data/latest/${state.manifest.methodology}`);
   state.searchIndex = await loadJson(`./data/latest/${state.manifest.search_index}`);
+  state.language = state.manifest.default_language || state.language;
+  state.qualitativeStore = await loadQualitativeStore();
+  state.evidenceIndex = null;
   const publishedLevels = (state.manifest.available_levels || Object.keys(state.manifest.metric_assets || {})).filter(
     (level) => state.manifest.metric_assets?.[level]
   );
@@ -186,6 +916,7 @@ async function loadManifest() {
 
 // Timeline Play logic
 let timelinePlayInterval = null;
+let timelineRenderTimeout = null;
 
 function initPlayButton() {
   const playBtn = document.getElementById("timeline-play");
@@ -200,6 +931,23 @@ function initPlayButton() {
       playTimeline();
     }
   });
+}
+
+function scheduleTimelineRender(immediate = false) {
+  if (timelineRenderTimeout) {
+    window.clearTimeout(timelineRenderTimeout);
+    timelineRenderTimeout = null;
+  }
+  const run = () => {
+    timelineRenderTimeout = null;
+    void renderExplorer();
+    syncRouteState();
+  };
+  if (immediate) {
+    run();
+    return;
+  }
+  timelineRenderTimeout = window.setTimeout(run, 80);
 }
 
 function playTimeline() {
@@ -278,6 +1026,34 @@ function initSidebar() {
   window.addEventListener("resize", handleResponsiveSidebarResize, { passive: true });
 }
 
+function initQualitativeRoute() {
+  window.addEventListener("popstate", async () => {
+    state.suppressRouteSync = true;
+    applyRouteStateFromUrl();
+    if (levelSelect) levelSelect.value = state.currentLevel;
+    syncCustomSelectValues();
+    document.querySelectorAll(".lang-btn").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.language === state.language);
+    });
+    applyTranslations();
+    syncTimelineSliders();
+    await renderExplorer();
+    state.suppressRouteSync = false;
+  });
+
+  mobileViewport.addEventListener("change", async () => {
+    state.suppressRouteSync = true;
+    if (mobileViewport.matches) {
+      setQualitativeRouteOpen(false);
+    } else if (state.currentLevel === "regency" && state.selectedCode) {
+      setQualitativeRouteOpen(true);
+    }
+    await renderExplorer();
+    syncRouteState({ replace: true });
+    state.suppressRouteSync = false;
+  });
+}
+
 function toggleSidebar() {
   state.sidebarTouched = true;
   setSidebarCollapsed(!state.sidebarCollapsed);
@@ -341,11 +1117,12 @@ function initTimeline() {
         if (timelineToLabel) timelineToLabel.textContent = formatMonthLabel(month);
       }
       updateTimelineFill();
+      scheduleTimelineRender();
     }
   });
 
   dateFromInput.addEventListener("change", async () => {
-    await renderExplorer();
+    scheduleTimelineRender(true);
   });
 
   dateToInput.addEventListener("input", () => {
@@ -362,11 +1139,12 @@ function initTimeline() {
         if (timelineFromLabel) timelineFromLabel.textContent = formatMonthLabel(month);
       }
       updateTimelineFill();
+      scheduleTimelineRender();
     }
   });
 
   dateToInput.addEventListener("change", async () => {
-    await renderExplorer();
+    scheduleTimelineRender(true);
   });
 }
 
@@ -740,6 +1518,7 @@ function initControls() {
   refreshControlLabels();
 
   document.querySelectorAll(".lang-btn").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.language === state.language);
     button.addEventListener("click", async () => {
       state.language = button.dataset.language;
       document.querySelectorAll(".lang-btn").forEach((item) =>
@@ -747,6 +1526,7 @@ function initControls() {
       );
       applyTranslations();
       await renderExplorer();
+      syncRouteState();
     });
   });
 
@@ -755,8 +1535,12 @@ function initControls() {
     state.selectedCode = null;
     state.selectedFeature = null;
     state.pendingFit = "level";
+    if (state.currentLevel !== "regency") {
+      setQualitativeRouteOpen(false);
+    }
     syncTimelineSliders();
     await renderExplorer();
+    syncRouteState();
   });
 
   metricSelect.addEventListener("change", async () => {
@@ -776,6 +1560,7 @@ function initControls() {
     state.currentBasemapMode = state.manifest.default_basemap_mode || "map";
     state.currentDateFrom = "";
     state.currentDateTo = "";
+    setQualitativeRouteOpen(false);
     levelSelect.value = state.currentLevel;
     metricSelect.value = state.currentMetric;
     syncCustomSelectValues();
@@ -787,6 +1572,7 @@ function initControls() {
     } else {
       await renderExplorer();
     }
+    syncRouteState();
   });
 
   searchInput.addEventListener("input", handleSearch);
@@ -844,6 +1630,15 @@ function applyTranslations() {
   if (heroDefaultMetric) heroDefaultMetric.textContent = t(`metric.${state.currentMetric}`);
   statsLevelPill.textContent = t(`level.${state.currentLevel}`);
   selectionLevelBadge.textContent = t(`level.${state.currentLevel}`);
+  if (trendSectionTitle) {
+    trendSectionTitle.textContent = t("panel.trends");
+  }
+  if (evidenceSectionTitle) {
+    evidenceSectionTitle.textContent = t("panel.evidence");
+  }
+  if (state.selectedCode) {
+    void renderQualitativeData(state.selectedCode, state.renderVersion);
+  }
 }
 
 /* ─── Map ─── */
@@ -1062,6 +1857,59 @@ async function loadTrendRows(level, code) {
   return filterRowsByDateRange(state.trendCache.get(fallbackCacheKey));
 }
 
+async function ensureEvidenceIndex() {
+  if (state.evidenceIndex) return state.evidenceIndex;
+  if (!state.manifest?.evidence_available || !state.manifest?.evidence_index) {
+    state.evidenceIndex = { generated_at: null, levels: {} };
+    return state.evidenceIndex;
+  }
+  try {
+    state.evidenceIndex = await loadJson(`./data/latest/${state.manifest.evidence_index}`);
+  } catch {
+    state.evidenceIndex = { generated_at: null, levels: {} };
+  }
+  return state.evidenceIndex;
+}
+
+function getEvidenceEntry(level, code) {
+  return state.evidenceIndex?.levels?.[level]?.[code] || null;
+}
+
+function activeRangeIsSingleMonth() {
+  return Boolean(state.currentDateFrom && state.currentDateTo && state.currentDateFrom === state.currentDateTo);
+}
+
+function resolveEvidenceMonthEntry(level, code) {
+  const entry = getEvidenceEntry(level, code);
+  if (!entry?.months?.length) return null;
+
+  if (activeRangeIsSingleMonth()) {
+    return entry.months.find((item) => item.month === state.currentDateFrom) || null;
+  }
+
+  const inWindow = entry.months.filter((item) => {
+    if (state.currentDateFrom && item.month < state.currentDateFrom) return false;
+    if (state.currentDateTo && item.month > state.currentDateTo) return false;
+    return true;
+  });
+  if (!inWindow.length) return null;
+  return [...inWindow].sort((left, right) => {
+    if ((right.internal_score || 0) !== (left.internal_score || 0)) {
+      return (right.internal_score || 0) - (left.internal_score || 0);
+    }
+    return right.month.localeCompare(left.month);
+  })[0];
+}
+
+async function loadEvidenceBundle(relativePath) {
+  if (!relativePath) return null;
+  if (!state.evidenceCache.has(relativePath)) {
+    const bundle = await loadJson(`./data/latest/${relativePath}`);
+    state.evidenceCache.set(relativePath, bundle);
+  }
+  return state.evidenceCache.get(relativePath);
+}
+
 async function buildMetricLookup(level) {
   const levelAssets = state.manifest.metric_assets[level];
   if (usesFullRange(levelAssets)) {
@@ -1229,10 +2077,11 @@ function bindMapInteractions() {
   state.handlers.click = async (event) => {
     const feature = event.features?.[0];
     if (!feature) return;
-    state.selectedCode = feature.properties.code;
-    state.selectedFeature = feature;
-    state.pendingFit = "selection";
-    await renderExplorer();
+    await commitSelection({
+      level: state.currentLevel,
+      code: feature.properties.code,
+      feature,
+    });
   };
 
   state.map.on("mousemove", "boundary-fill", state.handlers.mousemove);
@@ -1305,6 +2154,10 @@ async function renderMap(renderVersion) {
   ).length;
   state.currentRenderedCount = geojson.features.length;
   state.currentGeojsonData = buildDisplayGeojson(geojson, lookup);
+  if (state.selectedCode) {
+    state.selectedFeature =
+      state.currentGeojsonData.features.find((feature) => feature.properties.code === state.selectedCode) || null;
+  }
 
   unbindMapInteractions();
   ensureBoundaryLayers();
@@ -1435,19 +2288,45 @@ function parentLabel(properties) {
   return state.adminByCode.get(parentCode)?.name || parentCode || t("selection.no_parent");
 }
 
+async function commitSelection({ level = state.currentLevel, code = null, feature = null } = {}) {
+  const previousLevel = state.currentLevel;
+  const previousCode = state.selectedCode;
+  state.currentLevel = level;
+  if (levelSelect) levelSelect.value = level;
+  state.selectedCode = code;
+  state.selectedFeature = feature?.properties?.code === code ? feature : null;
+  state.pendingFit = code ? "selection" : "level";
+  if (level !== "regency" || !code) {
+    setQualitativeRouteOpen(false);
+  } else if (level !== previousLevel || code !== previousCode) {
+    queueQualitativeSidebarFocus();
+  }
+  syncTimelineSliders();
+  await renderExplorer();
+  syncRouteState();
+}
+
 /* ─── Selection + Trend ─── */
 async function renderSelection(renderVersion) {
   const boundaryData = await getBoundaryData(state.currentLevel);
   if (renderVersion !== state.renderVersion) return;
+  const featureFromCode = state.selectedCode
+    ? state.currentGeojsonData?.features?.find((item) => item.properties.code === state.selectedCode) ||
+      boundaryData.features.find((item) => item.properties.code === state.selectedCode) ||
+      null
+    : null;
   const feature =
-    state.selectedFeature ||
-    boundaryData.features.find((item) => item.properties.code === state.selectedCode) ||
-    null;
+    featureFromCode ||
+    (state.selectedFeature?.properties?.code === state.selectedCode ? state.selectedFeature : null);
+
+  state.selectedFeature = feature;
 
   if (!feature) {
     selectionEmpty.classList.remove("is-hidden");
     selectionDetails.classList.add("is-hidden");
     await renderTrendChart(null, renderVersion);
+    await renderEvidence(null, renderVersion);
+    await renderQualitativeData(state.selectedCode, renderVersion, null);
     return;
   }
 
@@ -1462,10 +2341,109 @@ async function renderSelection(renderVersion) {
   const metricRow = state.currentLookup.get(feature.properties.code);
   selectionMetricValue.textContent = metricRow ? formatMetric(metricRow[state.currentMetric]) : "0";
   selectionCoverage.textContent = metricRow ? formatMetric(metricRow.max_coverage_ratio) : "0";
-  await renderTrendChart(feature.properties.code, renderVersion);
+  await ensureEvidenceIndex();
+  if (renderVersion !== state.renderVersion) return;
+  const evidenceMonthEntry = resolveEvidenceMonthEntry(state.currentLevel, feature.properties.code);
+  const highlightedMonth = activeRangeIsSingleMonth()
+    ? state.currentDateFrom
+    : evidenceMonthEntry?.month || null;
+  await renderTrendChart(feature.properties.code, renderVersion, highlightedMonth);
+  await renderEvidence(feature.properties.code, renderVersion, evidenceMonthEntry);
+  await renderQualitativeData(feature.properties.code, renderVersion, feature);
 }
 
-async function renderTrendChart(code, renderVersion) {
+function renderQualitativeSidebar(summary, feature, code) {
+  if (!qualitativeSection) return;
+
+  const shouldShowSection = Boolean(
+    code && state.qualitativeStore?.config?.supportedLevels?.includes(state.currentLevel)
+  );
+  qualitativeSection.classList.toggle("is-hidden", !shouldShowSection);
+  if (!shouldShowSection) {
+    qualitativeEmpty.classList.remove("is-hidden");
+    qualitativePanel.classList.add("is-hidden");
+    return;
+  }
+
+  const selectionLabel = feature?.properties?.name || state.adminByCode.get(code)?.name || code || "—";
+
+  qualitativeStateBadge.textContent = summary.stateLabel || "";
+  qualitativeStateBadge.classList.toggle("is-hidden", !summary.stateLabel);
+  qualitativePeriod.textContent = summary.displayWindow;
+  qualitativeStateNote.textContent = summary.stateNote || "";
+  qualitativeStateNote.classList.toggle("is-hidden", !summary.stateNote);
+
+  if (!summary.featuredEvent) {
+    qualitativeEmpty.textContent = emptyMessageForQualitative(summary.publicState);
+    qualitativeEmpty.classList.remove("is-hidden");
+    qualitativePanel.classList.add("is-hidden");
+    return;
+  }
+
+  const event = summary.featuredEvent;
+  const summaryText = state.language === "id" ? event.summaryId || event.summaryEn : event.summaryEn || event.summaryId;
+  const media = resolveQualitativeMedia(event);
+
+  qualitativeEmpty.classList.add("is-hidden");
+  qualitativePanel.classList.remove("is-hidden");
+  qualitativeDate.textContent = formatFullDateLabel(event.eventDate);
+  qualitativeLocation.textContent = event.locationLabel || selectionLabel;
+  qualitativeHeadline.textContent = event.headline || selectionLabel;
+  qualitativeSummary.textContent = summaryText || "";
+  qualitativeSourceName.textContent = event.sourceName || "";
+  qualitativeSourceName.classList.toggle("is-hidden", !event.sourceName);
+  buildQualitativeMedia(qualitativeMedia, media, event.headline || selectionLabel);
+  populateTagContainer(qualitativeTags, event.impactTags);
+
+  if (event.sourceUrl) {
+    qualitativeSourceLink.href = event.sourceUrl;
+    qualitativeSourceLink.classList.remove("is-hidden");
+  } else {
+    qualitativeSourceLink.removeAttribute("href");
+    qualitativeSourceLink.classList.add("is-hidden");
+  }
+
+  qualitativeRelatedList.innerHTML = "";
+  qualitativeRelatedCount.textContent = String(summary.relatedItems.length);
+  qualitativeRelatedSection.classList.toggle("is-hidden", summary.relatedItems.length === 0);
+  summary.relatedItems.forEach((item) => qualitativeRelatedList.append(createQualitativeRelatedItem(item)));
+}
+
+function syncQualitativeSidebarPresentation(summary, code) {
+  document.body.classList.remove("qualitative-route-active");
+  const shouldFocus =
+    state.qualitativeSidebarFocusPending &&
+    state.currentLevel === "regency" &&
+    Boolean(code) &&
+    (state.qualitativeRouteOpen || summary.hasData);
+  if (!shouldFocus) return;
+  focusQualitativeSidebarSection();
+  state.qualitativeSidebarFocusPending = false;
+}
+
+async function renderQualitativeData(code, renderVersion, feature = null) {
+  if (renderVersion !== state.renderVersion) return;
+
+  const summary =
+    code && state.currentLevel
+      ? await getQualitativeSummaryForGeography(state.currentLevel, code)
+      : {
+          hasData: false,
+          featuredEvent: null,
+          relatedItems: [],
+          publicState: "",
+          stateNote: "",
+          stateLabel: "",
+          displayWindow: "",
+          sourceMeta: {},
+        };
+  if (renderVersion !== state.renderVersion) return;
+
+  renderQualitativeSidebar(summary, feature, code);
+  syncQualitativeSidebarPresentation(summary, code);
+}
+
+async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
   const ctx = document.querySelector("#trend-chart");
   if (state.trendChart) {
     state.trendChart.destroy();
@@ -1489,6 +2467,7 @@ async function renderTrendChart(code, renderVersion) {
   trendEmpty.classList.add("is-hidden");
 
   state.trendChart = new Chart(ctx, {
+    plugins: [TREND_HIGHLIGHT_PLUGIN],
     type: "line",
     data: {
       labels: rows.map((row) => row.month_start),
@@ -1526,6 +2505,14 @@ async function renderTrendChart(code, renderVersion) {
           padding: 10,
           titleFont: { family: "Inter", weight: "600", size: 12 },
           bodyFont: { family: "Inter", size: 11 },
+          callbacks: {
+            title(items) {
+              return formatFullDateLabel(items?.[0]?.label);
+            },
+          },
+        },
+        trendHighlight: {
+          highlightedMonth,
         },
       },
       scales: {
@@ -1536,11 +2523,20 @@ async function renderTrendChart(code, renderVersion) {
             autoSkip: true,
             maxTicksLimit: 6,
             font: { family: "Inter", size: 10 },
+            callback(value, index) {
+              return formatTrendAxisLabel(this.getLabelForValue(value), index, rows.length);
+            },
           },
           grid: { color: "rgba(120, 90, 50, 0.06)" },
           border: { display: false },
         },
         y: {
+          title: {
+            display: true,
+            text: t(`metric.${state.currentMetric}`),
+            color: "#7b6d5f",
+            font: { family: "Inter", size: 11, weight: "600" },
+          },
           ticks: {
             color: "#9a8e7f",
             font: { family: "Inter", size: 10 },
@@ -1551,6 +2547,65 @@ async function renderTrendChart(code, renderVersion) {
       },
     },
   });
+}
+
+function setEvidenceEmpty(messageKey) {
+  evidenceEmpty.textContent = t(messageKey);
+  evidenceEmpty.classList.remove("is-hidden");
+  evidencePanel.classList.add("is-hidden");
+}
+
+async function renderEvidence(code, renderVersion, monthEntryOverride = null) {
+  if (!code || !state.manifest.evidence_available) {
+    setEvidenceEmpty("evidence.none_selected");
+    return;
+  }
+
+  const monthEntry = monthEntryOverride || resolveEvidenceMonthEntry(state.currentLevel, code);
+  if (!monthEntry) {
+    setEvidenceEmpty("evidence.none_available");
+    return;
+  }
+
+  let bundle = null;
+  try {
+    bundle = await loadEvidenceBundle(monthEntry.path);
+  } catch (error) {
+    console.warn("Failed to load evidence bundle", monthEntry.path, error);
+    setEvidenceEmpty("evidence.none_available");
+    return;
+  }
+  if (renderVersion !== state.renderVersion || !bundle) return;
+
+  evidenceEmpty.classList.add("is-hidden");
+  evidencePanel.classList.remove("is-hidden");
+
+  evidenceMonth.textContent = formatMonthLabel(bundle.month);
+  evidenceGapSignal.textContent = t(`evidence.gap.${bundle.signals.gap_signal}`);
+  evidenceGapSignal.className = `evidence-gap-signal evidence-gap-signal--${bundle.signals.gap_signal}`;
+
+  const inSingleMonth = activeRangeIsSingleMonth();
+  if (!inSingleMonth && evidenceWindowNote) {
+    evidenceWindowNote.textContent = formatTemplate("evidence.window_note", {
+      month: formatMonthLabel(bundle.month),
+    });
+    evidenceWindowNote.classList.remove("is-hidden");
+  } else if (evidenceWindowNote) {
+    evidenceWindowNote.classList.add("is-hidden");
+    evidenceWindowNote.textContent = "";
+  }
+
+  evidenceNote.textContent = buildEvidenceExplanation(bundle);
+  evidenceGapContext.textContent = formatTemplate("evidence.gap.context", {
+    gap: formatMetric(bundle.gap_magnitude),
+    baseline: formatMetric(bundle.baseline_gap),
+    level_label: levelLabelForEvidence(),
+  });
+  evidenceInternalScore.textContent = formatMetric(bundle.signals.internal_score);
+  evidenceSourceLabel.textContent = state.language === "id" ? bundle.source_label_id : bundle.source_label_en;
+  evidenceSourceInfo.title = buildEvidenceSourceTooltip(bundle);
+  evidenceSourceInfo.setAttribute("aria-label", t("evidence.source_info_aria"));
+  evidenceExternalScore.textContent = formatMetric(bundle.signals.external_score);
 }
 
 /* ─── Methodology ─── */
@@ -1591,15 +2646,12 @@ function handleSearch() {
     button.innerHTML = `<div><strong>${match.name}</strong><span>${t(`level.${match.level}`)}</span></div><span>${match.code}</span>`;
     button.addEventListener("click", async () => {
       const resolved = resolveSearchSelection(match);
-      state.currentLevel = resolved.level;
-      levelSelect.value = resolved.level;
-      state.selectedCode = resolved.code;
-      state.selectedFeature = null;
-      state.pendingFit = "selection";
       searchInput.value = match.name;
       searchResults.innerHTML = "";
-      syncTimelineSliders();
-      await renderExplorer();
+      await commitSelection({
+        level: resolved.level,
+        code: resolved.code,
+      });
     });
     searchResults.append(button);
   }

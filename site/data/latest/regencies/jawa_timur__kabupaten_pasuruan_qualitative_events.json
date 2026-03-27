@@ -1,0 +1,27 @@
+[
+  {
+    "event_id": "jawa_timur-kabupaten_pasuruan-2026-01-13-main",
+    "event_date": "2026-01-13",
+    "admin_level": "regency",
+    "admin_code": "35.14",
+    "location_label": "Kabupaten Pasuruan",
+    "source_name": "Jawa Pos",
+    "source_url": "https://example.com/jawa_timur__kabupaten_pasuruan-main",
+    "source_date": "2026-01-13",
+    "headline": "Kabupaten Pasuruan flood update for January 2026",
+    "summary": "Banjir di Kabupaten Pasuruan disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
+    "summary_id": "Banjir di Kabupaten Pasuruan disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
+    "summary_en": "Flooding in Kabupaten Pasuruan disrupted local drainage and neighborhood services during the bounded review window.",
+    "media_type": "article",
+    "media_url": "https://example.com/jawa_timur__kabupaten_pasuruan-main.jpg",
+    "claim_type": "service_disruption",
+    "impact_tags": [
+      "service_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-jawa_timur__kabupaten_pasuruan-2026-01",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "supporting_records": []
+  }
+]
