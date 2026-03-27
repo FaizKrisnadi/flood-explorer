@@ -1397,26 +1397,6 @@ body.sidebar-collapsed .timeline-bar {
 }
 
 /* ═══════════ MAPLIBRE OVERRIDES ═══════════ */
-.maplibregl-popup {
-  max-width: 260px;
-}
-
-.maplibregl-popup-content {
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  box-shadow: var(--shadow-lg);
-  color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  font-size: 0.85rem;
-  border: 1px solid var(--border-strong);
-  background: rgba(255, 255, 255, 0.96);
-}
-
-.maplibregl-popup-content strong {
-  display: block;
-  margin-bottom: 2px;
-  font-weight: 700;
-}
 
 .maplibregl-ctrl-group {
   border-radius: var(--radius-sm) !important;
@@ -1439,12 +1419,12 @@ body.sidebar-collapsed .timeline-bar {
 }
 
 .maplibregl-ctrl-bottom-right {
-  bottom: 64px !important;
+  bottom: 102px !important;
   transition: right var(--duration) var(--ease), bottom var(--duration) var(--ease);
 }
 
 .maplibregl-ctrl-bottom-left {
-  bottom: 64px !important;
+  bottom: 102px !important;
   left: 8px !important;
 }
 
@@ -1520,11 +1500,11 @@ body.sidebar-collapsed .timeline-bar {
   }
 
   .maplibregl-ctrl-bottom-right {
-    bottom: 78px !important;
+    bottom: 110px !important;
   }
 
   .maplibregl-ctrl-bottom-left {
-    bottom: 78px !important;
+    bottom: 110px !important;
     left: 8px !important;
   }
 

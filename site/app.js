@@ -28,7 +28,6 @@ const state = {
   evidenceCache: new Map(),
   translations: new Map(),
   map: null,
-  popup: null,
   mapStyleReady: false,
   mapInteractionsBound: false,
   currentGeojsonData: null,
@@ -50,7 +49,7 @@ const state = {
 
 /* ─── Choropleth colour ramp (YlOrRd inspired, warm palette) ─── */
 const COLOR_STEPS = ["#fef9c3", "#fde68a", "#f59e0b", "#b45309", "#78350f", "#451a03"];
-const APP_ASSET_VERSION = "20260327e";
+const APP_ASSET_VERSION = "20260328a";
 
 /* ─── DOM refs ─── */
 const levelSelect = document.querySelector("#level-select");
@@ -395,8 +394,22 @@ function monthInActiveRange(month) {
 }
 
 function sortQualitativeEvents(left, right) {
-  if ((right.mediaUrl ? 1 : 0) !== (left.mediaUrl ? 1 : 0)) {
-    return (right.mediaUrl ? 1 : 0) - (left.mediaUrl ? 1 : 0);
+  const mediaRank = (event) => {
+    const primary = normalizeMediaCandidate(event.mediaType, event.mediaUrl, event.sourceUrl);
+    if (primary.kind === "video") return 3;
+    const supportingHasVideo = (event.supportingRecords || []).some((record) => {
+      const candidate = normalizeMediaCandidate(record.mediaType, record.mediaUrl, record.sourceUrl);
+      return candidate.kind === "video";
+    });
+    if (supportingHasVideo) return 2;
+    if (primary.url) return 1;
+    return 0;
+  };
+
+  const rightRank = mediaRank(right);
+  const leftRank = mediaRank(left);
+  if (rightRank !== leftRank) {
+    return rightRank - leftRank;
   }
   if (right.eventDate !== left.eventDate) {
     return (right.eventDate || "").localeCompare(left.eventDate || "");
@@ -586,6 +599,11 @@ function resolveQualitativeMedia(event) {
 
   if (primaryCandidate.url) return primaryCandidate;
   return supportingCandidates[0] || { kind: "", url: "" };
+}
+
+function resolveRelatedItemMedia(item) {
+  if (!item) return { kind: "", url: "" };
+  return normalizeMediaCandidate(item.mediaType, item.mediaUrl, item.sourceUrl);
 }
 
 async function getQualitativeSummaryForGeography(level, code) {
@@ -1654,12 +1672,6 @@ function buildStyleDefinition(mode) {
 }
 
 function initMap() {
-  state.popup = new maplibregl.Popup({
-    closeButton: false,
-    closeOnClick: false,
-    offset: 14,
-  });
-
   state.map = new maplibregl.Map({
     container: "map",
     style: buildStyleDefinition(state.currentBasemapMode),
@@ -2061,17 +2073,10 @@ function bindMapInteractions() {
     const feature = event.features?.[0];
     if (!feature) return;
     state.map.getCanvas().style.cursor = "pointer";
-    state.popup
-      .setLngLat(event.lngLat)
-      .setHTML(
-        `<strong>${feature.properties.name}</strong><br>${feature.properties.metric_label}: ${feature.properties.metric_display}`
-      )
-      .addTo(state.map);
   };
 
   state.handlers.mouseleave = () => {
     state.map.getCanvas().style.cursor = "";
-    state.popup.remove();
   };
 
   state.handlers.click = async (event) => {
@@ -2296,10 +2301,15 @@ async function commitSelection({ level = state.currentLevel, code = null, featur
   state.selectedCode = code;
   state.selectedFeature = feature?.properties?.code === code ? feature : null;
   state.pendingFit = code ? "selection" : "level";
-  if (level !== "regency" || !code) {
+  if (level !== "regency" || !code || mobileViewport.matches) {
     setQualitativeRouteOpen(false);
-  } else if (level !== previousLevel || code !== previousCode) {
+  } else {
+    setQualitativeRouteOpen(true);
+  }
+  if (code && (level !== previousLevel || code !== previousCode)) {
     queueQualitativeSidebarFocus();
+  } else if (level !== previousLevel || code !== previousCode) {
+    state.qualitativeSidebarFocusPending = false;
   }
   syncTimelineSliders();
   await renderExplorer();
@@ -2382,7 +2392,15 @@ function renderQualitativeSidebar(summary, feature, code) {
 
   const event = summary.featuredEvent;
   const summaryText = state.language === "id" ? event.summaryId || event.summaryEn : event.summaryEn || event.summaryId;
-  const media = resolveQualitativeMedia(event);
+  let media = resolveQualitativeMedia(event);
+  if (media.kind !== "video" && summary.relatedItems.length) {
+    const relatedVideo = summary.relatedItems
+      .map(resolveRelatedItemMedia)
+      .find((candidate) => candidate.kind === "video");
+    if (relatedVideo) {
+      media = relatedVideo;
+    }
+  }
 
   qualitativeEmpty.classList.add("is-hidden");
   qualitativePanel.classList.remove("is-hidden");
