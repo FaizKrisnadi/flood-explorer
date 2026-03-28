@@ -1,0 +1,80 @@
+[
+  {
+    "geography_period_id": "11.08:2026-01",
+    "admin_level": "regency",
+    "admin_code": "11.08",
+    "province_code": "11",
+    "period_start": "2026-01-01",
+    "period_end": "2026-01-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-utara-2026-01-10-metrotv-main",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.816319+00:00"
+  },
+  {
+    "geography_period_id": "11.08:2025-11",
+    "admin_level": "regency",
+    "admin_code": "11.08",
+    "province_code": "11",
+    "period_start": "2025-11-01",
+    "period_end": "2025-12-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-utara-2025-12-06-tvone-main",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.816317+00:00"
+  },
+  {
+    "geography_period_id": "11.08:2025-03",
+    "admin_level": "regency",
+    "admin_code": "11.08",
+    "province_code": "11",
+    "period_start": "2025-03-01",
+    "period_end": "2025-03-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-utara-2025-03-09-bpba-main",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.816315+00:00"
+  },
+  {
+    "geography_period_id": "11.08:2024-12",
+    "admin_level": "regency",
+    "admin_code": "11.08",
+    "province_code": "11",
+    "period_start": "2024-12-01",
+    "period_end": "2024-12-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-utara-2024-12-03-kompas-main",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.816311+00:00"
+  },
+  {
+    "geography_period_id": "11.08:2024-01",
+    "admin_level": "regency",
+    "admin_code": "11.08",
+    "province_code": "11",
+    "period_start": "2024-01-01",
+    "period_end": "2024-01-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-utara-2024-01-08-pemkab-main",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.816308+00:00"
+  },
+  {
+    "geography_period_id": "11.08:2023-12",
+    "admin_level": "regency",
+    "admin_code": "11.08",
+    "province_code": "11",
+    "period_start": "2023-12-01",
+    "period_end": "2023-12-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-utara-2023-12-27-metrotv-main",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.816304+00:00"
+  }
+]

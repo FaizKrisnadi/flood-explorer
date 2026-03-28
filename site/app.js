@@ -45,11 +45,12 @@ const state = {
   qualitativeRouteOpen: false,
   qualitativeSidebarFocusPending: false,
   suppressRouteSync: false,
+  hoverPopup: null,
 };
 
 /* ─── Choropleth colour ramp (YlOrRd inspired, warm palette) ─── */
 const COLOR_STEPS = ["#fef9c3", "#fde68a", "#f59e0b", "#b45309", "#78350f", "#451a03"];
-const APP_ASSET_VERSION = "20260328a";
+const APP_ASSET_VERSION = "20260328j";
 
 /* ─── DOM refs ─── */
 const levelSelect = document.querySelector("#level-select");
@@ -213,6 +214,18 @@ function t(key) {
   return state.translations.get(state.language)?.[key] || key;
 }
 
+function qualitativeBadgeLabel(key) {
+  const translated = t(key);
+  if (translated !== key) return translated;
+  if (state.language === "id") {
+    if (key === "qualitative.additional_label") return "Laporan tambahan";
+    if (key === "qualitative.supporting_label") return "Laporan pendukung";
+  }
+  if (key === "qualitative.additional_label") return "Additional report";
+  if (key === "qualitative.supporting_label") return "Supporting report";
+  return "";
+}
+
 function formatTemplate(key, values = {}) {
   return Object.entries(values).reduce(
     (message, [token, value]) => message.replaceAll(`{${token}}`, value),
@@ -247,6 +260,49 @@ function normalizeQualitativeConfig() {
   };
 }
 
+function isBlockedSourceHost(hostname) {
+  const normalizedHost = String(hostname || "")
+    .trim()
+    .toLowerCase()
+    .replace(/^www\./, "");
+  if (!normalizedHost) return true;
+  if (normalizedHost === "localhost" || normalizedHost === "127.0.0.1" || normalizedHost === "0.0.0.0") return true;
+  if (normalizedHost.endsWith(".local")) return true;
+  if (
+    normalizedHost === "example.com" ||
+    normalizedHost === "example.org" ||
+    normalizedHost === "example.net" ||
+    normalizedHost.endsWith(".example.com") ||
+    normalizedHost.endsWith(".example.org") ||
+    normalizedHost.endsWith(".example.net")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function normalizePublicUrl(rawUrl) {
+  const raw = String(rawUrl || "").trim();
+  if (!raw) return "";
+  let candidate = raw;
+  if (candidate.startsWith("//")) candidate = `https:${candidate}`;
+  if (
+    !/^https?:\/\//i.test(candidate) &&
+    /^(?:www\.)?(?:youtube\.com|m\.youtube\.com|youtu\.be|youtube-nocookie\.com)\//i.test(candidate)
+  ) {
+    candidate = `https://${candidate.replace(/^\/+/, "")}`;
+  }
+  try {
+    const parsed = new URL(candidate);
+    const protocol = parsed.protocol.toLowerCase();
+    if (protocol !== "http:" && protocol !== "https:") return "";
+    if (isBlockedSourceHost(parsed.hostname)) return "";
+    return parsed.toString();
+  } catch {
+    return "";
+  }
+}
+
 function normalizeQualitativeEvent(event) {
   return {
     adminCode: event.admin_code || "",
@@ -259,9 +315,9 @@ function normalizeQualitativeEvent(event) {
     impactTags: Array.isArray(event.impact_tags) ? event.impact_tags.filter(Boolean) : [],
     locationLabel: event.location_label || "",
     mediaType: event.media_type || "",
-    mediaUrl: event.media_url || "",
+    mediaUrl: normalizePublicUrl(event.media_url || ""),
     sourceName: event.source_name || "",
-    sourceUrl: event.source_url || "",
+    sourceUrl: normalizePublicUrl(event.source_url || ""),
     summaryId: event.summary_id || "",
     summaryEn: event.summary_en || "",
     supportingRecords: Array.isArray(event.supporting_records)
@@ -271,10 +327,10 @@ function normalizeQualitativeEvent(event) {
           eventId: record.event_id || "",
           headline: record.headline || "",
           mediaType: record.media_type || "",
-          mediaUrl: record.media_url || "",
+          mediaUrl: normalizePublicUrl(record.media_url || ""),
           sourceDate: record.source_date || "",
           sourceName: record.source_name || "",
-          sourceUrl: record.source_url || "",
+          sourceUrl: normalizePublicUrl(record.source_url || ""),
         }))
       : [],
   };
@@ -426,7 +482,132 @@ function sortQualitativeStates(left, right) {
 
 function humanizeClaimType(claimType) {
   if (!claimType) return "";
-  return claimType.replaceAll("_", " ");
+  const token = String(claimType).trim().toLowerCase().replaceAll("-", "_").replace(/\s+/g, "_");
+  if (!token) return "";
+  const translated = t(`claim.${token}`);
+  if (translated && translated !== `claim.${token}`) return translated;
+  return token.replaceAll("_", " ");
+}
+
+function summaryTextForLanguage(item) {
+  if (state.language === "id") {
+    const localized = (item?.summaryId || "").trim();
+    return isLikelyConsistentLanguageText(localized, "id") ? localized : "";
+  }
+  const localized = (item?.summaryEn || item?.summaryId || "").trim();
+  return isLikelyConsistentLanguageText(localized, "en") ? localized : "";
+}
+
+function isLikelyConsistentLanguageText(text, language) {
+  const value = String(text || "").trim();
+  if (!value) return false;
+  const lowered = value.toLowerCase();
+  if (language === "id") {
+    const englishMarkers = [
+      " flood ",
+      " flooding ",
+      " disrupted ",
+      " disruption ",
+      " mobility ",
+      " update ",
+      " january ",
+      " february ",
+      " march ",
+      " april ",
+      " may ",
+      " june ",
+      " july ",
+      " august ",
+      " september ",
+      " october ",
+      " november ",
+      " december ",
+      " key road ",
+      " links ",
+      " during ",
+      " review window ",
+    ];
+    let hits = 0;
+    const padded = ` ${lowered} `;
+    englishMarkers.forEach((token) => {
+      if (padded.includes(token)) hits += 1;
+    });
+    return hits < 2;
+  }
+  return true;
+}
+
+function normalizeComparableText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[.,!?;:"]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isGenericQualitativeHeadline(value) {
+  const normalized = (value || "").trim().toLowerCase();
+  return normalized === "news" || normalized === "report" || normalized === "laporan" || normalized === "article";
+}
+
+function summaryHeadlineFallback(value) {
+  const text = (value || "").replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  const firstSentence = text.split(/(?<=[.!?])\s+/)[0] || text;
+  if (firstSentence.length <= 92) return firstSentence;
+  return `${firstSentence.slice(0, 89).trimEnd()}...`;
+}
+
+function summaryMatchesHeadline(summary, headline) {
+  const normalizedSummary = normalizeComparableText(summary);
+  const normalizedHeadline = normalizeComparableText(String(headline || "").replace(/\.\.\.$/, ""));
+  if (!normalizedSummary || !normalizedHeadline) return false;
+  return normalizedSummary === normalizedHeadline || normalizedSummary.startsWith(normalizedHeadline);
+}
+
+function preferredRelatedHeadline(item, selectionLabel = "") {
+  if (state.language === "id") {
+    return (item?.locationLabel || selectionLabel || item?.eventId || "").trim();
+  }
+
+  const localizedSummary = summaryTextForLanguage(item);
+  const localizedHeadline = summaryHeadlineFallback(localizedSummary);
+  if (localizedHeadline) return localizedHeadline;
+
+  const primary = (item?.headline || "").trim();
+  if (primary && !isGenericQualitativeHeadline(primary)) return primary;
+  return (item?.locationLabel || selectionLabel || item?.eventId || "").trim();
+}
+
+function preferredFeaturedHeadline(item, selectionLabel = "") {
+  if (state.language === "id") {
+    return (item?.locationLabel || selectionLabel || item?.eventId || "").trim();
+  }
+
+  const localizedSummary = summaryTextForLanguage(item);
+  const localizedHeadline = summaryHeadlineFallback(localizedSummary);
+  if (localizedHeadline) return localizedHeadline;
+
+  const primary = (item?.headline || "").trim();
+  if (primary && !isGenericQualitativeHeadline(primary)) return primary;
+  return (item?.locationLabel || selectionLabel || item?.eventId || "").trim();
+}
+
+function normalizeImpactTags(tags) {
+  const values = Array.isArray(tags) ? tags : [];
+  const seen = new Set();
+  const cleaned = [];
+  values.forEach((raw) => {
+    const token = String(raw || "").trim();
+    if (!token) return;
+    if (/^\d{4}-\d{2}(-\d{2})?$/.test(token)) return;
+    const label = humanizeClaimType(token);
+    const key = label.toLowerCase();
+    if (!label || seen.has(key)) return;
+    seen.add(key);
+    cleaned.push(label);
+  });
+  return cleaned;
 }
 
 function summarizeStateForDisplay(publicState) {
@@ -523,9 +704,27 @@ function buildQualitativeSummary(events, states, sourceMeta = {}) {
 }
 
 function parseYouTubeEmbedUrl(url) {
-  if (!url) return "";
+  const raw = String(url || "").trim();
+  if (!raw) return "";
+
+  const markdownMatch = raw.match(/^\[[^\]]*\]\((https?:\/\/[^)\s]+)\)$/i);
+  let normalizedUrl = markdownMatch ? markdownMatch[1] : raw.replace(/^<|>$/g, "");
+  if (normalizedUrl.startsWith("//")) normalizedUrl = `https:${normalizedUrl}`;
+  if (!/^https?:\/\//i.test(normalizedUrl) && /(youtube\.com|youtu\.be)/i.test(normalizedUrl)) {
+    normalizedUrl = `https://${normalizedUrl.replace(/^\/+/, "")}`;
+  }
+
+  const extractVideoId = (value) => {
+    const cleaned = String(value || "").trim();
+    if (!cleaned) return "";
+    const match = cleaned.match(
+      /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([A-Za-z0-9_-]{6,})/i
+    );
+    return match ? match[1] : "";
+  };
+
   try {
-    const parsed = new URL(url, window.location.origin);
+    const parsed = new URL(normalizedUrl, window.location.origin);
     const host = parsed.hostname.replace(/^www\./, "");
     let videoId = "";
 
@@ -541,10 +740,12 @@ function parseYouTubeEmbedUrl(url) {
       }
     }
 
+    if (!videoId) videoId = extractVideoId(normalizedUrl);
     if (!videoId) return "";
     return `https://www.youtube-nocookie.com/embed/${videoId}`;
   } catch {
-    return "";
+    const videoId = extractVideoId(normalizedUrl);
+    return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}` : "";
   }
 }
 
@@ -559,28 +760,32 @@ function looksLikeImageUrl(url) {
 }
 
 function normalizeMediaCandidate(mediaType, mediaUrl, sourceUrl = "") {
+  const normalizedMediaType = String(mediaType || "").trim().toLowerCase();
+  const normalizedMediaUrl = normalizePublicUrl(mediaUrl);
+  const normalizedSourceUrl = normalizePublicUrl(sourceUrl);
+
   const youtubeEmbedUrl = parseYouTubeEmbedUrl(mediaUrl) || parseYouTubeEmbedUrl(sourceUrl);
   if (youtubeEmbedUrl) {
-    return { kind: "video", url: youtubeEmbedUrl };
+    return { kind: "video", url: youtubeEmbedUrl, fallbackUrl: normalizedSourceUrl || normalizedMediaUrl };
   }
 
-  if (!mediaUrl) {
-    return { kind: "", url: "" };
+  if (!normalizedMediaUrl) {
+    return { kind: "", url: "", fallbackUrl: normalizedSourceUrl };
   }
 
-  if (mediaType === "video") {
-    return { kind: "link", url: mediaUrl };
+  if (normalizedMediaType === "video") {
+    return { kind: "link", url: normalizedMediaUrl, fallbackUrl: normalizedSourceUrl || normalizedMediaUrl };
   }
 
-  if (looksLikeImageUrl(mediaUrl)) {
-    return { kind: "image", url: mediaUrl };
+  if (normalizedMediaType === "image" || looksLikeImageUrl(normalizedMediaUrl)) {
+    return { kind: "image", url: normalizedMediaUrl, fallbackUrl: normalizedSourceUrl || normalizedMediaUrl };
   }
 
-  if (mediaType === "article" || mediaType === "report" || mediaType === "post") {
-    return { kind: "link", url: sourceUrl || mediaUrl };
+  if (normalizedMediaType === "article" || normalizedMediaType === "report" || normalizedMediaType === "post") {
+    return { kind: "link", url: normalizedSourceUrl || normalizedMediaUrl, fallbackUrl: normalizedSourceUrl || normalizedMediaUrl };
   }
 
-  return { kind: "link", url: sourceUrl || mediaUrl };
+  return { kind: "link", url: normalizedSourceUrl || normalizedMediaUrl, fallbackUrl: normalizedSourceUrl || normalizedMediaUrl };
 }
 
 function resolveQualitativeMedia(event) {
@@ -604,6 +809,48 @@ function resolveQualitativeMedia(event) {
 function resolveRelatedItemMedia(item) {
   if (!item) return { kind: "", url: "" };
   return normalizeMediaCandidate(item.mediaType, item.mediaUrl, item.sourceUrl);
+}
+
+function fallbackSourceUrlForName(sourceName) {
+  const label = String(sourceName || "").trim().toLowerCase();
+  if (!label) return "";
+  if (label.includes("ayo bandung")) return "https://www.ayobandung.com";
+  if (label.includes("kompas")) return "https://www.kompas.com";
+  if (label.includes("berita jakarta")) return "https://www.beritajakarta.id";
+  if (label.includes("suara merdeka")) return "https://www.suaramerdeka.com";
+  if (label.includes("antara")) return "https://www.antaranews.com";
+  if (label.includes("tempo")) return "https://www.tempo.co";
+  if (label.includes("liputan 6") || label.includes("liputan6")) return "https://www.liputan6.com";
+  if (label.includes("tribun")) return "https://www.tribunnews.com";
+  if (label.includes("metrotv")) return "https://www.metrotvnews.com";
+  if (label.includes("kompastv")) return "https://www.youtube.com/@KOMPASTV";
+  if (label.includes("tvone")) return "https://www.tvonenews.com";
+  if (label.includes("detik")) return "https://www.detik.com";
+  if (label.includes("cnn indonesia")) return "https://www.cnnindonesia.com";
+  if (label.includes("harian analisa")) return "https://www.hariananalisa.com";
+  if (label.includes("jawa pos")) return "https://www.jawapos.com";
+  if (label.includes("kawentar")) return "https://kawentar.com";
+  if (label.includes("magelang ekspres")) return "https://magelangekspres.disway.id";
+  if (label.includes("malang post")) return "https://malang-post.com";
+  if (label.includes("memo x") || label.includes("memox")) return "https://memox.co.id";
+  if (label.includes("pantura post")) return "https://panturapost.com";
+  if (label.includes("pikiran rakyat")) return "https://www.pikiran-rakyat.com";
+  if (label.includes("radar bogor")) return "https://radarbogor.jawapos.com";
+  if (label.includes("radar kediri")) return "https://radarkediri.jawapos.com";
+  if (label.includes("radar pekalongan")) return "https://radarpekalongan.id";
+  if (label.includes("siantar 24 jam")) return "https://siantar24jam.com";
+  if (label.includes("solopos")) return "https://www.solopos.com";
+  if (label.includes("sukabumi update")) return "https://sukabumiupdate.com";
+  if (label.includes("waspada")) return "https://waspada.id";
+  return "";
+}
+
+function resolveSourceHref(item) {
+  return (
+    normalizePublicUrl(item?.sourceUrl) ||
+    normalizePublicUrl(item?.mediaUrl) ||
+    normalizePublicUrl(fallbackSourceUrlForName(item?.sourceName || ""))
+  );
 }
 
 async function getQualitativeSummaryForGeography(level, code) {
@@ -678,6 +925,27 @@ function buildQualitativeMedia(node, media, altText) {
     image.src = media.url;
     image.alt = altText || "Qualitative report media";
     image.className = "qualitative-image";
+    image.loading = "lazy";
+    image.addEventListener(
+      "error",
+      () => {
+        node.innerHTML = "";
+        const fallbackUrl = media.fallbackUrl || "";
+        if (!fallbackUrl) {
+          node.classList.add("is-hidden");
+          return;
+        }
+        const anchor = document.createElement("a");
+        anchor.href = fallbackUrl;
+        anchor.target = "_blank";
+        anchor.rel = "noreferrer";
+        anchor.className = "source-link";
+        anchor.textContent = t("qualitative.open_media");
+        node.append(anchor);
+        node.classList.remove("is-hidden");
+      },
+      { once: true }
+    );
     node.append(image);
   }
 
@@ -686,12 +954,12 @@ function buildQualitativeMedia(node, media, altText) {
 
 function populateTagContainer(node, tags) {
   node.innerHTML = "";
-  const normalizedTags = Array.isArray(tags) ? tags.filter(Boolean) : [];
+  const normalizedTags = normalizeImpactTags(tags);
   node.classList.toggle("is-hidden", normalizedTags.length === 0);
   normalizedTags.forEach((tag) => {
     const pill = document.createElement("span");
     pill.className = "tag-pill";
-    pill.textContent = humanizeClaimType(tag);
+    pill.textContent = tag;
     node.append(pill);
   });
 }
@@ -705,7 +973,7 @@ function createQualitativeRelatedItem(item) {
 
   const badge = document.createElement("span");
   badge.className = "period-badge";
-  badge.textContent = t(item.badgeKey);
+  badge.textContent = qualitativeBadgeLabel(item.badgeKey);
   topline.append(badge);
 
   if (item.sourceDate) {
@@ -715,9 +983,9 @@ function createQualitativeRelatedItem(item) {
     topline.append(date);
   }
 
-  const headline = document.createElement("strong");
+  const headline = document.createElement("p");
   headline.className = "qualitative-related-headline";
-  headline.textContent = item.headline || item.locationLabel || item.eventId;
+  headline.textContent = preferredRelatedHeadline(item);
 
   const meta = document.createElement("p");
   meta.className = "text-muted qualitative-related-meta";
@@ -725,18 +993,21 @@ function createQualitativeRelatedItem(item) {
 
   article.append(topline, headline, meta);
 
-  const summaryText =
-    state.language === "id" ? item.summaryId || item.summaryEn : item.summaryEn || item.summaryId;
-  if (summaryText) {
+  const summaryText = summaryTextForLanguage(item);
+  if (
+    summaryText &&
+    !summaryMatchesHeadline(summaryText, headline.textContent)
+  ) {
     const summary = document.createElement("p");
     summary.className = "qualitative-related-summary";
     summary.textContent = summaryText;
     article.append(summary);
   }
 
-  if (item.sourceUrl) {
+  const sourceHref = resolveSourceHref(item);
+  if (sourceHref) {
     const link = document.createElement("a");
-    link.href = item.sourceUrl;
+    link.href = sourceHref;
     link.target = "_blank";
     link.rel = "noreferrer";
     link.className = "source-link";
@@ -1996,6 +2267,43 @@ function cloneFeature(feature, lookup, maxValue) {
   };
 }
 
+function ensureMapHoverPopup() {
+  if (state.hoverPopup) return state.hoverPopup;
+  state.hoverPopup = new maplibregl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+    offset: 14,
+    className: "map-hover-popup",
+    maxWidth: "240px",
+  });
+  return state.hoverPopup;
+}
+
+function buildMapHoverPopupNode(feature) {
+  const node = document.createElement("div");
+  node.className = "map-hover-popup__content";
+
+  const title = document.createElement("div");
+  title.className = "map-hover-popup__title";
+  title.textContent = feature?.properties?.name || "—";
+  node.append(title);
+
+  const meta = document.createElement("div");
+  meta.className = "map-hover-popup__meta";
+
+  const level = document.createElement("span");
+  level.className = "map-hover-popup__level";
+  level.textContent = t(`level.${state.currentLevel}`);
+
+  const value = document.createElement("strong");
+  value.className = "map-hover-popup__value";
+  value.textContent = feature?.properties?.metric_display || formatMetric(feature?.properties?.metric_value || 0);
+
+  meta.append(level, value);
+  node.append(meta);
+  return node;
+}
+
 function buildDisplayGeojson(geojson, lookup) {
   const values = [...lookup.values()].map((row) => row[state.currentMetric] || 0);
   const maxValue = Math.max(...values, 0);
@@ -2073,10 +2381,16 @@ function bindMapInteractions() {
     const feature = event.features?.[0];
     if (!feature) return;
     state.map.getCanvas().style.cursor = "pointer";
+    const popup = ensureMapHoverPopup();
+    popup
+      .setLngLat(event.lngLat)
+      .setDOMContent(buildMapHoverPopupNode(feature));
+    if (!popup.isOpen()) popup.addTo(state.map);
   };
 
   state.handlers.mouseleave = () => {
     state.map.getCanvas().style.cursor = "";
+    state.hoverPopup?.remove();
   };
 
   state.handlers.click = async (event) => {
@@ -2100,6 +2414,7 @@ function unbindMapInteractions() {
   state.map.off("mousemove", "boundary-fill", state.handlers.mousemove);
   state.map.off("mouseleave", "boundary-fill", state.handlers.mouseleave);
   state.map.off("click", "boundary-fill", state.handlers.click);
+  state.hoverPopup?.remove();
   state.mapInteractionsBound = false;
 }
 
@@ -2391,7 +2706,9 @@ function renderQualitativeSidebar(summary, feature, code) {
   }
 
   const event = summary.featuredEvent;
-  const summaryText = state.language === "id" ? event.summaryId || event.summaryEn : event.summaryEn || event.summaryId;
+  const summaryText = summaryTextForLanguage(event);
+  const eventHeadline = preferredFeaturedHeadline(event, selectionLabel);
+  const eventLocation = event.locationLabel || selectionLabel;
   let media = resolveQualitativeMedia(event);
   if (media.kind !== "video" && summary.relatedItems.length) {
     const relatedVideo = summary.relatedItems
@@ -2405,16 +2722,26 @@ function renderQualitativeSidebar(summary, feature, code) {
   qualitativeEmpty.classList.add("is-hidden");
   qualitativePanel.classList.remove("is-hidden");
   qualitativeDate.textContent = formatFullDateLabel(event.eventDate);
-  qualitativeLocation.textContent = event.locationLabel || selectionLabel;
-  qualitativeHeadline.textContent = event.headline || selectionLabel;
-  qualitativeSummary.textContent = summaryText || "";
+  qualitativeLocation.textContent = eventLocation;
+  const showHeadline =
+    Boolean(eventHeadline) &&
+    normalizeComparableText(eventHeadline) !== normalizeComparableText(eventLocation);
+  qualitativeHeadline.textContent = showHeadline ? eventHeadline : "";
+  qualitativeHeadline.classList.toggle("is-hidden", !showHeadline);
+  const shouldShowSummary =
+    Boolean(summaryText) &&
+    !summaryMatchesHeadline(summaryText, eventHeadline) &&
+    normalizeComparableText(summaryText) !== normalizeComparableText(eventLocation);
+  qualitativeSummary.textContent = shouldShowSummary ? summaryText : "";
+  qualitativeSummary.classList.toggle("is-hidden", !shouldShowSummary);
   qualitativeSourceName.textContent = event.sourceName || "";
   qualitativeSourceName.classList.toggle("is-hidden", !event.sourceName);
-  buildQualitativeMedia(qualitativeMedia, media, event.headline || selectionLabel);
+  buildQualitativeMedia(qualitativeMedia, media, eventHeadline || eventLocation || selectionLabel);
   populateTagContainer(qualitativeTags, event.impactTags);
 
-  if (event.sourceUrl) {
-    qualitativeSourceLink.href = event.sourceUrl;
+  const sourceHref = resolveSourceHref(event);
+  if (sourceHref) {
+    qualitativeSourceLink.href = sourceHref;
     qualitativeSourceLink.classList.remove("is-hidden");
   } else {
     qualitativeSourceLink.removeAttribute("href");
@@ -2629,7 +2956,18 @@ async function renderEvidence(code, renderVersion, monthEntryOverride = null) {
 /* ─── Methodology ─── */
 function renderMethodology() {
   methodologyList.innerHTML = "";
-  for (const item of state.methodology.notes) {
+  const rawNotes = Array.isArray(state.methodology?.notes) ? state.methodology.notes : [];
+  const notes = rawNotes.filter((item) => item !== "method.note.village_optional");
+
+  if (!notes.includes("method.note.assignment")) {
+    notes.unshift("method.note.assignment");
+  }
+  if (!notes.includes("method.note.matching")) {
+    const assignmentIndex = notes.indexOf("method.note.assignment");
+    notes.splice(assignmentIndex + 1, 0, "method.note.matching");
+  }
+
+  for (const item of notes) {
     const li = document.createElement("li");
     li.textContent = t(item);
     methodologyList.append(li);

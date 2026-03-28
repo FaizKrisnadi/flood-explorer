@@ -1,0 +1,62 @@
+[
+  {
+    "event_id": "aceh-tamiang-2025-12-05-ap-archive-main",
+    "event_date": "2025-12-05",
+    "admin_level": "regency",
+    "admin_code": "11.16",
+    "location_label": "Kabupaten Aceh Tamiang",
+    "source_name": "AP Archive",
+    "source_url": "https://www.youtube.com/watch?v=LeTlMihl7Qo",
+    "source_date": "2025-12-05",
+    "headline": "Aceh Tamiyang District Indonesia 5 December 2025",
+    "summary": "Banjir dan longsor dahsyat di Aceh Tamiang menghancurkan rumah warga dan memutus akses air bersih serta makanan bagi para penyintas.",
+    "summary_id": "Banjir dan longsor dahsyat di Aceh Tamiang menghancurkan rumah warga dan memutus akses air bersih serta makanan bagi para penyintas.",
+    "summary_en": "Devastating floods and landslides in Aceh Tamiang destroyed residents' houses and cut off access to clean water and food for survivors.",
+    "media_type": "video",
+    "media_url": "https://www.youtube.com/watch?v=LeTlMihl7Qo",
+    "claim_type": "damage",
+    "impact_tags": [
+      "service_disruption",
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-11-16-2025-11-nov-25-massive-flood",
+    "period_start": "2025-12-01",
+    "period_end": "2025-12-31",
+    "supporting_records": [
+      {
+        "event_id": "aceh-tamiang-2025-12-09-kompastv-support",
+        "headline": "BPBD Aceh Tamiang Ungkap Kendala Pemulihan Pasca Banjir",
+        "claim_type": "service_disruption",
+        "source_name": "KOMPASTV",
+        "source_url": "https://www.youtube.com/watch?v=HAyQhvilrNw",
+        "source_date": "2025-12-09",
+        "media_type": "video",
+        "media_url": "https://www.youtube.com/watch?v=HAyQhvilrNw"
+      }
+    ]
+  },
+  {
+    "event_id": "aceh-tamiang-2025-01-14-kabar-tamiang-main",
+    "event_date": "2025-01-14",
+    "admin_level": "regency",
+    "admin_code": "11.16",
+    "location_label": "Kabupaten Aceh Tamiang",
+    "source_name": "Kabar Tamiang",
+    "source_url": "https://kabartamiang.com/news/banjir-landa-4-kecamatan-di-aceh-tamiang-ratusan-warga-mengungsi/index.html",
+    "source_date": "2025-01-14",
+    "headline": "Banjir Landa 4 Kecamatan di Aceh Tamiang Ratusan Warga Mengungsi",
+    "summary": "Hujan deras yang memicu luapan sungai merendam empat kecamatan di Aceh Tamiang berdampak pada ribuan jiwa dan memaksa ratusan warga mengungsi.",
+    "summary_id": "Hujan deras yang memicu luapan sungai merendam empat kecamatan di Aceh Tamiang berdampak pada ribuan jiwa dan memaksa ratusan warga mengungsi.",
+    "summary_en": "Heavy rain triggering river overflows inundated four sub-districts in Aceh Tamiang affecting thousands of people and forcing hundreds of residents to evacuate.",
+    "media_type": "article",
+    "media_url": "",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "flooding"
+    ],
+    "canonical_event_group": "ceg-11-16-2025-01-jan-25-flood",
+    "period_start": "2025-01-01",
+    "period_end": "2025-01-31",
+    "supporting_records": []
+  }
+]

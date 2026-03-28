@@ -1,0 +1,186 @@
+[
+  {
+    "event_id": "aceh-selatan-2025-12-25-live-video",
+    "event_date": "2025-12-25",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "location_label": "Kabupaten Aceh Selatan",
+    "source_name": "Tribun Palu Official",
+    "source_url": "https://www.youtube.com/watch?v=9Fa7MWdvKwA",
+    "source_date": "2025-12-25",
+    "headline": "LIVE BREAKINGNEWS: Trumon Tengah & Kota Bahagia Aceh Selatan Kembali Direndam Banjir",
+    "summary": "Siaran langsung pada 25 Desember 2025 melaporkan Trumon Tengah dan Kota Bahagia di Aceh Selatan kembali terdampak banjir.",
+    "summary_id": "Siaran langsung pada 25 Desember 2025 melaporkan Trumon Tengah dan Kota Bahagia di Aceh Selatan kembali terdampak banjir.",
+    "summary_en": "A live broadcast on 25 December 2025 reported renewed flooding in Trumon Tengah and Kota Bahagia, Aceh Selatan.",
+    "media_type": "video",
+    "media_url": "https://www.youtube.com/watch?v=9Fa7MWdvKwA",
+    "claim_type": "flooding",
+    "impact_tags": [
+      "flooding",
+      "mobility_disruption"
+    ],
+    "canonical_event_group": "ceg-11-01-2025-12-trumon-kota-bahagia-flood",
+    "period_start": "2025-12-01",
+    "period_end": "2025-12-31",
+    "supporting_records": []
+  },
+  {
+    "event_id": "aceh-selatan-2025-11-28-evakuasi-main",
+    "event_date": "2025-11-28",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "location_label": "Kabupaten Aceh Selatan",
+    "source_name": "Antara Aceh",
+    "source_url": "https://aceh.antaranews.com/berita/396665/tim-gabungan-evakuasi-558-korban-banjir-di-aceh-selatan",
+    "source_date": "2025-11-28",
+    "headline": "Tim gabungan evakuasi 558 korban banjir di Aceh Selatan",
+    "summary": "Tim gabungan mengevakuasi 558 korban banjir dari Kecamatan Trumon Tengah pada malam 28 November 2025 ke posko Kompi 1 Batalyon C Pelopor Brimob dan Posko Cot Bayu. Ketinggian air mencapai 150 cm dan evakuasi diprioritaskan untuk lansia, balita, anak-anak, dan ibu hamil.",
+    "summary_id": "Tim gabungan mengevakuasi 558 korban banjir dari Kecamatan Trumon Tengah pada malam 28 November 2025 ke posko Kompi 1 Batalyon C Pelopor Brimob dan Posko Cot Bayu. Ketinggian air mencapai 150 cm dan evakuasi diprioritaskan untuk lansia, balita, anak-anak, dan ibu hamil.",
+    "summary_en": "A joint response team evacuated 558 flood victims from Trumon Tengah on the night of 28 November 2025 to the Kompi 1 Battalion C Pelopor Brimob post and the Cot Bayu post. Water reached 150 cm and evacuations prioritized the elderly, toddlers, children, and pregnant women.",
+    "media_type": "article",
+    "media_url": "",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "flooding",
+      "evacuation"
+    ],
+    "canonical_event_group": "ceg-11-01-2025-11-trumon-lae-soeraya-flood",
+    "period_start": "2025-11-01",
+    "period_end": "2025-11-30",
+    "supporting_records": [
+      {
+        "event_id": "aceh-selatan-2025-11-28-jembatan-support",
+        "headline": "Pemkab Aceh Selatan bangun jembatan darurat buka akses korban banjir",
+        "claim_type": "road_damage",
+        "source_name": "Antara Aceh",
+        "source_url": "https://aceh.antaranews.com/berita/396601/pemkab-aceh-selatan-bangun-jembatan-darurat-buka-akses-korban-banjir",
+        "source_date": "2025-11-28",
+        "media_type": "article",
+        "media_url": ""
+      }
+    ]
+  },
+  {
+    "event_id": "aceh-selatan-2024-10-16-liputan-6-main",
+    "event_date": "2024-10-16",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "location_label": "Kabupaten Aceh Selatan",
+    "source_name": "Liputan 6",
+    "source_url": "https://www.youtube.com/watch?v=KwcDJWtNqEo",
+    "source_date": "2024-10-16",
+    "headline": "Banjir di Aceh Tak Kunjung Surut Lalu Lintas Kendaraan di Aceh Selatan Lumpuh Total",
+    "summary": "Banjir setinggi dua meter melumpuhkan total lalu lintas kendaraan di jalan lintas nasional barat selatan dan memaksa ribuan keluarga dievakuasi.",
+    "summary_id": "Banjir setinggi dua meter melumpuhkan total lalu lintas kendaraan di jalan lintas nasional barat selatan dan memaksa ribuan keluarga dievakuasi.",
+    "summary_en": "Two-meter high floods completely paralyzed vehicle traffic on the western-southern national highway and forced thousands of families to be evacuated.",
+    "media_type": "video",
+    "media_url": "https://www.youtube.com/watch?v=KwcDJWtNqEo",
+    "claim_type": "mobility_disruption",
+    "impact_tags": [
+      "evacuation",
+      "road_closure"
+    ],
+    "canonical_event_group": "ceg-11-01-2024-10-oct-24-flood",
+    "period_start": "2024-10-01",
+    "period_end": "2024-10-31",
+    "supporting_records": []
+  },
+  {
+    "event_id": "aceh-selatan-2024-10-12-antara-main",
+    "event_date": "2024-10-12",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "location_label": "Kabupaten Aceh Selatan",
+    "source_name": "Antara Aceh",
+    "source_url": "https://aceh.antaranews.com/berita/370777/719-hektare-lahan-pertanian-rusak-akibat-banjir-di-aceh-selatan",
+    "source_date": "2024-10-12",
+    "headline": "719 hektare lahan pertanian rusak akibat banjir di Aceh Selatan",
+    "summary": "Luapan Sungai Lae Soeraya sejak 12 Oktober 2024 merusak 719 hektare lahan pertanian dan perkebunan di Trumon Raya dan Kluet Raya, Aceh Selatan. Ketinggian air 100 sampai 400 cm merusak tanaman pangan, hortikultura, dan peternakan.",
+    "summary_id": "Luapan Sungai Lae Soeraya sejak 12 Oktober 2024 merusak 719 hektare lahan pertanian dan perkebunan di Trumon Raya dan Kluet Raya, Aceh Selatan. Ketinggian air 100 sampai 400 cm merusak tanaman pangan, hortikultura, dan peternakan.",
+    "summary_en": "Overflow from the Lae Soeraya River since 12 October 2024 damaged 719 hectares of farmland and plantations in Trumon Raya and Kluet Raya, Aceh Selatan. Water depths of 100 to 400 cm damaged food crops, horticulture, and livestock activities.",
+    "media_type": "article",
+    "media_url": "",
+    "claim_type": "damage",
+    "impact_tags": [
+      "flooding",
+      "damage"
+    ],
+    "canonical_event_group": "ceg-11-01-2024-10-lae-soeraya-luapan",
+    "period_start": "2024-10-01",
+    "period_end": "2024-10-31",
+    "supporting_records": [
+      {
+        "event_id": "aceh-selatan-2024-10-12-serambi-video",
+        "headline": "Banjir Luapan Landa Aceh Selatan, Lima Kecamatan Terdampak, 220 Jiwa Mengungsi",
+        "claim_type": "evacuation",
+        "source_name": "Serambinews",
+        "source_url": "https://www.youtube.com/watch?v=uxsFslLzBMo",
+        "source_date": "2024-10-12",
+        "media_type": "video",
+        "media_url": "https://www.youtube.com/watch?v=uxsFslLzBMo"
+      }
+    ]
+  },
+  {
+    "event_id": "aceh-selatan-2024-05-12-disdikbud-main",
+    "event_date": "2024-05-12",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "location_label": "Kabupaten Aceh Selatan",
+    "source_name": "Antara Aceh",
+    "source_url": "https://aceh.antaranews.com/berita/359529/disdikbud-sejumlah-sekolah-di-aceh-selatan-terdampak-banjir",
+    "source_date": "2024-05-12",
+    "headline": "Disdikbud: Sejumlah sekolah di Aceh Selatan terdampak banjir",
+    "summary": "Banjir dan longsor pada 12 Mei 2024 berdampak pada sejumlah sekolah di Aceh Selatan, termasuk di Kluet Timur, Kluet Utara, dan Trumon. Disdikbud menyebut sekolah sempat tergenang kurang dari setengah meter dan diminta melakukan pembersihan pascabanjir, meski kegiatan belajar tidak berhenti total.",
+    "summary_id": "Banjir dan longsor pada 12 Mei 2024 berdampak pada sejumlah sekolah di Aceh Selatan, termasuk di Kluet Timur, Kluet Utara, dan Trumon. Disdikbud menyebut sekolah sempat tergenang kurang dari setengah meter dan diminta melakukan pembersihan pascabanjir, meski kegiatan belajar tidak berhenti total.",
+    "summary_en": "Flooding and landslides on 12 May 2024 affected several schools in Aceh Selatan, including in Kluet Timur, Kluet Utara, and Trumon. The education office said schools were briefly inundated by less than half a metre of water and were asked to clean up afterward, although classes did not fully stop.",
+    "media_type": "article",
+    "media_url": "",
+    "claim_type": "school_disruption",
+    "impact_tags": [
+      "flooding",
+      "school_disruption"
+    ],
+    "canonical_event_group": "ceg-11-01-2024-05-banjir-longsor-mei",
+    "period_start": "2024-05-01",
+    "period_end": "2024-05-31",
+    "supporting_records": []
+  },
+  {
+    "event_id": "aceh-selatan-2023-11-20-antara-main",
+    "event_date": "2023-11-20",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "location_label": "Kabupaten Aceh Selatan",
+    "source_name": "Antara Aceh",
+    "source_url": "https://aceh.antaranews.com/berita/348828/sebanyak-2500-warga-terdampak-banjir-bandang-di-aceh-selatan",
+    "source_date": "2023-11-20",
+    "headline": "Sebanyak 2.500 warga terdampak banjir bandang di Aceh Selatan",
+    "summary": "Banjir bandang di Ladang Rimba, Kecamatan Trumon Tengah, pada 20 November 2023 berdampak pada sekitar 2.500 warga dari 251 keluarga. BPBD Aceh Selatan mencatat 256 orang mengungsi, rumah dan fasilitas umum rusak berat, serta material kayu dan lumpur menutup badan jalan.",
+    "summary_id": "Banjir bandang di Ladang Rimba, Kecamatan Trumon Tengah, pada 20 November 2023 berdampak pada sekitar 2.500 warga dari 251 keluarga. BPBD Aceh Selatan mencatat 256 orang mengungsi, rumah dan fasilitas umum rusak berat, serta material kayu dan lumpur menutup badan jalan.",
+    "summary_en": "Flash flooding in Ladang Rimba, Trumon Tengah, on 20 November 2023 affected about 2,500 residents from 251 families. The Aceh Selatan disaster agency recorded 256 evacuees, with houses and public facilities heavily damaged and roads covered by logs and mud.",
+    "media_type": "article",
+    "media_url": "",
+    "claim_type": "evacuation",
+    "impact_tags": [
+      "flooding",
+      "evacuation",
+      "road_closure"
+    ],
+    "canonical_event_group": "ceg-11-01-2023-11-ladang-rimba-bandang",
+    "period_start": "2023-11-01",
+    "period_end": "2023-11-30",
+    "supporting_records": [
+      {
+        "event_id": "aceh-selatan-2023-11-24-serambi-video",
+        "headline": "556 Rumah Warga di Trumon Tengah Rusak Diterjang Banjir Bandang",
+        "claim_type": "damage",
+        "source_name": "Serambinews",
+        "source_url": "https://www.youtube.com/watch?v=2_CLF4aT-qQ",
+        "source_date": "2023-11-24",
+        "media_type": "video",
+        "media_url": "https://www.youtube.com/watch?v=2_CLF4aT-qQ"
+      }
+    ]
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "geography_period_id": "11.01:2025-12",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "province_code": "11",
+    "period_start": "2025-12-01",
+    "period_end": "2025-12-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-selatan-2025-12-25-live-video",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.815214+00:00"
+  },
+  {
+    "geography_period_id": "11.01:2025-11",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "province_code": "11",
+    "period_start": "2025-11-01",
+    "period_end": "2025-11-30",
+    "public_state": "has_featured_report_and_more",
+    "featured_event_id": "aceh-selatan-2025-11-28-evakuasi-main",
+    "supporting_event_count": 1,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.815212+00:00"
+  },
+  {
+    "geography_period_id": "11.01:2024-10",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "province_code": "11",
+    "period_start": "2024-10-01",
+    "period_end": "2024-10-31",
+    "public_state": "has_featured_report_and_more",
+    "featured_event_id": "aceh-selatan-2024-10-16-liputan-6-main",
+    "supporting_event_count": 2,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.815210+00:00"
+  },
+  {
+    "geography_period_id": "11.01:2024-05",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "province_code": "11",
+    "period_start": "2024-05-01",
+    "period_end": "2024-05-31",
+    "public_state": "has_featured_report_only",
+    "featured_event_id": "aceh-selatan-2024-05-12-disdikbud-main",
+    "supporting_event_count": 0,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.815205+00:00"
+  },
+  {
+    "geography_period_id": "11.01:2023-11",
+    "admin_level": "regency",
+    "admin_code": "11.01",
+    "province_code": "11",
+    "period_start": "2023-11-01",
+    "period_end": "2023-11-30",
+    "public_state": "has_featured_report_and_more",
+    "featured_event_id": "aceh-selatan-2023-11-20-antara-main",
+    "supporting_event_count": 1,
+    "review_status_rollup": "reviewed",
+    "reviewed_at": "2026-03-27T19:40:01.814880+00:00"
+  }
+]

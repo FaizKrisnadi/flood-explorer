@@ -789,6 +789,7 @@ select:focus {
 .qualitative-headline {
   margin: 0;
   font-size: 0.98rem;
+  font-weight: 400 !important;
   line-height: 1.45;
   color: var(--ink);
 }
@@ -813,7 +814,7 @@ select:focus {
 
 .qualitative-related {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .section-head--compact {
@@ -822,24 +823,26 @@ select:focus {
 
 .section-head--compact h3 {
   margin: 0;
-  font-size: 0.76rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
+  font-size: 0.84rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--ink);
 }
 
 .qualitative-related-list {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .qualitative-related-item {
   display: grid;
-  gap: 8px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(92, 111, 136, 0.08);
+  gap: 10px;
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0.96) 0%, rgba(251, 247, 241, 0.9) 100%);
+  border: 1px solid rgba(192, 173, 149, 0.28);
+  box-shadow: 0 10px 22px rgba(78, 57, 28, 0.06);
 }
 
 .qualitative-related-topline {
@@ -851,14 +854,21 @@ select:focus {
 }
 
 .qualitative-related-date {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--ink-secondary);
 }
 
 .qualitative-related-headline {
-  font-size: 0.9rem;
-  line-height: 1.45;
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 400 !important;
+  line-height: 1.42;
+  letter-spacing: -0.01em;
   color: var(--ink);
+}
+
+.qualitative-related-meta {
+  font-size: 0.84rem;
 }
 
 .qualitative-related-meta,
@@ -870,9 +880,13 @@ select:focus {
 }
 
 .qualitative-related-summary {
-  font-size: 0.84rem;
-  line-height: 1.55;
-  color: var(--ink-secondary);
+  font-size: 0.89rem;
+  line-height: 1.58;
+  color: var(--ink);
+}
+
+.qualitative-related-item .source-link {
+  margin-top: 2px;
 }
 
 .tag-pill {
@@ -1094,6 +1108,17 @@ select:focus {
   line-height: 1.5;
 }
 
+.footer-owner-link {
+  color: inherit;
+  text-decoration-color: rgba(120, 90, 50, 0.3);
+  text-underline-offset: 2px;
+}
+
+.footer-owner-link:hover {
+  color: var(--ink-secondary);
+  text-decoration-color: currentColor;
+}
+
 .map-attribution-copy {
   margin-top: 6px;
   font-size: 0.68rem;
@@ -1109,6 +1134,56 @@ select:focus {
 .map-attribution-copy a:hover {
   color: var(--ink-secondary);
   text-decoration-color: currentColor;
+}
+
+/* ─── Hover Metric Popup ─── */
+.map-hover-popup.maplibregl-popup {
+  pointer-events: none;
+}
+
+.map-hover-popup .maplibregl-popup-content {
+  min-width: 138px;
+  padding: 9px 11px;
+  border-radius: 12px;
+  border: 1px solid rgba(92, 111, 136, 0.16);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--ink);
+  box-shadow: 0 10px 24px rgba(29, 43, 59, 0.18);
+}
+
+.map-hover-popup .maplibregl-popup-tip {
+  border-top-color: rgba(255, 255, 255, 0.96);
+}
+
+.map-hover-popup__content {
+  display: grid;
+  gap: 4px;
+}
+
+.map-hover-popup__title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.map-hover-popup__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.map-hover-popup__level {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.map-hover-popup__value {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--accent);
 }
 
 /* ═══════════ MAP OVERLAYS ═══════════ */
@@ -1239,7 +1314,7 @@ select:focus {
 
 .legend-bar {
   display: flex;
-  gap: 3px;
+  gap: 0;
   height: 8px;
   border-radius: var(--radius-pill);
   overflow: hidden;
@@ -1247,7 +1322,7 @@ select:focus {
 
 .legend-swatch {
   flex: 1;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   transition: transform 160ms var(--ease);
 }
 
