@@ -1,3 +1,5 @@
+import { calendarMonths, clampMonth, latestYearRange, legendBreaks, colorIndex, toCsv } from "./explorer-utils.mjs?v=20261023";
+
 /* ═══════════════════════════════════════════════════
    INDONESIA FLOOD EXPLORER — App v2
    Sidebar layout · Timeline slider · Chart.js theming
@@ -46,11 +48,17 @@ const state = {
   qualitativeSidebarFocusPending: false,
   suppressRouteSync: false,
   hoverPopup: null,
+  activePanel: "overview",
+  renderError: null,
+  isRendering: false,
+  hasRendered: false,
 };
 
-/* ─── Choropleth colour ramp (YlOrRd inspired, warm palette) ─── */
-const COLOR_STEPS = ["#fef9c3", "#fde68a", "#f59e0b", "#b45309", "#78350f", "#451a03"];
-const APP_ASSET_VERSION = "20260328j";
+/* ─── Sequential atlas palette: recorded activity, not forecast risk ─── */
+const COLOR_STEPS = ["#edf1eb", "#d3e3d7", "#9fc9b7", "#62ad9c", "#2a817e", "#164b57"];
+const APP_ASSET_VERSION = "20261023";
+const pendingJsonRequests = new Map();
+const jsonCache = new Map();
 
 /* ─── DOM refs ─── */
 const levelSelect = document.querySelector("#level-select");
@@ -136,8 +144,8 @@ const statAnimationFrames = new WeakMap();
 const customSelectControls = new Map();
 const BOUNDARY_PAINT_PROFILES = {
   map: {
-    fillOpacity: 0.72,
-    selectedFillOpacity: 0.85,
+    fillOpacity: 0.48,
+    selectedFillOpacity: 0.60,
     lineColor: "rgba(60, 50, 30, 0.22)",
     lineWidth: 0.8,
   },
@@ -189,25 +197,21 @@ const TREND_HIGHLIGHT_PLUGIN = {
 
 /* ─── Utilities ─── */
 async function loadJson(path) {
-  const versionedPath = (() => {
-    try {
-      const url = new URL(path, window.location.href);
-      if (url.origin === window.location.origin) {
-        url.searchParams.set("v", APP_ASSET_VERSION);
-      }
-      return url.toString();
-    } catch {
-      return path;
-    }
+  const url = new URL(path, window.location.href);
+  if (url.origin === window.location.origin) url.searchParams.set("v", APP_ASSET_VERSION);
+  const key = url.toString();
+  if (jsonCache.has(key)) return jsonCache.get(key);
+  if (pendingJsonRequests.has(key)) return pendingJsonRequests.get(key);
+  const request = (async () => {
+    const response = await fetch(key, { signal: AbortSignal.timeout(20000) });
+    if (!response.ok) throw new Error(`Failed to load ${url.pathname} (${response.status})`);
+    const value = await response.json();
+    jsonCache.set(key, value);
+    return value;
   })();
-  if (path.includes("undefined")) {
-    console.error("CRITICAL ERROR: fetching undefined path:", path);
-    // Print stack trace
-    console.trace();
-  }
-  const response = await fetch(versionedPath);
-  if (!response.ok) throw new Error(`Failed to load ${path}`);
-  return response.json();
+  pendingJsonRequests.set(key, request);
+  try { return await request; }
+  finally { pendingJsonRequests.delete(key); }
 }
 
 function t(key) {
@@ -303,6 +307,11 @@ function normalizePublicUrl(rawUrl) {
   }
 }
 
+function publishableReports(records) {
+  // Fail closed: a missing validator must never expose unsupported reports.
+  return window.FloodReportIntegrity ? window.FloodReportIntegrity.filterRecords(records) : [];
+}
+
 function normalizeQualitativeEvent(event) {
   return {
     adminCode: event.admin_code || "",
@@ -321,7 +330,7 @@ function normalizeQualitativeEvent(event) {
     summaryId: event.summary_id || "",
     summaryEn: event.summary_en || "",
     supportingRecords: Array.isArray(event.supporting_records)
-      ? event.supporting_records.map((record) => ({
+      ? event.supporting_records.filter(record => window.FloodReportIntegrity?.isPublishable(record)).map((record) => ({
           kind: "supporting",
           claimType: record.claim_type || "",
           eventId: record.event_id || "",
@@ -386,8 +395,9 @@ async function loadQualitativeStore() {
 
   try {
     const globalEvents = await loadJson(`./data/latest/${config.globalEventsPath}`);
-    store.global.events = Array.isArray(globalEvents) ? globalEvents.map(normalizeQualitativeEvent) : [];
+    store.global.events = Array.isArray(globalEvents) ? publishableReports(globalEvents).map(normalizeQualitativeEvent) : [];
   } catch (error) {
+    store.eventsLoadError = true;
     console.warn("Global qualitative events were not available", error);
   }
 
@@ -405,6 +415,7 @@ async function loadQualitativeStore() {
       if (entry.slug) store.regencyIndexBySlug.set(entry.slug, entry);
     });
   } catch (error) {
+    store.indexLoadError = true;
     console.warn("Regency qualitative index was not available", error);
   }
 
@@ -426,15 +437,14 @@ async function loadRegencyQualitativeBundle(adminCode) {
     ]);
     const bundle = {
       entry,
-      events: Array.isArray(events) ? events.map(normalizeQualitativeEvent) : [],
+      events: Array.isArray(events) ? publishableReports(events).map(normalizeQualitativeEvent) : [],
       states: Array.isArray(states) ? states.map(normalizeQualitativeState) : [],
     };
     store.regencyBundleCache.set(adminCode, bundle);
     return bundle;
   } catch (error) {
     console.warn("Failed to load regency qualitative bundle", adminCode, error);
-    store.regencyBundleCache.set(adminCode, null);
-    return null;
+    throw error;
   }
 }
 
@@ -846,11 +856,7 @@ function fallbackSourceUrlForName(sourceName) {
 }
 
 function resolveSourceHref(item) {
-  return (
-    normalizePublicUrl(item?.sourceUrl) ||
-    normalizePublicUrl(item?.mediaUrl) ||
-    normalizePublicUrl(fallbackSourceUrlForName(item?.sourceName || ""))
-  );
+  return normalizePublicUrl(item?.sourceUrl);
 }
 
 async function getQualitativeSummaryForGeography(level, code) {
@@ -872,6 +878,7 @@ async function getQualitativeSummaryForGeography(level, code) {
   };
 
   if (level === "regency") {
+    if (state.qualitativeStore.indexLoadError) throw new Error("Report index unavailable");
     sourceMeta.indexEntry = state.qualitativeStore.regencyIndexByCode.get(code) || null;
     if (sourceMeta.indexEntry) {
       const bundle = await loadRegencyQualitativeBundle(code);
@@ -888,6 +895,8 @@ async function getQualitativeSummaryForGeography(level, code) {
     }
   }
 
+  if (!sourceMeta.bundleLoaded && state.qualitativeStore.eventsLoadError) throw new Error("Report records unavailable");
+  if (!events.length) states = [];
   return buildQualitativeSummary(events, states, sourceMeta);
 }
 
@@ -1057,9 +1066,8 @@ function buildRouteUrl() {
   if (state.currentDateTo) {
     url.searchParams.set("to", state.currentDateTo);
   }
-  if (state.qualitativeRouteOpen) {
-    url.searchParams.set("view", "qualitative");
-  }
+  if (state.currentMetric !== state.manifest?.default_metric) url.searchParams.set("metric", state.currentMetric);
+  if (state.activePanel !== "overview") url.searchParams.set("view", state.activePanel);
   return url;
 }
 
@@ -1081,7 +1089,10 @@ function applyRouteStateFromUrl() {
   const requestedFrom = url.searchParams.get("from");
   const requestedTo = url.searchParams.get("to");
   const requestedView = url.searchParams.get("view");
+  const requestedMetric = url.searchParams.get("metric");
 
+  state.currentMetric = state.manifest.metrics.includes(requestedMetric) ? requestedMetric : state.manifest.default_metric;
+  state.activePanel = ["trends", "reports", "data"].includes(requestedView) ? requestedView : requestedView === "qualitative" ? "reports" : "overview";
   state.currentLevel = state.manifest?.default_level || state.currentLevel;
   state.selectedCode = null;
   state.selectedFeature = null;
@@ -1099,7 +1110,7 @@ function applyRouteStateFromUrl() {
   if (requestedLevel && state.manifest?.available_levels?.includes(requestedLevel)) {
     state.currentLevel = requestedLevel;
   }
-  if (requestedCode) {
+  if (requestedCode && state.adminByCode.get(requestedCode)?.level === state.currentLevel) {
     state.selectedCode = requestedCode;
     state.selectedFeature = null;
     state.pendingFit = "selection";
@@ -1109,8 +1120,9 @@ function applyRouteStateFromUrl() {
 
   if (requestedView === "qualitative" && state.currentLevel === "regency" && state.selectedCode) {
     state.qualitativeRouteOpen = true;
-    state.qualitativeSidebarFocusPending = true;
+    state.qualitativeSidebarFocusPending = false;
   }
+  setActivePanel(state.activePanel, false);
 }
 
 function formatFullDateLabel(monthStart) {
@@ -1156,10 +1168,14 @@ function buildEvidenceSourceTooltip(bundle) {
 
 /* ─── Boot ─── */
 async function boot() {
+  setAppStatus("refresh.loading");
   await loadTranslations();
+  setAppStatus("refresh.loading");
   await loadManifest();
   initControls();
+  initRefreshControls();
   initSidebar();
+  initPanelResizer();
   initTimeline();
   initPlayButton();
   initQualitativeRoute();
@@ -1168,7 +1184,10 @@ async function boot() {
   if (metricSelect) metricSelect.value = state.currentMetric;
   syncCustomSelectValues();
   applyTranslations();
+  syncDateRangeDefaults();
+  syncTimelineSliders();
   initMap();
+  updateRefreshUI();
 }
 
 async function loadTranslations() {
@@ -1182,9 +1201,11 @@ async function loadTranslations() {
 
 async function loadManifest() {
   state.manifest = await loadJson("./data/latest/build_manifest.json");
-  state.coverageReport = await loadJson(`./data/latest/${state.manifest.coverage_report}`);
-  state.methodology = await loadJson(`./data/latest/${state.manifest.methodology}`);
-  state.searchIndex = await loadJson(`./data/latest/${state.manifest.search_index}`);
+  [state.coverageReport, state.methodology, state.searchIndex] = await Promise.all([
+    loadJson(`./data/latest/${state.manifest.coverage_report}`),
+    loadJson(`./data/latest/${state.manifest.methodology}`),
+    loadJson(`./data/latest/${state.manifest.search_index}`),
+  ]);
   state.language = state.manifest.default_language || state.language;
   state.qualitativeStore = await loadQualitativeStore();
   state.evidenceIndex = null;
@@ -1282,6 +1303,7 @@ function playTimeline() {
 
     updateTimelineFill();
     void renderExplorer();
+    syncRouteState({ replace: true });
   }, 800);
 }
 
@@ -1315,11 +1337,39 @@ function initSidebar() {
   window.addEventListener("resize", handleResponsiveSidebarResize, { passive: true });
 }
 
+function initPanelResizer() {
+  const separator = document.createElement("div");
+  separator.id = "panel-resizer"; separator.tabIndex = 0;
+  separator.setAttribute("role", "separator"); separator.setAttribute("aria-orientation", "vertical");
+  separator.setAttribute("aria-valuemin", "330"); separator.setAttribute("aria-valuemax", "560");
+  const resize = value => {
+    const width = Math.round(Math.max(330, Math.min(560, value)));
+    document.documentElement.style.setProperty("--sidebar-w", `${width}px`);
+    separator.setAttribute("aria-valuenow", String(width));
+    state.map?.resize();
+  };
+  separator.setAttribute("aria-valuenow", "390");
+  separator.addEventListener("pointerdown", event => {
+    separator.setPointerCapture(event.pointerId); document.body.classList.add("panel-resizing");
+  });
+  separator.addEventListener("pointermove", event => { if (separator.hasPointerCapture(event.pointerId)) resize(event.clientX); });
+  const finish = () => document.body.classList.remove("panel-resizing");
+  separator.addEventListener("pointerup", finish); separator.addEventListener("lostpointercapture", finish);
+  separator.addEventListener("keydown", event => {
+    const width = document.querySelector("#sidebar").getBoundingClientRect().width;
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    resize(event.key === "Home" ? 330 : event.key === "End" ? 560 : width + (event.key === "ArrowRight" ? 20 : -20));
+  });
+  document.body.append(separator);
+}
+
 function initQualitativeRoute() {
   window.addEventListener("popstate", async () => {
     state.suppressRouteSync = true;
     applyRouteStateFromUrl();
     if (levelSelect) levelSelect.value = state.currentLevel;
+    if (metricSelect) metricSelect.value = state.currentMetric;
     syncCustomSelectValues();
     document.querySelectorAll(".lang-btn").forEach((button) => {
       button.classList.toggle("is-active", button.dataset.language === state.language);
@@ -1332,6 +1382,7 @@ function initQualitativeRoute() {
 
   mobileViewport.addEventListener("change", async () => {
     state.suppressRouteSync = true;
+    state.pendingFit = state.selectedCode ? "selection" : "level";
     if (mobileViewport.matches) {
       setQualitativeRouteOpen(false);
     } else if (state.currentLevel === "regency" && state.selectedCode) {
@@ -1376,11 +1427,11 @@ function applyResponsiveSidebarMode({ force = false } = {}) {
     if (force || !state.sidebarTouched) setSidebarCollapsed(false);
     return;
   }
-  if (force || !state.sidebarTouched) setSidebarCollapsed(true);
+  if (force || !state.sidebarTouched) setSidebarCollapsed(false);
 }
 
 function handleResponsiveSidebarResize() {
-  const shouldCollapse = mobileViewport.matches;
+  const shouldCollapse = false;
   if (!state.sidebarTouched) {
     setSidebarCollapsed(shouldCollapse);
     return;
@@ -1440,7 +1491,7 @@ function initTimeline() {
 function formatMonthLabel(month) {
   if (!month) return "—";
   const parts = month.split("-");
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const monthNames = state.language === "id" ? ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"] : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   return `${monthNames[parseInt(parts[1], 10) - 1]} ${parts[0]}`;
 }
 
@@ -1455,7 +1506,7 @@ function syncTimelineSliders() {
     return;
   }
 
-  state.allMonths = levelAssets.months;
+  state.allMonths = calendarMonths(levelAssets.months[0], levelAssets.months.at(-1));
   dateFromInput.style.display = "";
   dateToInput.style.display = "";
   dateFromInput.min = 0;
@@ -1836,12 +1887,15 @@ function initControls() {
     state.currentMetric = metricSelect.value;
     refreshControlLabels();
     await renderExplorer();
+    syncRouteState();
   });
 
   resetButton.addEventListener("click", async () => {
     closeAllCustomSelects();
     state.selectedCode = null;
     state.selectedFeature = null;
+    searchInput.value = "";
+    setActivePanel("overview", false);
     state.imageryFallbackState = null;
     const prevBasemap = state.currentBasemapMode;
     state.currentLevel = state.manifest.default_level || "province";
@@ -1925,9 +1979,7 @@ function applyTranslations() {
   if (evidenceSectionTitle) {
     evidenceSectionTitle.textContent = t("panel.evidence");
   }
-  if (state.selectedCode) {
-    void renderQualitativeData(state.selectedCode, state.renderVersion);
-  }
+  updateRefreshUI();
 }
 
 /* ─── Map ─── */
@@ -1948,7 +2000,7 @@ function initMap() {
     style: buildStyleDefinition(state.currentBasemapMode),
     center: [118, -2.4],
     zoom: 4.7,
-    minZoom: 3.5,
+    minZoom: 1.3,
     attributionControl: false,
     pitch: 0,
   });
@@ -1967,6 +2019,10 @@ function initMap() {
     renderBasemapToggle();
     await applyBasemapMode(state.currentBasemapMode);
   });
+
+  window.setTimeout(() => {
+    if (!state.mapStyleReady) setAppStatus("refresh.map_failed", true);
+  }, 15000);
 
   state.map.on("load", async () => {
     state.mapStyleReady = true;
@@ -2043,18 +2099,12 @@ async function getSummaryData(level) {
 }
 
 function syncDateRangeDefaults() {
-  const levelAssets = state.manifest.metric_assets[state.currentLevel];
-  if (!levelAssets?.months?.length) {
-    state.currentDateFrom = "";
-    state.currentDateTo = "";
-    return;
-  }
-  if (!state.currentDateFrom || !levelAssets.months.includes(state.currentDateFrom)) {
-    state.currentDateFrom = levelAssets.months[0];
-  }
-  if (!state.currentDateTo || !levelAssets.months.includes(state.currentDateTo)) {
-    state.currentDateTo = levelAssets.months[levelAssets.months.length - 1];
-  }
+  const months = state.manifest.metric_assets[state.currentLevel]?.months || [];
+  if (!months.length) { state.currentDateFrom = ""; state.currentDateTo = ""; return; }
+  const first = months[0], last = months.at(-1);
+  state.currentDateFrom = clampMonth(state.currentDateFrom || first, first, last);
+  state.currentDateTo = clampMonth(state.currentDateTo || last, first, last);
+  if (state.currentDateFrom > state.currentDateTo) state.currentDateTo = state.currentDateFrom;
 }
 
 function availableMonthsInRange(levelAssets) {
@@ -2075,20 +2125,19 @@ function usesFullRange(levelAssets) {
 }
 
 async function loadMonthRows(level) {
-  const levelAssets = state.manifest.metric_assets[level];
-  if (!levelAssets?.months?.length) return [];
-  const requestedMonths = availableMonthsInRange(levelAssets);
+  const assets = state.manifest.metric_assets[level];
+  const months = availableMonthsInRange(assets);
   const rows = [];
-  for (const month of requestedMonths) {
-    const cacheKey = `${level}:${month}`;
-    if (!state.monthCache.has(cacheKey)) {
-      try {
-        state.monthCache.set(cacheKey, await loadJson(`./data/latest/${levelAssets.month_dir}/${month}.json`));
-      } catch (error) {
-        state.monthCache.set(cacheKey, []);
+  for (let offset = 0; offset < months.length; offset += 8) {
+    const batch = await Promise.all(months.slice(offset, offset + 8).map(async month => {
+      const key = `${level}:${month}`;
+      if (!state.monthCache.has(key)) {
+        const data = await loadJson(`./data/latest/${assets.month_dir}/${month}.json`);
+        state.monthCache.set(key, data);
       }
-    }
-    rows.push(...state.monthCache.get(cacheKey));
+      return state.monthCache.get(key);
+    }));
+    batch.forEach(data => rows.push(...data));
   }
   return rows;
 }
@@ -2115,12 +2164,7 @@ async function loadTrendRows(level, code) {
       ? `${level}:bundle:${assetKey}`
       : `${level}:code:${assetKey}`;
     if (!state.trendCache.has(cacheKey)) {
-      let rows = [];
-      try {
-        rows = await loadJson(`./data/latest/${levelAssets.trend_dir}/${assetKey}.json`);
-      } catch {
-        rows = [];
-      }
+      const rows = await loadJson(`./data/latest/${levelAssets.trend_dir}/${assetKey}.json`);
       rows.sort((left, right) => {
         if (left.code !== right.code) return left.code.localeCompare(right.code);
         return left.month_start.localeCompare(right.month_start);
@@ -2130,7 +2174,7 @@ async function loadTrendRows(level, code) {
     return filterRowsByDateRange(state.trendCache.get(cacheKey).filter((row) => row.code === code));
   }
 
-  const fallbackCacheKey = `${level}:monthscan:${code}`;
+  const fallbackCacheKey = `${level}:monthscan:${code}:${state.currentDateFrom}:${state.currentDateTo}`;
   if (!state.trendCache.has(fallbackCacheKey)) {
     const rows = (await loadMonthRows(level))
       .filter((row) => row.code === code)
@@ -2204,13 +2248,6 @@ async function buildMetricLookup(level) {
   }
 
   const rows = await loadMonthRows(level);
-  if (!rows.length) {
-    const summaryRows = await getSummaryData(level);
-    return {
-      lookup: new Map(summaryRows.map((row) => [row.code, row])),
-      mode: "summary_all_time",
-    };
-  }
 
   const lookup = new Map();
   for (const row of rows) {
@@ -2232,21 +2269,31 @@ async function buildMetricLookup(level) {
 
 /* ─── Choropleth rendering ─── */
 function colorForValue(value, maxValue) {
-  if (!maxValue || value <= 0) return COLOR_STEPS[0];
-  const ratio = value / maxValue;
-  const index = Math.min(COLOR_STEPS.length - 1, Math.floor(ratio * (COLOR_STEPS.length - 1)) + 1);
-  return COLOR_STEPS[index];
+  return COLOR_STEPS[colorIndex(value, maxValue, COLOR_STEPS.length - 1)];
 }
 
 function renderLegend(maxValue) {
   mapLegend.innerHTML = "";
-  COLOR_STEPS.forEach((color, index) => {
+  mapLegend.setAttribute("aria-label", t(`metric.${state.currentMetric}`));
+  const steps = [{ low: 0, high: 0 }, ...legendBreaks(maxValue, COLOR_STEPS.length - 1)];
+  steps.forEach((step, index) => {
     const swatch = document.createElement("span");
     swatch.className = "legend-swatch";
-    swatch.style.background = color;
-    swatch.title = index === 0 ? "0" : `${Math.round((index / (COLOR_STEPS.length - 1)) * maxValue)}`;
+    swatch.style.background = COLOR_STEPS[index];
+    swatch.title = index === 0 ? t("refresh.legend.zero") : `${formatLegendValue(step.low)} < x ≤ ${formatLegendValue(step.high)}`;
     mapLegend.append(swatch);
   });
+  let labels = document.querySelector("#legend-values");
+  if (!labels) { labels = document.createElement("div"); labels.id = "legend-values"; labels.className = "legend-values"; mapLegend.after(labels); }
+  labels.innerHTML = "";
+  ["0", formatLegendValue(maxValue)].forEach(value => { const label = document.createElement("span"); label.textContent = value; labels.append(label); });
+  mapTitle.textContent = t(`metric.${state.currentMetric}`);
+}
+
+function formatLegendValue(value) {
+  if (state.currentMetric === "max_coverage_ratio") return `${formatMetric(value * 100)}%`;
+  const formatted = new Intl.NumberFormat(state.language === "id" ? "id-ID" : "en-US", { maximumFractionDigits: 1, notation: value >= 10000 ? "compact" : "standard" }).format(value);
+  return state.currentMetric === "sum_intersection_area_km2" ? `${formatted} km²` : formatted;
 }
 
 function cloneFeature(feature, lookup, maxValue) {
@@ -2261,7 +2308,7 @@ function cloneFeature(feature, lookup, maxValue) {
       fill_color: colorForValue(metricValue, maxValue),
       is_selected: feature.properties.code === state.selectedCode,
       metric_label: t(`metric.${state.currentMetric}`),
-      metric_display: formatMetric(metricValue),
+      metric_display: state.currentMetric === "max_coverage_ratio" ? `${formatMetric(metricValue * 100)}%` : formatMetric(metricValue),
       parent_name: parentLabel(feature.properties),
     },
   };
@@ -2362,7 +2409,7 @@ function ensureBoundaryLayers() {
     source: "boundaries",
     filter: ["==", ["get", "is_selected"], true],
     paint: {
-      "line-color": "#b45309",
+      "line-color": "#143f46",
       "line-width": 2.5,
     },
   });
@@ -2434,6 +2481,12 @@ function boundsFromFeature(feature) {
 
 function fitCurrentMapView() {
   if (!state.map || !state.currentGeojsonData?.features?.length) return;
+  const padding = mobileViewport.matches
+    ? { top: 60, right: 24, left: 24, bottom: state.sidebarCollapsed ? 150 : Math.round(window.innerHeight * 0.53) + 105 }
+    : { top: 65, right: 45, left: 45, bottom: 160 };
+  // Keep useful map space even on a short viewport.
+  padding.bottom = Math.min(padding.bottom, window.innerHeight - padding.top - 100);
+  const duration = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 650;
   if (state.pendingFit === "selection" && state.selectedCode) {
     const feature = state.currentGeojsonData.features.find(
       (item) => item.properties.code === state.selectedCode
@@ -2441,7 +2494,7 @@ function fitCurrentMapView() {
     if (feature) {
       const bounds = boundsFromFeature(feature);
       if (!bounds.isEmpty()) {
-        state.map.fitBounds(bounds, { padding: 80, duration: 1000 });
+        state.map.fitBounds(bounds, { padding, duration });
       }
     }
   } else if (state.pendingFit === "level") {
@@ -2454,7 +2507,7 @@ function fitCurrentMapView() {
       }
     });
     if (!bounds.isEmpty()) {
-      state.map.fitBounds(bounds, { padding: 80, duration: 1000 });
+      state.map.fitBounds(bounds, { padding, duration });
     }
   }
   state.pendingFit = null;
@@ -2463,9 +2516,9 @@ function fitCurrentMapView() {
 async function renderMap(renderVersion) {
   if (!state.map || !state.mapStyleReady) return;
 
-  const geojson = await getBoundaryData(state.currentLevel);
-  if (renderVersion !== state.renderVersion) return;
-  const { lookup, mode } = await buildMetricLookup(state.currentLevel);
+  const [geojson, { lookup, mode }] = await Promise.all([
+    getBoundaryData(state.currentLevel), buildMetricLookup(state.currentLevel),
+  ]);
   if (renderVersion !== state.renderVersion) return;
   state.currentLookup = lookup;
   state.currentLookupMode = mode;
@@ -2484,7 +2537,7 @@ async function renderMap(renderVersion) {
   updateBoundarySource();
   bindMapInteractions();
 
-  mapTitle.textContent = t(`level.${state.currentLevel}`);
+  mapTitle.textContent = t(`metric.${state.currentMetric}`);
   fitCurrentMapView();
 }
 
@@ -2518,8 +2571,6 @@ function updateStatsPanel() {
     for (const row of state.currentLookup.values()) {
       filteredTotalEvents += row.unique_event_count || 0;
     }
-  } else {
-    filteredTotalEvents = state.manifest.groundsource_summary?.intersecting_events || 0;
   }
   const dateWindow =
     state.currentLookupMode === "date_window" && state.currentDateFrom && state.currentDateTo
@@ -2557,12 +2608,12 @@ function animateValue(el, targetValue) {
     statAnimationFrames.delete(el);
   }
 
-  const duration = 600;
+  const duration = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 180;
   const start = performance.now();
   const startValue = parseInt(el.textContent.replace(/\D/g, ""), 10) || 0;
 
   function step(timestamp) {
-    const progress = Math.min((timestamp - start) / duration, 1);
+    const progress = duration ? Math.min((timestamp - start) / duration, 1) : 1;
     const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
     const current = Math.round(startValue + (targetValue - startValue) * eased);
     el.textContent = formatMetric(current);
@@ -2613,21 +2664,17 @@ async function commitSelection({ level = state.currentLevel, code = null, featur
   const previousCode = state.selectedCode;
   state.currentLevel = level;
   if (levelSelect) levelSelect.value = level;
+  syncCustomSelectValues();
   state.selectedCode = code;
   state.selectedFeature = feature?.properties?.code === code ? feature : null;
   state.pendingFit = code ? "selection" : "level";
-  if (level !== "regency" || !code || mobileViewport.matches) {
-    setQualitativeRouteOpen(false);
-  } else {
-    setQualitativeRouteOpen(true);
-  }
-  if (code && (level !== previousLevel || code !== previousCode)) {
-    queueQualitativeSidebarFocus();
-  } else if (level !== previousLevel || code !== previousCode) {
-    state.qualitativeSidebarFocusPending = false;
-  }
+  setQualitativeRouteOpen(false);
+  state.qualitativeSidebarFocusPending = false;
+  if (code !== previousCode || level !== previousLevel) setActivePanel("overview", false);
+  if (code && state.sidebarCollapsed) setSidebarCollapsed(false);
   syncTimelineSliders();
   await renderExplorer();
+  if (mobileViewport.matches) document.querySelector(".sidebar-inner").scrollTop = 0;
   syncRouteState();
 }
 
@@ -2665,7 +2712,7 @@ async function renderSelection(renderVersion) {
 
   const metricRow = state.currentLookup.get(feature.properties.code);
   selectionMetricValue.textContent = metricRow ? formatMetric(metricRow[state.currentMetric]) : "0";
-  selectionCoverage.textContent = metricRow ? formatMetric(metricRow.max_coverage_ratio) : "0";
+  selectionCoverage.textContent = `${formatMetric((metricRow?.max_coverage_ratio || 0) * 100)}%`;
   await ensureEvidenceIndex();
   if (renderVersion !== state.renderVersion) return;
   const evidenceMonthEntry = resolveEvidenceMonthEntry(state.currentLevel, feature.properties.code);
@@ -2685,6 +2732,8 @@ function renderQualitativeSidebar(summary, feature, code) {
   );
   qualitativeSection.classList.toggle("is-hidden", !shouldShowSection);
   if (!shouldShowSection) {
+    qualitativeEmpty.textContent = t("refresh.reports.choose");
+    qualitativeSection.classList.remove("is-hidden");
     qualitativeEmpty.classList.remove("is-hidden");
     qualitativePanel.classList.add("is-hidden");
     return;
@@ -2699,7 +2748,8 @@ function renderQualitativeSidebar(summary, feature, code) {
   qualitativeStateNote.classList.toggle("is-hidden", !summary.stateNote);
 
   if (!summary.featuredEvent) {
-    qualitativeEmpty.textContent = emptyMessageForQualitative(summary.publicState);
+    qualitativeStateBadge.classList.add("is-hidden");
+    qualitativeEmpty.textContent = t("refresh.reports.empty");
     qualitativeEmpty.classList.remove("is-hidden");
     qualitativePanel.classList.add("is-hidden");
     return;
@@ -2768,47 +2818,76 @@ function syncQualitativeSidebarPresentation(summary, code) {
 
 async function renderQualitativeData(code, renderVersion, feature = null) {
   if (renderVersion !== state.renderVersion) return;
-
-  const summary =
-    code && state.currentLevel
-      ? await getQualitativeSummaryForGeography(state.currentLevel, code)
-      : {
-          hasData: false,
-          featuredEvent: null,
-          relatedItems: [],
-          publicState: "",
-          stateNote: "",
-          stateLabel: "",
-          displayWindow: "",
-          sourceMeta: {},
-        };
+  const empty = { hasData: false, featuredEvent: null, relatedItems: [], publicState: "", stateNote: "", stateLabel: "", displayWindow: "", sourceMeta: {} };
+  let summary = empty;
+  try {
+    if (code && state.currentLevel) summary = await getQualitativeSummaryForGeography(state.currentLevel, code);
+  } catch (error) {
+    if (renderVersion !== state.renderVersion) return;
+    summary = { ...empty, loadError: true };
+    console.warn("Local reports unavailable", error);
+  }
   if (renderVersion !== state.renderVersion) return;
-
   renderQualitativeSidebar(summary, feature, code);
-  syncQualitativeSidebarPresentation(summary, code);
+  if (summary.loadError) {
+    qualitativeEmpty.textContent = t("refresh.reports_failed");
+    const retry = document.createElement("button");
+    retry.type = "button"; retry.className = "btn-ghost"; retry.textContent = t("refresh.retry");
+    retry.addEventListener("click", async () => {
+      retry.disabled = true;
+      state.qualitativeStore = await loadQualitativeStore();
+      await renderQualitativeData(state.selectedCode, state.renderVersion, state.selectedFeature);
+    });
+    qualitativeEmpty.append(document.createElement("br"), retry);
+  }
 }
 
 async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
   const ctx = document.querySelector("#trend-chart");
+  document.getElementById("trend-data-table")?.remove();
   if (state.trendChart) {
     state.trendChart.destroy();
     state.trendChart = null;
   }
 
   if (!code || !state.manifest.metric_assets[state.currentLevel]) {
+    trendEmpty.textContent = t("refresh.trends.choose");
+    ctx.parentElement.classList.add("is-hidden");
     trendEmpty.classList.remove("is-hidden");
     return;
   }
 
   trendEmpty.classList.add("is-hidden");
-  const rows = await loadTrendRows(state.currentLevel, code);
+  let rows = await loadTrendRows(state.currentLevel, code);
   if (renderVersion !== state.renderVersion) return;
+  document.getElementById("trend-data-table")?.remove();
   if (!rows.length) {
+    trendEmpty.textContent = t("map.empty");
+    ctx.parentElement.classList.add("is-hidden");
     trendEmpty.classList.remove("is-hidden");
     return;
   }
 
+  ctx.parentElement.classList.remove("is-hidden");
+  const byMonth = new Map(rows.map(row => [row.month_start.slice(0, 7), row]));
+  rows = calendarMonths(state.currentDateFrom, state.currentDateTo).map(month => byMonth.get(month) || { month_start: `${month}-01`, unique_event_count: 0, flood_days: 0, sum_intersection_area_km2: 0, max_coverage_ratio: 0 });
   rows.sort((left, right) => left.month_start.localeCompare(right.month_start));
+  ctx.setAttribute("role", "img");
+  ctx.setAttribute("aria-label", `${state.adminByCode.get(code)?.name || code}: ${t(`metric.${state.currentMetric}`)}, ${formatMonthLabel(state.currentDateFrom)} – ${formatMonthLabel(state.currentDateTo)}`);
+  const details = document.createElement("details"); details.id = "trend-data-table"; details.className = "trend-data-table";
+  const summary = document.createElement("summary"); summary.textContent = t("refresh.chart_table");
+  const table = document.createElement("table");
+  const caption = document.createElement("caption"); caption.textContent = t("refresh.chart_note");
+  const thead = document.createElement("thead"); const head = document.createElement("tr");
+  for (const value of [t("refresh.month"), t(`metric.${state.currentMetric}`)]) { const th = document.createElement("th"); th.scope = "col"; th.textContent = value; head.append(th); }
+  thead.append(head); const tbody = document.createElement("tbody");
+  for (const row of rows) {
+    const tr = document.createElement("tr");
+    const month = document.createElement("th"); month.scope = "row"; month.textContent = formatMonthLabel(row.month_start.slice(0,7));
+    const value = document.createElement("td"); value.textContent = formatLegendValue(row[state.currentMetric]);
+    tr.append(month, value); tbody.append(tr);
+  }
+  table.append(caption, thead, tbody); details.append(summary, table); ctx.parentElement.after(details);
   trendEmpty.classList.add("is-hidden");
 
   state.trendChart = new Chart(ctx, {
@@ -2824,7 +2903,7 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
           backgroundColor: "rgba(20, 184, 166, 0.10)",
           borderWidth: 2,
           fill: true,
-          tension: 0.3,
+          tension: 0.15,
           pointRadius: 0,
           pointHoverRadius: 4,
           pointHoverBackgroundColor: "#14b8a6",
@@ -2834,6 +2913,7 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: false,
       interaction: {
         mode: "index",
         intersect: false,
@@ -2854,6 +2934,7 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
             title(items) {
               return formatFullDateLabel(items?.[0]?.label);
             },
+            label(item) { return `${t(`metric.${state.currentMetric}`)}: ${formatLegendValue(item.parsed.y)}`; },
           },
         },
         trendHighlight: {
@@ -2883,8 +2964,9 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
             font: { family: "Inter", size: 11, weight: "600" },
           },
           ticks: {
-            color: "#9a8e7f",
+            color: "#677d7c",
             font: { family: "Inter", size: 10 },
+            callback(value) { return state.currentMetric === "max_coverage_ratio" ? `${formatMetric(value * 100)}%` : formatMetric(value); },
           },
           grid: { color: "rgba(120, 90, 50, 0.06)" },
           border: { display: false },
@@ -2901,6 +2983,7 @@ function setEvidenceEmpty(messageKey) {
 }
 
 async function renderEvidence(code, renderVersion, monthEntryOverride = null) {
+  if (renderVersion !== state.renderVersion) return;
   if (!code || !state.manifest.evidence_available) {
     setEvidenceEmpty("evidence.none_selected");
     return;
@@ -2917,6 +3000,7 @@ async function renderEvidence(code, renderVersion, monthEntryOverride = null) {
     bundle = await loadEvidenceBundle(monthEntry.path);
   } catch (error) {
     console.warn("Failed to load evidence bundle", monthEntry.path, error);
+    if (renderVersion !== state.renderVersion) return;
     setEvidenceEmpty("evidence.none_available");
     return;
   }
@@ -2999,7 +3083,14 @@ function handleSearch() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "search-result";
-    button.innerHTML = `<div><strong>${match.name}</strong><span>${t(`level.${match.level}`)}</span></div><span>${match.code}</span>`;
+    const body = document.createElement("div");
+    const title = document.createElement("strong"); title.textContent = match.name;
+    const context = document.createElement("span");
+    const parentCode = match.level === "district" ? match.regency_code : match.level === "regency" ? match.province_code : null;
+    context.textContent = [t(`level.${match.level}`), state.adminByCode.get(parentCode)?.name].filter(Boolean).join(" · ");
+    body.append(title, context);
+    const code = document.createElement("span"); code.textContent = match.code;
+    button.append(body, code);
     button.addEventListener("click", async () => {
       const resolved = resolveSearchSelection(match);
       searchInput.value = match.name;
@@ -3025,19 +3116,193 @@ function resolveSearchSelection(match) {
   return { level: state.currentLevel, code: match.code };
 }
 
+/* ─── Place-first explorer controls ─── */
+function setActivePanel(panel, sync = true) {
+  state.activePanel = ["overview", "trends", "reports", "data"].includes(panel) ? panel : "overview";
+  document.querySelectorAll("[data-panel]").forEach(node => {
+    node.classList.toggle("is-hidden", node.dataset.panel !== state.activePanel);
+  });
+  document.querySelectorAll("[data-panel-tab]").forEach(button => {
+    const active = button.dataset.panelTab === state.activePanel;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  if (state.activePanel === "trends") requestAnimationFrame(() => state.trendChart?.resize());
+  if (sync && state.manifest) syncRouteState();
+}
+
+function setAppStatus(key = "", error = false) {
+  const status = document.querySelector("#app-status");
+  if (status) { status.textContent = key ? (t(key) === key ? "Memuat catatan banjir… / Loading flood records…" : t(key)) : ""; status.classList.toggle("is-error", error); }
+  document.querySelector("#retry-load")?.classList.toggle("is-hidden", !error);
+  document.querySelector("#export-data")?.toggleAttribute("disabled", error || !state.manifest || state.isRendering || !state.hasRendered);
+}
+
+function updateRefreshUI() {
+  if (!state.manifest) return;
+  evidenceSection?.classList.toggle("is-hidden", !state.manifest.evidence_index);
+  const months = state.manifest.metric_assets[state.currentLevel]?.months || [];
+  const label = state.selectedFeature?.properties?.name || state.adminByCode.get(state.selectedCode)?.name || "Indonesia";
+  document.body.classList.toggle("has-selection", Boolean(state.selectedCode));
+  const heading = document.querySelector("#place-heading");
+  if (heading) heading.textContent = label;
+  if (document.activeElement !== searchInput && !searchResults.childElementCount) searchInput.value = state.selectedCode ? label : "";
+  document.querySelector("#landing-guide")?.classList.toggle("is-hidden", Boolean(state.selectedCode));
+  const freshness = document.querySelector("#data-freshness");
+  if (freshness) freshness.textContent = formatTemplate("refresh.coverage", { date: formatMonthLabel(months.at(-1)) });
+  const release = document.querySelector("#release-date");
+  if (release) release.textContent = formatTemplate("refresh.release", { date: formatFullDateLabel(state.manifest.generated_at) });
+  const summary = document.querySelector("#filter-summary");
+  if (summary) summary.textContent = `${t(`level.${state.currentLevel}`)} · ${formatMonthLabel(state.currentDateFrom)} – ${formatMonthLabel(state.currentDateTo)}`;
+  const metricLabel = document.querySelector("#selection-metric-label");
+  if (metricLabel) metricLabel.textContent = t(`metric.${state.currentMetric}`);
+  let metricNote = document.getElementById("selected-metric-note");
+  if (!metricNote && selectionDetails) { metricNote = document.createElement("p"); metricNote.id = "selected-metric-note"; metricNote.className = "control-help"; selectionDetails.append(metricNote); }
+  if (metricNote) metricNote.textContent = t(`metric.help.${state.currentMetric}`);
+  if (selectionMetricValue && state.currentMetric === "max_coverage_ratio") {
+    selectionMetricValue.textContent = `${formatMetric((state.currentLookup.get(state.selectedCode)?.max_coverage_ratio || 0) * 100)}%`;
+  }
+  for (const [id, value] of [["date-start-month", state.currentDateFrom], ["date-end-month", state.currentDateTo]]) {
+    const input = document.getElementById(id);
+    if (!input) continue;
+    input.min = months[0] || ""; input.max = months.at(-1) || ""; input.value = value;
+  }
+  dateFromInput.setAttribute("aria-label", t("refresh.from"));
+  dateToInput.setAttribute("aria-label", t("refresh.to"));
+  dateFromInput.setAttribute("aria-valuetext", formatMonthLabel(state.currentDateFrom));
+  dateToInput.setAttribute("aria-valuetext", formatMonthLabel(state.currentDateTo));
+  searchInput.setAttribute("aria-label", t("controls.search"));
+  document.getElementById("panel-resizer")?.setAttribute("aria-label", t("refresh.resize_panel"));
+  document.querySelectorAll(".lang-btn").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.language === state.language)));
+  document.querySelector("#export-data")?.toggleAttribute("disabled", Boolean(state.renderError) || state.isRendering || !state.hasRendered);
+}
+
+async function setDatePeriod(from, to) {
+  pauseTimeline();
+  state.currentDateFrom = from;
+  state.currentDateTo = to;
+  syncDateRangeDefaults();
+  await renderExplorer();
+  syncRouteState();
+}
+
+function initRefreshControls() {
+  document.querySelectorAll("[data-panel-tab]").forEach(button => button.addEventListener("click", () => setActivePanel(button.dataset.panelTab)));
+  document.querySelectorAll("[data-place-code]").forEach(button => button.addEventListener("click", async () => {
+    const place = state.adminByCode.get(button.dataset.placeCode);
+    if (!place) return;
+    searchInput.value = place.name;
+    await commitSelection({ level: place.level, code: place.code });
+  }));
+  document.querySelector("#date-start-month")?.addEventListener("change", async event => {
+    if (!event.target.value) { updateRefreshUI(); return; }
+    const from = event.target.value;
+    await setDatePeriod(from, from > state.currentDateTo ? from : state.currentDateTo);
+  });
+  document.querySelector("#date-end-month")?.addEventListener("change", async event => {
+    if (!event.target.value) { updateRefreshUI(); return; }
+    const to = event.target.value;
+    await setDatePeriod(to < state.currentDateFrom ? to : state.currentDateFrom, to);
+  });
+  document.querySelector("#period-full")?.addEventListener("click", () => setDatePeriod("", ""));
+  document.querySelector("#period-latest")?.addEventListener("click", () => {
+    const range = latestYearRange(state.manifest.metric_assets[state.currentLevel]?.months || []);
+    void setDatePeriod(...range);
+  });
+  document.querySelector("#copy-link")?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(buildRouteUrl().toString());
+      setAppStatus("refresh.copied");
+    } catch {
+      const status = document.querySelector("#app-status");
+      status.textContent = t("refresh.copy_fallback");
+      const input = document.createElement("input");
+      input.readOnly = true; input.value = buildRouteUrl().toString(); input.setAttribute("aria-label", t("refresh.copy_link"));
+      status.append(input); input.select();
+    }
+  });
+  document.querySelector("#export-data")?.addEventListener("click", exportSelectionData);
+  document.querySelector("#retry-load")?.addEventListener("click", () => {
+    if (!state.mapStyleReady) { window.location.reload(); return; }
+    void renderExplorer();
+  });
+  searchInput.addEventListener("keydown", event => {
+    const buttons = [...searchResults.querySelectorAll("button")];
+    if (event.key === "ArrowDown" && buttons.length) { event.preventDefault(); buttons[0].focus(); }
+    if (event.key === "Escape") searchResults.innerHTML = "";
+    if (event.key === "Enter" && buttons.length) { event.preventDefault(); buttons[0].click(); }
+  });
+  searchResults.addEventListener("keydown", event => {
+    const buttons = [...searchResults.querySelectorAll("button")];
+    const index = buttons.indexOf(document.activeElement);
+    if (event.key === "Escape") { searchResults.innerHTML = ""; searchInput.focus(); }
+    if (["ArrowDown", "ArrowUp"].includes(event.key)) {
+      event.preventDefault();
+      const next = index + (event.key === "ArrowDown" ? 1 : -1);
+      if (next < 0) searchInput.focus(); else buttons[Math.min(next, buttons.length - 1)]?.focus();
+    }
+  });
+}
+
+function exportSelectionData() {
+  if (state.renderError || state.isRendering || !state.hasRendered || !state.currentLookup) return;
+  const columns = ["code", "name", "level", "period_from", "period_to", "unique_event_count", "event_start_days", "cumulative_intersection_area_km2", "max_coverage_ratio", "dataset_version", "coverage_note", "source"];
+  const entries = [...state.currentLookup.values()].filter(row => !state.selectedCode || row.code === state.selectedCode);
+  // An area without records still exports its explicitly selected zero-valued aggregate.
+  if (!entries.length && state.selectedCode) entries.push({ code: state.selectedCode });
+  const note = "Events may intersect multiple areas. Days count event start dates. Area is cumulative; repeated footprints can overlap. Zero means no records in this release, not no flood.";
+  const rows = [columns, ...entries.map(row => [row.code, state.adminByCode.get(row.code)?.name || row.code, state.currentLevel, state.currentDateFrom, state.currentDateTo, row.unique_event_count || 0, row.flood_days || 0, row.sum_intersection_area_km2 || 0, row.max_coverage_ratio || 0, state.manifest.dataset_version, note, "https://doi.org/10.5281/zenodo.18647054"])];
+  const url = URL.createObjectURL(new Blob([toCsv(rows)], { type: "text/csv;charset=utf-8;" }));
+  const link = document.createElement("a");
+  link.href = url; link.download = `flood-${state.selectedCode || state.currentLevel}-${state.currentDateFrom}-${state.currentDateTo}.csv`;
+  link.click(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setAppStatus("refresh.downloaded");
+}
+
 /* ─── Main render loop ─── */
 async function renderExplorer() {
   const renderVersion = ++state.renderVersion;
-  updateStatusPanels();
-  syncDateRangeDefaults();
-  syncTimelineSliders();
-  updateMapNotice();
-  await renderMap(renderVersion);
-  if (renderVersion !== state.renderVersion) return;
-  updateStatsPanel();
-  await renderSelection(renderVersion);
-  if (renderVersion !== state.renderVersion) return;
-  renderMethodology();
+  state.renderError = null;
+  state.isRendering = true;
+  state.hasRendered = false;
+  document.body.classList.remove("has-render-error");
+  document.body.classList.add("is-loading");
+  document.querySelector("#export-data")?.setAttribute("disabled", "");
+  setAppStatus("refresh.loading");
+  try {
+    updateStatusPanels();
+    syncDateRangeDefaults();
+    syncTimelineSliders();
+    updateMapNotice();
+    updateRefreshUI();
+    await renderMap(renderVersion);
+    if (renderVersion !== state.renderVersion) return;
+    updateStatsPanel();
+    await renderSelection(renderVersion);
+    if (renderVersion !== state.renderVersion) return;
+    renderMethodology();
+    state.hasRendered = true;
+    updateRefreshUI();
+    setAppStatus();
+  } catch (error) {
+    if (renderVersion !== state.renderVersion) return;
+    console.error("Explorer render failed", error);
+    state.renderError = error;
+    document.body.classList.add("has-render-error");
+    state.map?.getSource("boundaries")?.setData({ type: "FeatureCollection", features: [] });
+    document.getElementById("trend-data-table")?.remove();
+    state.trendChart?.destroy(); state.trendChart = null;
+    trendEmpty.textContent = t("refresh.failed"); trendEmpty.classList.remove("is-hidden");
+    pauseTimeline();
+    setAppStatus("refresh.failed", true);
+    document.querySelectorAll("#stat-total-events, #stat-units-with-data, #stat-rendered-units, #selection-metric-value, #selection-coverage").forEach(node => { node.textContent = "—"; });
+  } finally {
+    if (renderVersion === state.renderVersion) {
+      state.isRendering = false;
+      document.body.classList.remove("is-loading");
+      document.querySelector("#export-data")?.toggleAttribute("disabled", Boolean(state.renderError) || !state.hasRendered);
+    }
+  }
 }
 
 /* ─── Launch ─── */
@@ -3045,4 +3310,9 @@ boot().catch((error) => {
   console.error(error);
   if (coverageBanner) coverageBanner.textContent = "Bootstrap failed";
   if (coverageWarning) coverageWarning.textContent = error.message;
+  const status = document.querySelector("#app-status");
+  if (status) status.textContent = state.translations.size ? t("refresh.failed") : "Data could not be loaded. Please reload / Data belum dapat dimuat. Muat ulang.";
+  const retry = document.querySelector("#retry-load");
+  retry?.classList.remove("is-hidden");
+  if (retry && !state.manifest) retry.onclick = () => window.location.reload();
 });

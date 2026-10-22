@@ -3,9 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <title>Peta Banjir Indonesia</title>
     <meta
       name="description"
@@ -13,7 +10,7 @@
     />
     <meta name="application-name" content="Peta Banjir Indonesia" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#0a84ff" />
+    <meta name="theme-color" content="#113b42" />
     <link rel="canonical" href="https://flood.faizkrisnadi.com/" />
 
     <meta property="og:type" content="website" />
@@ -41,7 +38,7 @@
       href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="styles.css?v=20260328k" />
+    <link rel="stylesheet" href="styles.css?v=20261023a" />
   </head>
   <body>
     <!-- ═══════════ FULL-VIEWPORT MAP ═══════════ -->
@@ -54,6 +51,7 @@
         <header class="sidebar-brand">
           <div class="brand-row">
             <div>
+              <p class="brand-eyebrow" data-i18n="refresh.brand_eyebrow">FLOOD EXPLORER / INDONESIA</p>
               <h1 class="brand-title"><span data-i18n="app.title.prefix">Peta Banjir</span> <span class="brand-highlight" data-i18n="app.title.highlight">Indonesia</span></h1>
               <p class="brand-sub" data-i18n="app.subtitle"></p>
             </div>
@@ -61,17 +59,87 @@
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 3L5 9l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
           </div>
+        <div class="freshness-line"><span class="status-dot" aria-hidden="true"></span><span id="data-freshness">Memuat cakupan data…</span></div>
+          <span id="release-date" class="release-date"></span>
         </header>
 
         <!-- Search -->
         <div class="sidebar-section">
           <div class="search-wrap">
             <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input id="search-input" type="search" autocomplete="off" />
+            <label class="sr-only" for="search-input">Cari wilayah</label><input id="search-input" type="search" autocomplete="off" />
           </div>
           <div id="search-results" class="search-results"></div>
         </div>
 
+        <details id="explore-filters" class="explore-filters">
+          <summary><span data-i18n="refresh.filters_summary">Filter &amp; periode</span><span id="filter-summary"></span><span class="filter-chevron" aria-hidden="true">⌄</span></summary>
+          <div class="filter-details-body">
+        <!-- Filters -->
+        <div class="sidebar-section">
+          <div class="section-head">
+            <h2 data-i18n="controls.filters"></h2>
+            <button id="reset-button" class="btn-ghost" type="button" data-i18n="controls.reset"></button>
+          </div>
+          <div class="filter-group">
+            <label for="level-select" data-i18n="controls.level"></label>
+            <select id="level-select"></select>
+          </div>
+          <div class="filter-group">
+            <label for="metric-select" data-i18n="controls.metric"></label>
+            <select id="metric-select"></select>
+            <p id="metric-help" class="control-help text-muted"></p>
+          </div>
+        </div>
+
+        <div class="date-controls">
+          <div class="date-inputs"><label for="date-start-month"><span data-i18n="refresh.from">Dari</span><input id="date-start-month" type="month" /></label><span aria-hidden="true">→</span><label for="date-end-month"><span data-i18n="refresh.to">Hingga</span><input id="date-end-month" type="month" /></label></div>
+          <div class="period-shortcuts"><button id="period-full" type="button" data-i18n="refresh.full_record">Seluruh periode</button><button id="period-latest" type="button" data-i18n="refresh.latest_year">Tahun terakhir</button></div>
+        </div>
+        </div>
+        </details>
+        <div class="place-navigation">
+          <div class="place-heading-row"><div><p class="eyebrow" data-i18n="refresh.exploring">JELAJAHI WILAYAH</p><h2 id="place-heading">Indonesia</h2></div><span class="place-mark" aria-hidden="true">↗</span></div>
+          <nav class="panel-tabs" aria-label="Explorer panels">
+            <button type="button" data-panel-tab="overview" class="is-active" aria-pressed="true" data-i18n="refresh.overview">Ringkasan</button>
+            <button type="button" data-panel-tab="trends" aria-pressed="false" data-i18n="refresh.trends">Tren</button>
+            <button type="button" data-panel-tab="reports" aria-pressed="false" data-i18n="refresh.reports">Laporan</button>
+            <button type="button" data-panel-tab="data" aria-pressed="false" data-i18n="refresh.data">Data</button>
+          </nav>
+        </div>
+        <p id="app-status" class="app-status" role="status" aria-live="polite"></p><button id="retry-load" type="button" class="btn-ghost is-hidden" data-i18n="refresh.retry">Coba lagi</button>
+        <div class="explorer-panel" data-panel="overview">
+
+        <!-- Selection Detail -->
+        <div class="sidebar-section">
+          <div class="section-head">
+            <h2 data-i18n="panel.selection"></h2>
+            <span id="selection-period" class="period-badge"></span>
+          </div>
+          <div id="selection-empty" class="empty-state" data-i18n="panel.none_selected"></div>
+          <div id="selection-details" class="selection-details is-hidden">
+            <div class="selection-header">
+              <div>
+                <h3 id="selection-name"></h3>
+                <p id="selection-parent" class="text-muted"></p>
+              </div>
+              <span id="selection-level-badge" class="level-pill"></span>
+            </div>
+            <dl class="detail-grid">
+              <div>
+                <dt><span id="selection-metric-label" data-i18n="selection.metric_value"></span></dt>
+                <dd id="selection-metric-value"></dd>
+              </div>
+              <div>
+                <dt data-i18n="selection.coverage_ratio"></dt>
+                <dd id="selection-coverage"></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+          <div class="landing-guide" id="landing-guide"><span class="guide-number" data-i18n="refresh.examples_label">01 / MULAI DI SINI</span><h3 data-i18n="refresh.guide_title">Setiap tempat punya cerita air.</h3><p data-i18n="refresh.guide_copy">Cari wilayah atau pilih di peta untuk menelusuri catatan banjir dari waktu ke waktu.</p><div class="example-places"><button type="button" data-place-code="31">Jakarta <span>↗</span></button><button type="button" data-place-code="32.73">Kota Bandung <span>↗</span></button></div></div>
+        <p class="stats-note text-muted" data-i18n="refresh.stats_note">Angka agregat menjumlahkan pasangan kejadian dan wilayah. Satu kejadian dapat tercatat di beberapa wilayah.</p>
         <!-- Quick Stats -->
         <div class="sidebar-section">
           <div class="section-head">
@@ -98,62 +166,8 @@
           </div>
         </div>
 
-        <!-- Filters -->
-        <div class="sidebar-section">
-          <div class="section-head">
-            <h2 data-i18n="controls.filters"></h2>
-            <button id="reset-button" class="btn-ghost" type="button" data-i18n="controls.reset"></button>
-          </div>
-          <div class="filter-group">
-            <label for="level-select" data-i18n="controls.level"></label>
-            <select id="level-select"></select>
-          </div>
-          <div class="filter-group">
-            <label for="metric-select" data-i18n="controls.metric"></label>
-            <select id="metric-select"></select>
-            <p id="metric-help" class="control-help text-muted"></p>
-          </div>
         </div>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider" />
-
-        <!-- Selection Detail -->
-        <div class="sidebar-section">
-          <div class="section-head">
-            <h2 data-i18n="panel.selection"></h2>
-            <span id="selection-period" class="period-badge"></span>
-          </div>
-          <div id="selection-empty" class="empty-state" data-i18n="panel.none_selected"></div>
-          <div id="selection-details" class="selection-details is-hidden">
-            <div class="selection-header">
-              <div>
-                <h3 id="selection-name"></h3>
-                <p id="selection-parent" class="text-muted"></p>
-              </div>
-              <span id="selection-level-badge" class="level-pill"></span>
-            </div>
-            <dl class="detail-grid">
-              <div>
-                <dt data-i18n="selection.code"></dt>
-                <dd id="selection-code"></dd>
-              </div>
-              <div>
-                <dt data-i18n="selection.boundary_source"></dt>
-                <dd id="selection-boundary-source"></dd>
-              </div>
-              <div>
-                <dt data-i18n="selection.metric_value"></dt>
-                <dd id="selection-metric-value"></dd>
-              </div>
-              <div>
-                <dt data-i18n="selection.coverage_ratio"></dt>
-                <dd id="selection-coverage"></dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-
+        <div class="explorer-panel is-hidden" data-panel="trends">
         <!-- Trend Chart -->
         <div class="sidebar-section">
           <div class="section-head">
@@ -166,6 +180,8 @@
           <div id="trend-empty" class="empty-state" data-i18n="map.empty"></div>
         </div>
 
+        </div>
+        <div class="explorer-panel is-hidden" data-panel="data">
         <!-- Evidence -->
         <div id="evidence-section" class="sidebar-section">
           <div class="section-head">
@@ -196,6 +212,9 @@
           </div>
         </div>
         
+        </div>
+        <div class="explorer-panel is-hidden" data-panel="reports">
+          <p class="reports-context text-muted" data-i18n="refresh.reports_note">Pilih wilayah untuk melihat laporan dengan sumber yang dapat ditelusuri. Cakupan laporan belum menyeluruh.</p>
         <!-- Field Reports Panel -->
         <div id="qualitative-section" class="sidebar-section is-hidden">
           <div class="section-head">
@@ -237,9 +256,21 @@
           </div>
         </div>
 
+        </div>
+        <div class="explorer-panel is-hidden" data-panel="data">
+        <dl class="detail-grid data-identifiers">
+              <div>
+                <dt data-i18n="selection.code"></dt>
+                <dd id="selection-code"></dd>
+              </div>
+              <div>
+                <dt data-i18n="selection.boundary_source"></dt>
+                <dd id="selection-boundary-source"></dd>
+              </div>
+        </dl>
         <!-- Methodology -->
         <div class="sidebar-section">
-          <details id="methodology-panel" class="accordion-panel">
+          <details id="methodology-panel" class="accordion-panel" open>
             <summary class="accordion-summary">
               <span class="accordion-copy">
                 <strong data-i18n="panel.method"></strong>
@@ -256,6 +287,8 @@
           </details>
         </div>
 
+        </div>
+        <div class="explorer-actions"><button id="copy-link" type="button" data-i18n="refresh.copy_link">Salin tautan ↗</button><button id="export-data" type="button" data-i18n="refresh.download">Unduh data ↓</button></div>
         <!-- Footer -->
         <footer class="sidebar-footer">
           <p>© 2026 <a class="footer-owner-link" href="https://faizkrisnadi.com" target="_blank" rel="noreferrer">Faiz Krisnadi</a>.</p>
@@ -299,8 +332,8 @@
       </button>
       <span class="timeline-value" id="timeline-from-label"></span>
       <div class="timeline-track-wrap">
-        <input id="date-from" type="range" class="timeline-range timeline-range--from" />
-        <input id="date-to" type="range" class="timeline-range timeline-range--to" />
+        <input id="date-from" aria-label="Awal periode" type="range" class="timeline-range timeline-range--from" />
+        <input id="date-to" aria-label="Akhir periode" type="range" class="timeline-range timeline-range--to" />
         <div class="timeline-track-fill" id="timeline-fill"></div>
       </div>
       <span class="timeline-value" id="timeline-to-label"></span>
@@ -321,6 +354,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <script src="app.js?v=20260328j" type="module"></script>
+    <script src="report-integrity.js?v=20261023" defer></script>
+    <script src="app.js?v=20261023a" type="module"></script>
   </body>
 </html>

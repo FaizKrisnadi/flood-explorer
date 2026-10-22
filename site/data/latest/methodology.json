@@ -12,9 +12,9 @@
     "method.note.disclaimer"
   ],
   "metrics": {
-    "unique_event_count": "Count of intersecting Groundsource events.",
-    "flood_days": "Number of day buckets with at least one intersecting event.",
-    "sum_intersection_area_km2": "Summed intersection area across matched events in square kilometers.",
+    "unique_event_count": "Count of intersecting Groundsource events per area, assigned to event start dates. An event can appear in multiple areas.",
+    "flood_days": "Number of distinct dates with at least one intersecting event start; not days of inundation.",
+    "sum_intersection_area_km2": "Cumulative reported intersection area across matched events in square kilometers; the same land may contribute repeatedly.",
     "max_coverage_ratio": "Largest observed share of a geography covered by a single event in the selected period."
   }
 }
