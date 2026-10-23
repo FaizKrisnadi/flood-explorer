@@ -1,8 +1,8 @@
 import { calendarMonths, clampMonth, latestYearRange, legendBreaks, colorIndex, toCsv } from "./explorer-utils.mjs?v=20261023";
 
 /* ═══════════════════════════════════════════════════
-   INDONESIA FLOOD EXPLORER — App v2
-   Sidebar layout · Timeline slider · Chart.js theming
+   INDONESIA FLOOD EXPLORER — Map workspace
+   Native controls · Contextual inspector · Versioned assets
    ═══════════════════════════════════════════════════ */
 
 const state = {
@@ -40,15 +40,12 @@ const state = {
   trendChart: null,
   pendingFit: "level",
   handlers: {},
-  sidebarCollapsed: false,
-  sidebarTouched: false,
+  inspectorMinimized: false,
   allMonths: [],
   renderVersion: 0,
-  qualitativeRouteOpen: false,
-  qualitativeSidebarFocusPending: false,
+
   suppressRouteSync: false,
   hoverPopup: null,
-  activePanel: "overview",
   renderError: null,
   isRendering: false,
   hasRendered: false,
@@ -56,9 +53,10 @@ const state = {
 
 /* ─── Sequential atlas palette: recorded activity, not forecast risk ─── */
 const COLOR_STEPS = ["#edf1eb", "#d3e3d7", "#9fc9b7", "#62ad9c", "#2a817e", "#164b57"];
-const APP_ASSET_VERSION = "20261023";
+const APP_ASSET_VERSION = "20261023-workspace";
 const pendingJsonRequests = new Map();
 const jsonCache = new Map();
+let transientStatusTimer = null;
 
 /* ─── DOM refs ─── */
 const levelSelect = document.querySelector("#level-select");
@@ -139,9 +137,8 @@ const timelineToLabel = document.querySelector("#timeline-to-label");
 const timelineFill = document.querySelector("#timeline-fill");
 const trendSectionTitle = document.querySelector("#trend-section-title");
 const evidenceSectionTitle = document.querySelector("#evidence-section-title");
-const mobileViewport = window.matchMedia("(max-width: 768px)");
+const mobileViewport = window.matchMedia("(max-width: 960px)");
 const statAnimationFrames = new WeakMap();
-const customSelectControls = new Map();
 const BOUNDARY_PAINT_PROFILES = {
   map: {
     fillOpacity: 0.48,
@@ -162,8 +159,6 @@ const BOUNDARY_PAINT_PROFILES = {
     lineWidth: 0.75,
   },
 };
-const SIDEBAR_TRANSITION_MS = 170;
-let sidebarResizeTimer = null;
 const TREND_HIGHLIGHT_PLUGIN = {
   id: "trendHighlight",
   afterDatasetsDraw(chart, _args, options) {
@@ -1027,27 +1022,6 @@ function createQualitativeRelatedItem(item) {
   return article;
 }
 
-function setQualitativeRouteOpen(nextValue) {
-  state.qualitativeRouteOpen = Boolean(nextValue && state.currentLevel === "regency" && state.selectedCode);
-}
-
-function queueQualitativeSidebarFocus() {
-  state.qualitativeSidebarFocusPending = true;
-}
-
-function focusQualitativeSidebarSection() {
-  if (!qualitativeSection) return;
-  if (state.sidebarCollapsed) {
-    setSidebarCollapsed(false);
-  }
-  requestAnimationFrame(() => {
-    qualitativeSection.scrollIntoView({
-      block: "start",
-      behavior: mobileViewport.matches ? "auto" : "smooth",
-    });
-  });
-}
-
 function buildRouteUrl() {
   const url = new URL(window.location.href);
   url.search = "";
@@ -1067,7 +1041,8 @@ function buildRouteUrl() {
     url.searchParams.set("to", state.currentDateTo);
   }
   if (state.currentMetric !== state.manifest?.default_metric) url.searchParams.set("metric", state.currentMetric);
-  if (state.activePanel !== "overview") url.searchParams.set("view", state.activePanel);
+  if (document.querySelector("#data-dialog")?.open) url.searchParams.set("view", "data");
+  else if (state.selectedCode && document.querySelector("#reports-disclosure")?.open) url.searchParams.set("view", "reports");
   return url;
 }
 
@@ -1092,14 +1067,12 @@ function applyRouteStateFromUrl() {
   const requestedMetric = url.searchParams.get("metric");
 
   state.currentMetric = state.manifest.metrics.includes(requestedMetric) ? requestedMetric : state.manifest.default_metric;
-  state.activePanel = ["trends", "reports", "data"].includes(requestedView) ? requestedView : requestedView === "qualitative" ? "reports" : "overview";
   state.currentLevel = state.manifest?.default_level || state.currentLevel;
   state.selectedCode = null;
   state.selectedFeature = null;
+  state.pendingFit = "level";
   state.currentDateFrom = "";
   state.currentDateTo = "";
-  state.qualitativeRouteOpen = false;
-  state.qualitativeSidebarFocusPending = false;
 
   if (requestedLanguage && state.translations.has(requestedLanguage)) {
     state.language = requestedLanguage;
@@ -1118,11 +1091,7 @@ function applyRouteStateFromUrl() {
   if (requestedFrom) state.currentDateFrom = requestedFrom;
   if (requestedTo) state.currentDateTo = requestedTo;
 
-  if (requestedView === "qualitative" && state.currentLevel === "regency" && state.selectedCode) {
-    state.qualitativeRouteOpen = true;
-    state.qualitativeSidebarFocusPending = false;
-  }
-  setActivePanel(state.activePanel, false);
+  setActivePanel(requestedView, false);
 }
 
 function formatFullDateLabel(monthStart) {
@@ -1138,12 +1107,9 @@ function formatFullDateLabel(monthStart) {
 
 function formatTrendAxisLabel(monthStart, index, total) {
   if (!monthStart) return "";
-  const year = monthStart.slice(0, 4);
-  const step = Math.max(1, Math.ceil(total / 6));
-  if (index === 0 || index === total - 1 || index % step === 0) {
-    return year;
-  }
-  return "";
+  const step = Math.max(1, Math.ceil((total - 1) / 5));
+  if (index !== 0 && index !== total - 1 && index % step !== 0) return "";
+  return total <= 24 ? formatMonthLabel(monthStart.slice(0, 7)) : monthStart.slice(0, 4);
 }
 
 function levelLabelForEvidence() {
@@ -1168,21 +1134,20 @@ function buildEvidenceSourceTooltip(bundle) {
 
 /* ─── Boot ─── */
 async function boot() {
-  setAppStatus("refresh.loading");
+  document.documentElement.dataset.state = "loading";
+  setAppStatus("ui.loading");
   await loadTranslations();
-  setAppStatus("refresh.loading");
+  setAppStatus("ui.loading");
   await loadManifest();
   initControls();
   initRefreshControls();
-  initSidebar();
-  initPanelResizer();
+  initInspector();
   initTimeline();
   initPlayButton();
   initQualitativeRoute();
   applyRouteStateFromUrl();
   if (levelSelect) levelSelect.value = state.currentLevel;
   if (metricSelect) metricSelect.value = state.currentMetric;
-  syncCustomSelectValues();
   applyTranslations();
   syncDateRangeDefaults();
   syncTimelineSliders();
@@ -1244,6 +1209,11 @@ function initPlayButton() {
 }
 
 function scheduleTimelineRender(immediate = false) {
+  state.hasRendered = false;
+  state.isRendering = true;
+  document.documentElement.dataset.state = "loading";
+  document.querySelector("#sidebar")?.setAttribute("aria-busy", "true");
+  for (const id of ["export-data", "export-location"]) document.getElementById(id)?.setAttribute("disabled", "");
   if (timelineRenderTimeout) {
     window.clearTimeout(timelineRenderTimeout);
     timelineRenderTimeout = null;
@@ -1321,124 +1291,54 @@ function pauseTimeline() {
   }
 }
 
-/* ─── Sidebar ─── */
-function initSidebar() {
-  // Create expand button dynamically
-  const expandBtn = document.createElement("button");
-  expandBtn.className = "sidebar-expand";
-  expandBtn.type = "button";
-  expandBtn.setAttribute("aria-label", "Expand sidebar");
-  expandBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 3l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  document.body.appendChild(expandBtn);
-
-  sidebarToggle.addEventListener("click", () => toggleSidebar());
-  expandBtn.addEventListener("click", () => toggleSidebar());
-  applyResponsiveSidebarMode({ force: true });
-  window.addEventListener("resize", handleResponsiveSidebarResize, { passive: true });
+/* ─── Location inspector and workspace history ─── */
+function moveGeographyControl() {
+  let slot = document.querySelector("#mobile-geography-slot");
+  if (!slot) {
+    slot = document.createElement("div"); slot.id = "mobile-geography-slot";
+    document.querySelector(".workspace-menu-content").prepend(slot);
+  }
+  if (mobileViewport.matches) slot.append(levelSelect);
+  else document.querySelector(".toolbar-filters").prepend(levelSelect);
 }
 
-function initPanelResizer() {
-  const separator = document.createElement("div");
-  separator.id = "panel-resizer"; separator.tabIndex = 0;
-  separator.setAttribute("role", "separator"); separator.setAttribute("aria-orientation", "vertical");
-  separator.setAttribute("aria-valuemin", "330"); separator.setAttribute("aria-valuemax", "560");
-  const resize = value => {
-    const width = Math.round(Math.max(330, Math.min(560, value)));
-    document.documentElement.style.setProperty("--sidebar-w", `${width}px`);
-    separator.setAttribute("aria-valuenow", String(width));
-    state.map?.resize();
-  };
-  separator.setAttribute("aria-valuenow", "390");
-  separator.addEventListener("pointerdown", event => {
-    separator.setPointerCapture(event.pointerId); document.body.classList.add("panel-resizing");
+function initInspector() {
+  moveGeographyControl();
+  sidebarToggle.addEventListener("click", async () => {
+    state.selectedCode = null;
+    state.selectedFeature = null;
+    state.pendingFit = null;
+    state.inspectorMinimized = false;
+    document.querySelector("#reports-disclosure").open = false;
+    searchInput.value = "";
+    await renderExplorer();
+    syncRouteState();
+    searchInput.focus();
   });
-  separator.addEventListener("pointermove", event => { if (separator.hasPointerCapture(event.pointerId)) resize(event.clientX); });
-  const finish = () => document.body.classList.remove("panel-resizing");
-  separator.addEventListener("pointerup", finish); separator.addEventListener("lostpointercapture", finish);
-  separator.addEventListener("keydown", event => {
-    const width = document.querySelector("#sidebar").getBoundingClientRect().width;
-    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
-    event.preventDefault();
-    resize(event.key === "Home" ? 330 : event.key === "End" ? 560 : width + (event.key === "ArrowRight" ? 20 : -20));
+  document.querySelector("#inspector-minimize")?.addEventListener("click", () => {
+    state.inspectorMinimized = !state.inspectorMinimized;
+    updateRefreshUI();
+    requestAnimationFrame(() => state.trendChart?.resize());
   });
-  document.body.append(separator);
 }
 
 function initQualitativeRoute() {
   window.addEventListener("popstate", async () => {
     state.suppressRouteSync = true;
-    applyRouteStateFromUrl();
-    if (levelSelect) levelSelect.value = state.currentLevel;
-    if (metricSelect) metricSelect.value = state.currentMetric;
-    syncCustomSelectValues();
-    document.querySelectorAll(".lang-btn").forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.language === state.language);
-    });
-    applyTranslations();
-    syncTimelineSliders();
-    await renderExplorer();
-    state.suppressRouteSync = false;
+    try {
+      applyRouteStateFromUrl();
+      levelSelect.value = state.currentLevel;
+      metricSelect.value = state.currentMetric;
+      applyTranslations();
+      syncTimelineSliders();
+      await renderExplorer();
+    } finally { state.suppressRouteSync = false; }
   });
-
   mobileViewport.addEventListener("change", async () => {
-    state.suppressRouteSync = true;
+    moveGeographyControl();
     state.pendingFit = state.selectedCode ? "selection" : "level";
-    if (mobileViewport.matches) {
-      setQualitativeRouteOpen(false);
-    } else if (state.currentLevel === "regency" && state.selectedCode) {
-      setQualitativeRouteOpen(true);
-    }
     await renderExplorer();
-    syncRouteState({ replace: true });
-    state.suppressRouteSync = false;
   });
-}
-
-function toggleSidebar() {
-  state.sidebarTouched = true;
-  setSidebarCollapsed(!state.sidebarCollapsed);
-}
-
-function setSidebarCollapsed(nextCollapsed) {
-  if (state.sidebarCollapsed === nextCollapsed) return;
-
-  state.sidebarCollapsed = nextCollapsed;
-  document.body.classList.toggle("sidebar-collapsed", nextCollapsed);
-  sidebarToggle?.setAttribute("aria-expanded", String(!nextCollapsed));
-
-  if (!state.map) return;
-
-  if (sidebarResizeTimer) {
-    clearTimeout(sidebarResizeTimer);
-  }
-
-  requestAnimationFrame(() => {
-    state.map?.resize();
-  });
-
-  sidebarResizeTimer = window.setTimeout(() => {
-    state.map?.resize();
-    sidebarResizeTimer = null;
-  }, SIDEBAR_TRANSITION_MS + 30);
-}
-
-function applyResponsiveSidebarMode({ force = false } = {}) {
-  if (!mobileViewport.matches) {
-    if (force || !state.sidebarTouched) setSidebarCollapsed(false);
-    return;
-  }
-  if (force || !state.sidebarTouched) setSidebarCollapsed(false);
-}
-
-function handleResponsiveSidebarResize() {
-  const shouldCollapse = false;
-  if (!state.sidebarTouched) {
-    setSidebarCollapsed(shouldCollapse);
-    return;
-  }
-  if (!shouldCollapse && state.sidebarCollapsed) {
-    setSidebarCollapsed(false);
-  }
 }
 
 /* ─── Timeline ─── */
@@ -1551,293 +1451,6 @@ function updateTimelineFill() {
 }
 
 /* ─── Controls ─── */
-function initCustomSelects() {
-  document.querySelectorAll(".filter-group select").forEach((select) => {
-    if (!select || customSelectControls.has(select)) return;
-
-    const filterGroup = select.closest(".filter-group");
-    if (!filterGroup) return;
-
-    const label = filterGroup.querySelector("label");
-    if (label && select.id && !label.id) {
-      label.id = `${select.id}-label`;
-    }
-
-    select.classList.add("select-native");
-
-    const shell = document.createElement("div");
-    shell.className = "select-shell";
-
-    const trigger = document.createElement("button");
-    trigger.type = "button";
-    trigger.className = "select-trigger";
-    trigger.setAttribute("aria-haspopup", "listbox");
-    trigger.setAttribute("aria-expanded", "false");
-
-    const menuId = `${select.id || "select"}-menu`;
-    trigger.setAttribute("aria-controls", menuId);
-    if (label?.id) {
-      trigger.setAttribute("aria-labelledby", label.id);
-    }
-
-    const triggerLabel = document.createElement("span");
-    triggerLabel.className = "select-trigger-label";
-    trigger.append(triggerLabel);
-
-    const menu = document.createElement("div");
-    menu.className = "select-menu";
-    menu.id = menuId;
-    menu.setAttribute("role", "listbox");
-    menu.hidden = true;
-
-    shell.append(trigger, menu);
-    filterGroup.append(shell);
-
-    const control = { select, shell, trigger, triggerLabel, menu, optionButtons: [] };
-    customSelectControls.set(select, control);
-
-    syncCustomSelect(select);
-
-    if (label) {
-      label.addEventListener("click", (event) => {
-        event.preventDefault();
-        toggleCustomSelect(select);
-      });
-    }
-
-    trigger.addEventListener("click", (event) => {
-      event.stopPropagation();
-      toggleCustomSelect(select);
-    });
-
-    trigger.addEventListener("keydown", (event) => {
-      handleCustomSelectTriggerKeydown(select, event);
-    });
-
-    menu.addEventListener("keydown", (event) => {
-      handleCustomSelectMenuKeydown(select, event);
-    });
-
-    select.addEventListener("change", () => {
-      syncCustomSelect(select);
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    const insideCustomSelect = [...customSelectControls.values()].some(({ shell }) =>
-      shell.contains(event.target)
-    );
-    if (!insideCustomSelect) {
-      closeAllCustomSelects();
-    }
-  });
-
-  window.addEventListener("resize", () => {
-    closeAllCustomSelects();
-  });
-}
-
-function syncCustomSelect(select) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-
-  const { trigger, triggerLabel, menu } = control;
-  const selectedOption =
-    [...select.options].find((option) => option.value === select.value) ||
-    select.options[select.selectedIndex] ||
-    select.options[0];
-
-  triggerLabel.textContent = selectedOption?.textContent || "";
-  trigger.title = triggerLabel.textContent;
-
-  menu.innerHTML = "";
-  control.optionButtons = [];
-
-  [...select.options].forEach((option) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "select-option";
-    button.dataset.value = option.value;
-    button.textContent = option.textContent;
-    button.disabled = option.disabled;
-    button.setAttribute("role", "option");
-
-    const isSelected = option.value === select.value;
-    button.setAttribute("aria-selected", String(isSelected));
-    button.classList.toggle("is-selected", isSelected);
-
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      chooseCustomSelectOption(select, option.value);
-    });
-
-    menu.append(button);
-    control.optionButtons.push(button);
-  });
-}
-
-function toggleCustomSelect(select) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-  if (control.shell.classList.contains("is-open")) {
-    closeCustomSelect(select);
-  } else {
-    openCustomSelect(select);
-  }
-}
-
-function openCustomSelect(select) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-
-  closeAllCustomSelects(select);
-  control.shell.classList.add("is-open");
-  control.trigger.setAttribute("aria-expanded", "true");
-  control.menu.hidden = false;
-
-  const selectedButton =
-    control.optionButtons.find((button) => button.dataset.value === select.value && !button.disabled) ||
-    control.optionButtons.find((button) => !button.disabled);
-
-  requestAnimationFrame(() => {
-    selectedButton?.focus();
-  });
-}
-
-function closeCustomSelect(select) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-  control.shell.classList.remove("is-open");
-  control.trigger.setAttribute("aria-expanded", "false");
-  control.menu.hidden = true;
-}
-
-function closeAllCustomSelects(exceptSelect = null) {
-  customSelectControls.forEach((_, select) => {
-    if (select !== exceptSelect) {
-      closeCustomSelect(select);
-    }
-  });
-}
-
-function chooseCustomSelectOption(select, value) {
-  if (select.value !== value) {
-    select.value = value;
-    select.dispatchEvent(new Event("change", { bubbles: true }));
-  }
-  closeCustomSelect(select);
-  customSelectControls.get(select)?.trigger.focus();
-}
-
-function focusCustomSelectOption(select, nextIndex) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-
-  const enabledButtons = control.optionButtons.filter((button) => !button.disabled);
-  if (!enabledButtons.length) return;
-
-  const boundedIndex = Math.max(0, Math.min(nextIndex, enabledButtons.length - 1));
-  enabledButtons[boundedIndex].focus();
-}
-
-function moveCustomSelectFocus(select, step) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-
-  const enabledButtons = control.optionButtons.filter((button) => !button.disabled);
-  if (!enabledButtons.length) return;
-
-  const currentIndex = enabledButtons.indexOf(document.activeElement);
-  const startIndex = Math.max(
-    0,
-    enabledButtons.findIndex((button) => button.dataset.value === select.value)
-  );
-  const nextIndex =
-    currentIndex === -1 ? startIndex : (currentIndex + step + enabledButtons.length) % enabledButtons.length;
-
-  enabledButtons[nextIndex].focus();
-}
-
-function handleCustomSelectTriggerKeydown(select, event) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-
-  switch (event.key) {
-    case "ArrowDown":
-      event.preventDefault();
-      if (!control.shell.classList.contains("is-open")) {
-        openCustomSelect(select);
-      } else {
-        moveCustomSelectFocus(select, 1);
-      }
-      break;
-    case "ArrowUp":
-      event.preventDefault();
-      if (!control.shell.classList.contains("is-open")) {
-        openCustomSelect(select);
-      } else {
-        moveCustomSelectFocus(select, -1);
-      }
-      break;
-    case "Enter":
-    case " ":
-      event.preventDefault();
-      toggleCustomSelect(select);
-      break;
-    case "Escape":
-      closeCustomSelect(select);
-      break;
-    default:
-      break;
-  }
-}
-
-function handleCustomSelectMenuKeydown(select, event) {
-  const control = customSelectControls.get(select);
-  if (!control) return;
-
-  switch (event.key) {
-    case "ArrowDown":
-      event.preventDefault();
-      moveCustomSelectFocus(select, 1);
-      break;
-    case "ArrowUp":
-      event.preventDefault();
-      moveCustomSelectFocus(select, -1);
-      break;
-    case "Home":
-      event.preventDefault();
-      focusCustomSelectOption(select, 0);
-      break;
-    case "End":
-      event.preventDefault();
-      focusCustomSelectOption(select, control.optionButtons.filter((button) => !button.disabled).length - 1);
-      break;
-    case "Enter":
-    case " ":
-      if (document.activeElement?.dataset?.value) {
-        event.preventDefault();
-        chooseCustomSelectOption(select, document.activeElement.dataset.value);
-      }
-      break;
-    case "Escape":
-      event.preventDefault();
-      closeCustomSelect(select);
-      control.trigger.focus();
-      break;
-    case "Tab":
-      closeCustomSelect(select);
-      break;
-    default:
-      break;
-  }
-}
-
-function syncCustomSelectValues() {
-  syncCustomSelect(levelSelect);
-  syncCustomSelect(metricSelect);
-}
-
 function initControls() {
   for (const level of state.manifest.available_levels) {
     const option = document.createElement("option");
@@ -1853,7 +1466,6 @@ function initControls() {
   }
   metricSelect.value = state.currentMetric;
 
-  initCustomSelects();
   renderBasemapToggle();
   refreshControlLabels();
 
@@ -1875,9 +1487,7 @@ function initControls() {
     state.selectedCode = null;
     state.selectedFeature = null;
     state.pendingFit = "level";
-    if (state.currentLevel !== "regency") {
-      setQualitativeRouteOpen(false);
-    }
+    document.querySelector("#reports-disclosure").open = false;
     syncTimelineSliders();
     await renderExplorer();
     syncRouteState();
@@ -1891,7 +1501,6 @@ function initControls() {
   });
 
   resetButton.addEventListener("click", async () => {
-    closeAllCustomSelects();
     state.selectedCode = null;
     state.selectedFeature = null;
     searchInput.value = "";
@@ -1903,11 +1512,11 @@ function initControls() {
     state.currentBasemapMode = state.manifest.default_basemap_mode || "map";
     state.currentDateFrom = "";
     state.currentDateTo = "";
-    setQualitativeRouteOpen(false);
     levelSelect.value = state.currentLevel;
     metricSelect.value = state.currentMetric;
-    syncCustomSelectValues();
-    renderBasemapToggle();
+      renderBasemapToggle();
+    refreshControlLabels();
+    document.querySelector("#workspace-menu").open = false;
     syncTimelineSliders();
     state.pendingFit = "level";
     if (prevBasemap !== state.currentBasemapMode) {
@@ -1952,12 +1561,11 @@ function refreshControlLabels() {
     option.textContent = t(`level.${option.value}`);
   });
   [...metricSelect.options].forEach((option) => {
-    option.textContent = t(`metric.${option.value}`);
+    option.textContent = t(`ui.metric.${option.value}`);
   });
   if (metricHelp) {
     metricHelp.textContent = t(`metric.help.${state.currentMetric}`);
   }
-  syncCustomSelectValues();
 }
 
 function applyTranslations() {
@@ -1966,7 +1574,9 @@ function applyTranslations() {
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     node.textContent = t(node.dataset.i18n);
   });
-  searchInput.placeholder = t("controls.search_placeholder");
+  searchInput.placeholder = t("ui.search");
+  levelSelect.setAttribute("aria-label", t("controls.level"));
+  metricSelect.setAttribute("aria-label", t("controls.metric"));
   refreshControlLabels();
   renderBasemapToggle();
   if (heroDefaultLevel) heroDefaultLevel.textContent = t(`level.${state.currentLevel}`);
@@ -1980,6 +1590,7 @@ function applyTranslations() {
     evidenceSectionTitle.textContent = t("panel.evidence");
   }
   updateRefreshUI();
+  if (!state.hasRendered || state.isRendering) setAppStatus("ui.loading");
 }
 
 /* ─── Map ─── */
@@ -2287,7 +1898,7 @@ function renderLegend(maxValue) {
   if (!labels) { labels = document.createElement("div"); labels.id = "legend-values"; labels.className = "legend-values"; mapLegend.after(labels); }
   labels.innerHTML = "";
   ["0", formatLegendValue(maxValue)].forEach(value => { const label = document.createElement("span"); label.textContent = value; labels.append(label); });
-  mapTitle.textContent = t(`metric.${state.currentMetric}`);
+  mapTitle.textContent = metricDisplayLabel();
 }
 
 function formatLegendValue(value) {
@@ -2481,11 +2092,14 @@ function boundsFromFeature(feature) {
 
 function fitCurrentMapView() {
   if (!state.map || !state.currentGeojsonData?.features?.length) return;
+  const inspector = document.querySelector("#sidebar");
+  const toolbar = document.querySelector("#workspace-toolbar");
+  const selected = Boolean(state.selectedCode);
+  const top = (toolbar?.getBoundingClientRect().bottom || 64) + 24;
   const padding = mobileViewport.matches
-    ? { top: 60, right: 24, left: 24, bottom: state.sidebarCollapsed ? 150 : Math.round(window.innerHeight * 0.53) + 105 }
-    : { top: 65, right: 45, left: 45, bottom: 160 };
-  // Keep useful map space even on a short viewport.
-  padding.bottom = Math.min(padding.bottom, window.innerHeight - padding.top - 100);
+    ? { top, right: 24, left: 24, bottom: selected ? Math.round(inspector?.getBoundingClientRect().height || 350) + 24 : 95 }
+    : { top, right: selected ? 420 : 48, left: 48, bottom: 95 };
+  padding.bottom = Math.min(padding.bottom, window.innerHeight - padding.top - 90);
   const duration = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 650;
   if (state.pendingFit === "selection" && state.selectedCode) {
     const feature = state.currentGeojsonData.features.find(
@@ -2537,7 +2151,7 @@ async function renderMap(renderVersion) {
   updateBoundarySource();
   bindMapInteractions();
 
-  mapTitle.textContent = t(`metric.${state.currentMetric}`);
+  mapTitle.textContent = metricDisplayLabel();
   fitCurrentMapView();
 }
 
@@ -2643,6 +2257,10 @@ function updateMapNotice() {
   mapNote.textContent = "";
 }
 
+function metricDisplayLabel() {
+  return t(`ui.metric.${state.currentMetric}`) + (state.currentMetric === "sum_intersection_area_km2" ? " (km²)" : "");
+}
+
 function formatMetric(value) {
   return new Intl.NumberFormat(state.language === "id" ? "id-ID" : "en-US", {
     maximumFractionDigits: 2,
@@ -2664,17 +2282,17 @@ async function commitSelection({ level = state.currentLevel, code = null, featur
   const previousCode = state.selectedCode;
   state.currentLevel = level;
   if (levelSelect) levelSelect.value = level;
-  syncCustomSelectValues();
   state.selectedCode = code;
   state.selectedFeature = feature?.properties?.code === code ? feature : null;
   state.pendingFit = code ? "selection" : "level";
-  setQualitativeRouteOpen(false);
-  state.qualitativeSidebarFocusPending = false;
-  if (code !== previousCode || level !== previousLevel) setActivePanel("overview", false);
-  if (code && state.sidebarCollapsed) setSidebarCollapsed(false);
+  if (code !== previousCode || level !== previousLevel) {
+    state.inspectorMinimized = false;
+    setActivePanel("overview", false);
+  }
   syncTimelineSliders();
   await renderExplorer();
-  if (mobileViewport.matches) document.querySelector(".sidebar-inner").scrollTop = 0;
+  const inspectorBody = document.querySelector(".inspector-body");
+  if (inspectorBody) inspectorBody.scrollTop = 0;
   syncRouteState();
 }
 
@@ -2711,7 +2329,8 @@ async function renderSelection(renderVersion) {
   selectionLevelBadge.textContent = t(`level.${state.currentLevel}`);
 
   const metricRow = state.currentLookup.get(feature.properties.code);
-  selectionMetricValue.textContent = metricRow ? formatMetric(metricRow[state.currentMetric]) : "0";
+  const metricValue = metricRow?.[state.currentMetric] || 0;
+  selectionMetricValue.textContent = state.currentMetric === "max_coverage_ratio" ? `${formatMetric(metricValue * 100)}%` : formatMetric(metricValue);
   selectionCoverage.textContent = `${formatMetric((metricRow?.max_coverage_ratio || 0) * 100)}%`;
   await ensureEvidenceIndex();
   if (renderVersion !== state.renderVersion) return;
@@ -2749,7 +2368,7 @@ function renderQualitativeSidebar(summary, feature, code) {
 
   if (!summary.featuredEvent) {
     qualitativeStateBadge.classList.add("is-hidden");
-    qualitativeEmpty.textContent = t("refresh.reports.empty");
+    qualitativeEmpty.textContent = t("ui.no_reports");
     qualitativeEmpty.classList.remove("is-hidden");
     qualitativePanel.classList.add("is-hidden");
     return;
@@ -2804,18 +2423,6 @@ function renderQualitativeSidebar(summary, feature, code) {
   summary.relatedItems.forEach((item) => qualitativeRelatedList.append(createQualitativeRelatedItem(item)));
 }
 
-function syncQualitativeSidebarPresentation(summary, code) {
-  document.body.classList.remove("qualitative-route-active");
-  const shouldFocus =
-    state.qualitativeSidebarFocusPending &&
-    state.currentLevel === "regency" &&
-    Boolean(code) &&
-    (state.qualitativeRouteOpen || summary.hasData);
-  if (!shouldFocus) return;
-  focusQualitativeSidebarSection();
-  state.qualitativeSidebarFocusPending = false;
-}
-
 async function renderQualitativeData(code, renderVersion, feature = null) {
   if (renderVersion !== state.renderVersion) return;
   const empty = { hasData: false, featuredEvent: null, relatedItems: [], publicState: "", stateNote: "", stateLabel: "", displayWindow: "", sourceMeta: {} };
@@ -2851,7 +2458,7 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
   }
 
   if (!code || !state.manifest.metric_assets[state.currentLevel]) {
-    trendEmpty.textContent = t("refresh.trends.choose");
+    trendEmpty.textContent = t("ui.no_records");
     ctx.parentElement.classList.add("is-hidden");
     trendEmpty.classList.remove("is-hidden");
     return;
@@ -2862,7 +2469,7 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
   if (renderVersion !== state.renderVersion) return;
   document.getElementById("trend-data-table")?.remove();
   if (!rows.length) {
-    trendEmpty.textContent = t("map.empty");
+    trendEmpty.textContent = t("ui.no_records");
     ctx.parentElement.classList.add("is-hidden");
     trendEmpty.classList.remove("is-hidden");
     return;
@@ -2928,8 +2535,8 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
           borderWidth: 1,
           cornerRadius: 8,
           padding: 10,
-          titleFont: { family: "Inter", weight: "600", size: 12 },
-          bodyFont: { family: "Inter", size: 11 },
+          titleFont: { family: "system-ui", weight: "600", size: 12 },
+          bodyFont: { family: "system-ui", size: 11 },
           callbacks: {
             title(items) {
               return formatFullDateLabel(items?.[0]?.label);
@@ -2946,26 +2553,26 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
           ticks: {
             color: "#9a8e7f",
             maxRotation: 0,
-            autoSkip: true,
+            autoSkip: false,
             maxTicksLimit: 6,
-            font: { family: "Inter", size: 10 },
+            font: { family: "system-ui", size: 10 },
             callback(value, index) {
               return formatTrendAxisLabel(this.getLabelForValue(value), index, rows.length);
             },
           },
-          grid: { color: "rgba(120, 90, 50, 0.06)" },
+          grid: { display: false },
           border: { display: false },
         },
         y: {
           title: {
-            display: true,
+            display: false,
             text: t(`metric.${state.currentMetric}`),
             color: "#7b6d5f",
-            font: { family: "Inter", size: 11, weight: "600" },
+            font: { family: "system-ui", size: 11, weight: "600" },
           },
           ticks: {
             color: "#677d7c",
-            font: { family: "Inter", size: 10 },
+            font: { family: "system-ui", size: 10 },
             callback(value) { return state.currentMetric === "max_coverage_ratio" ? `${formatMetric(value * 100)}%` : formatMetric(value); },
           },
           grid: { color: "rgba(120, 90, 50, 0.06)" },
@@ -3083,14 +2690,11 @@ function handleSearch() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "search-result";
-    const body = document.createElement("div");
-    const title = document.createElement("strong"); title.textContent = match.name;
-    const context = document.createElement("span");
+    const title = document.createElement("strong");
     const parentCode = match.level === "district" ? match.regency_code : match.level === "regency" ? match.province_code : null;
-    context.textContent = [t(`level.${match.level}`), state.adminByCode.get(parentCode)?.name].filter(Boolean).join(" · ");
-    body.append(title, context);
-    const code = document.createElement("span"); code.textContent = match.code;
-    button.append(body, code);
+    const parent = state.adminByCode.get(parentCode)?.name;
+    title.textContent = [match.name, parent].filter(Boolean).join(", ");
+    button.append(title);
     button.addEventListener("click", async () => {
       const resolved = resolveSearchSelection(match);
       searchInput.value = match.name;
@@ -3118,24 +2722,21 @@ function resolveSearchSelection(match) {
 
 /* ─── Place-first explorer controls ─── */
 function setActivePanel(panel, sync = true) {
-  state.activePanel = ["overview", "trends", "reports", "data"].includes(panel) ? panel : "overview";
-  document.querySelectorAll("[data-panel]").forEach(node => {
-    node.classList.toggle("is-hidden", node.dataset.panel !== state.activePanel);
-  });
-  document.querySelectorAll("[data-panel-tab]").forEach(button => {
-    const active = button.dataset.panelTab === state.activePanel;
-    button.classList.toggle("is-active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
-  if (state.activePanel === "trends") requestAnimationFrame(() => state.trendChart?.resize());
+  const reports = document.querySelector("#reports-disclosure");
+  if (reports) reports.open = panel === "reports" || panel === "qualitative";
+  const dialog = document.querySelector("#data-dialog");
+  if (panel === "data" && dialog && !dialog.open) dialog.showModal();
+  else if (panel !== "data" && dialog?.open) dialog.close();
   if (sync && state.manifest) syncRouteState();
 }
 
 function setAppStatus(key = "", error = false) {
+  window.clearTimeout(transientStatusTimer);
   const status = document.querySelector("#app-status");
   if (status) { status.textContent = key ? (t(key) === key ? "Memuat catatan banjir… / Loading flood records…" : t(key)) : ""; status.classList.toggle("is-error", error); }
   document.querySelector("#retry-load")?.classList.toggle("is-hidden", !error);
-  document.querySelector("#export-data")?.toggleAttribute("disabled", error || !state.manifest || state.isRendering || !state.hasRendered);
+  for (const id of ["export-data", "export-location"]) document.getElementById(id)?.toggleAttribute("disabled", error || !state.manifest || state.isRendering || !state.hasRendered);
+  if (["refresh.copied", "refresh.downloaded"].includes(key)) transientStatusTimer = window.setTimeout(() => { if (status) status.textContent = ""; }, 2400);
 }
 
 function updateRefreshUI() {
@@ -3143,9 +2744,26 @@ function updateRefreshUI() {
   evidenceSection?.classList.toggle("is-hidden", !state.manifest.evidence_index);
   const months = state.manifest.metric_assets[state.currentLevel]?.months || [];
   const label = state.selectedFeature?.properties?.name || state.adminByCode.get(state.selectedCode)?.name || "Indonesia";
-  document.body.classList.toggle("has-selection", Boolean(state.selectedCode));
+  const selected = Boolean(state.selectedCode);
+  document.body.classList.toggle("has-selection", selected);
+  const inspector = document.querySelector("#sidebar");
+  if (inspector) {
+    inspector.hidden = !selected;
+    inspector.classList.toggle("inspector-minimized", state.inspectorMinimized);
+    inspector.setAttribute("aria-busy", String(state.isRendering));
+  }
+  const minimize = document.querySelector("#inspector-minimize");
+  if (minimize) {
+    minimize.setAttribute("aria-expanded", String(!state.inspectorMinimized));
+    minimize.setAttribute("aria-label", t(state.inspectorMinimized ? "ui.expand" : "ui.minimize"));
+    minimize.textContent = state.inspectorMinimized ? "+" : "−";
+  }
+  const compactValue = document.querySelector("#compact-metric-value");
+  if (compactValue) compactValue.textContent = selectionMetricValue.textContent + (state.currentMetric === "sum_intersection_area_km2" ? " km²" : "");
+  document.querySelector("#copy-link")?.toggleAttribute("disabled", !selected);
   const heading = document.querySelector("#place-heading");
   if (heading) heading.textContent = label;
+  selectionName.textContent = selected ? label : "";
   if (document.activeElement !== searchInput && !searchResults.childElementCount) searchInput.value = state.selectedCode ? label : "";
   document.querySelector("#landing-guide")?.classList.toggle("is-hidden", Boolean(state.selectedCode));
   const freshness = document.querySelector("#data-freshness");
@@ -3155,13 +2773,7 @@ function updateRefreshUI() {
   const summary = document.querySelector("#filter-summary");
   if (summary) summary.textContent = `${t(`level.${state.currentLevel}`)} · ${formatMonthLabel(state.currentDateFrom)} – ${formatMonthLabel(state.currentDateTo)}`;
   const metricLabel = document.querySelector("#selection-metric-label");
-  if (metricLabel) metricLabel.textContent = t(`metric.${state.currentMetric}`);
-  let metricNote = document.getElementById("selected-metric-note");
-  if (!metricNote && selectionDetails) { metricNote = document.createElement("p"); metricNote.id = "selected-metric-note"; metricNote.className = "control-help"; selectionDetails.append(metricNote); }
-  if (metricNote) metricNote.textContent = t(`metric.help.${state.currentMetric}`);
-  if (selectionMetricValue && state.currentMetric === "max_coverage_ratio") {
-    selectionMetricValue.textContent = `${formatMetric((state.currentLookup.get(state.selectedCode)?.max_coverage_ratio || 0) * 100)}%`;
-  }
+  if (metricLabel) metricLabel.textContent = metricDisplayLabel();
   for (const [id, value] of [["date-start-month", state.currentDateFrom], ["date-end-month", state.currentDateTo]]) {
     const input = document.getElementById(id);
     if (!input) continue;
@@ -3172,9 +2784,15 @@ function updateRefreshUI() {
   dateFromInput.setAttribute("aria-valuetext", formatMonthLabel(state.currentDateFrom));
   dateToInput.setAttribute("aria-valuetext", formatMonthLabel(state.currentDateTo));
   searchInput.setAttribute("aria-label", t("controls.search"));
-  document.getElementById("panel-resizer")?.setAttribute("aria-label", t("refresh.resize_panel"));
+  const dateSummary = document.querySelector("#date-summary");
+  if (dateSummary) {
+    dateSummary.textContent = `${formatMonthLabel(state.currentDateFrom)} – ${formatMonthLabel(state.currentDateTo)}`;
+    dateSummary.setAttribute("aria-label", `${t("ui.date_range")}: ${dateSummary.textContent}`);
+  }
+  sidebarToggle.setAttribute("aria-label", t("ui.close_place"));
+  document.querySelector("#metric-definition").textContent = t(`metric.help.${state.currentMetric}`);
   document.querySelectorAll(".lang-btn").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.language === state.language)));
-  document.querySelector("#export-data")?.toggleAttribute("disabled", Boolean(state.renderError) || state.isRendering || !state.hasRendered);
+  for (const id of ["export-data", "export-location"]) document.getElementById(id)?.toggleAttribute("disabled", Boolean(state.renderError) || state.isRendering || !state.hasRendered);
 }
 
 async function setDatePeriod(from, to) {
@@ -3187,7 +2805,6 @@ async function setDatePeriod(from, to) {
 }
 
 function initRefreshControls() {
-  document.querySelectorAll("[data-panel-tab]").forEach(button => button.addEventListener("click", () => setActivePanel(button.dataset.panelTab)));
   document.querySelectorAll("[data-place-code]").forEach(button => button.addEventListener("click", async () => {
     const place = state.adminByCode.get(button.dataset.placeCode);
     if (!place) return;
@@ -3209,7 +2826,8 @@ function initRefreshControls() {
     const range = latestYearRange(state.manifest.metric_assets[state.currentLevel]?.months || []);
     void setDatePeriod(...range);
   });
-  document.querySelector("#copy-link")?.addEventListener("click", async () => {
+  const copyViewLink = async () => {
+    document.querySelector("#workspace-menu").open = false;
     try {
       await navigator.clipboard.writeText(buildRouteUrl().toString());
       setAppStatus("refresh.copied");
@@ -3220,8 +2838,36 @@ function initRefreshControls() {
       input.readOnly = true; input.value = buildRouteUrl().toString(); input.setAttribute("aria-label", t("refresh.copy_link"));
       status.append(input); input.select();
     }
-  });
+  };
+  document.querySelector("#copy-link")?.addEventListener("click", copyViewLink);
+  document.querySelector("#copy-view")?.addEventListener("click", copyViewLink);
   document.querySelector("#export-data")?.addEventListener("click", exportSelectionData);
+  document.querySelector("#export-location")?.addEventListener("click", exportSelectionData);
+  const dialog = document.querySelector("#data-dialog");
+  document.querySelector("#about-toggle")?.addEventListener("click", () => {
+    document.querySelector("#workspace-menu").open = false;
+    dialog.showModal();
+    syncRouteState();
+  });
+  dialog?.addEventListener("close", () => {
+    syncRouteState({ replace: true });
+    document.querySelector("#workspace-menu > summary")?.focus();
+  });
+  document.querySelector("#reports-disclosure")?.querySelector("summary")?.addEventListener("click", () => {
+    window.setTimeout(() => syncRouteState(), 0);
+  });
+  const menus = [...document.querySelectorAll("#date-menu, #workspace-menu")];
+  menus.forEach(menu => menu.addEventListener("toggle", () => {
+    if (menu.open) menus.filter(other => other !== menu).forEach(other => { other.open = false; });
+    else if (menu.id === "date-menu") pauseTimeline();
+  }));
+  document.addEventListener("click", event => menus.forEach(menu => { if (!menu.contains(event.target)) menu.open = false; }));
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      searchResults.innerHTML = "";
+      menus.forEach(menu => { if (menu.open) { menu.open = false; menu.querySelector("summary")?.focus(); } });
+    }
+  });
   document.querySelector("#retry-load")?.addEventListener("click", () => {
     if (!state.mapStyleReady) { window.location.reload(); return; }
     void renderExplorer();
@@ -3245,7 +2891,7 @@ function initRefreshControls() {
 }
 
 function exportSelectionData() {
-  if (state.renderError || state.isRendering || !state.hasRendered || !state.currentLookup) return;
+  if (state.renderError || state.isRendering || timelineRenderTimeout || !state.hasRendered || !state.currentLookup) return;
   const columns = ["code", "name", "level", "period_from", "period_to", "unique_event_count", "event_start_days", "cumulative_intersection_area_km2", "max_coverage_ratio", "dataset_version", "coverage_note", "source"];
   const entries = [...state.currentLookup.values()].filter(row => !state.selectedCode || row.code === state.selectedCode);
   // An area without records still exports its explicitly selected zero-valued aggregate.
@@ -3256,6 +2902,7 @@ function exportSelectionData() {
   const link = document.createElement("a");
   link.href = url; link.download = `flood-${state.selectedCode || state.currentLevel}-${state.currentDateFrom}-${state.currentDateTo}.csv`;
   link.click(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  document.querySelector("#workspace-menu").open = false;
   setAppStatus("refresh.downloaded");
 }
 
@@ -3267,8 +2914,10 @@ async function renderExplorer() {
   state.hasRendered = false;
   document.body.classList.remove("has-render-error");
   document.body.classList.add("is-loading");
+  document.documentElement.dataset.state = "loading";
+  selectionMetricValue.textContent = "—";
   document.querySelector("#export-data")?.setAttribute("disabled", "");
-  setAppStatus("refresh.loading");
+  setAppStatus("ui.loading");
   try {
     updateStatusPanels();
     syncDateRangeDefaults();
@@ -3282,25 +2931,28 @@ async function renderExplorer() {
     if (renderVersion !== state.renderVersion) return;
     renderMethodology();
     state.hasRendered = true;
+    document.documentElement.dataset.state = "ready";
     updateRefreshUI();
     setAppStatus();
   } catch (error) {
     if (renderVersion !== state.renderVersion) return;
     console.error("Explorer render failed", error);
     state.renderError = error;
+    document.documentElement.dataset.state = "error";
     document.body.classList.add("has-render-error");
     state.map?.getSource("boundaries")?.setData({ type: "FeatureCollection", features: [] });
     document.getElementById("trend-data-table")?.remove();
     state.trendChart?.destroy(); state.trendChart = null;
     trendEmpty.textContent = t("refresh.failed"); trendEmpty.classList.remove("is-hidden");
     pauseTimeline();
-    setAppStatus("refresh.failed", true);
+    setAppStatus("ui.failed", true);
     document.querySelectorAll("#stat-total-events, #stat-units-with-data, #stat-rendered-units, #selection-metric-value, #selection-coverage").forEach(node => { node.textContent = "—"; });
   } finally {
     if (renderVersion === state.renderVersion) {
       state.isRendering = false;
       document.body.classList.remove("is-loading");
-      document.querySelector("#export-data")?.toggleAttribute("disabled", Boolean(state.renderError) || !state.hasRendered);
+      for (const id of ["export-data", "export-location"]) document.getElementById(id)?.toggleAttribute("disabled", Boolean(state.renderError) || !state.hasRendered);
+      document.querySelector("#sidebar")?.setAttribute("aria-busy", "false");
     }
   }
 }
@@ -3314,5 +2966,6 @@ boot().catch((error) => {
   if (status) status.textContent = state.translations.size ? t("refresh.failed") : "Data could not be loaded. Please reload / Data belum dapat dimuat. Muat ulang.";
   const retry = document.querySelector("#retry-load");
   retry?.classList.remove("is-hidden");
-  if (retry && !state.manifest) retry.onclick = () => window.location.reload();
+  document.documentElement.dataset.state = "error";
+  if (retry) retry.onclick = () => window.location.reload();
 });

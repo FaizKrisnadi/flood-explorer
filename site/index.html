@@ -10,7 +10,7 @@
     />
     <meta name="application-name" content="Peta Banjir Indonesia" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#113b42" />
+    <meta name="theme-color" content="#f7f8fa" />
     <link rel="canonical" href="https://flood.faizkrisnadi.com/" />
 
     <meta property="og:type" content="website" />
@@ -32,197 +32,64 @@
     />
     <meta name="twitter:image" content="https://flood.faizkrisnadi.com/social-card.svg" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=20260316b" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="styles.css?v=20261023a" />
+    <link rel="stylesheet" href="styles.css?v=20261023b" />
   </head>
   <body>
-    <!-- ═══════════ FULL-VIEWPORT MAP ═══════════ -->
     <div id="map"></div>
-
-    <!-- ═══════════ SIDEBAR ═══════════ -->
-    <aside id="sidebar" class="sidebar">
-      <div class="sidebar-inner">
-        <!-- Brand -->
-        <header class="sidebar-brand">
-          <div class="brand-row">
-            <div>
-              <p class="brand-eyebrow" data-i18n="refresh.brand_eyebrow">FLOOD EXPLORER / INDONESIA</p>
-              <h1 class="brand-title"><span data-i18n="app.title.prefix">Peta Banjir</span> <span class="brand-highlight" data-i18n="app.title.highlight">Indonesia</span></h1>
-              <p class="brand-sub" data-i18n="app.subtitle"></p>
-            </div>
-            <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Toggle sidebar">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 3L5 9l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+    <header id="workspace-toolbar" class="workspace-toolbar">
+      <h1 class="workspace-brand">Flood Explorer</h1>
+      <div class="search-container">
+        <label for="search-input" class="sr-only" data-i18n="ui.search">Cari wilayah</label>
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.7"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.7"/></svg>
+        <input id="search-input" type="search" autocomplete="off" />
+        <div id="search-results" class="search-results"></div>
+      </div>
+      <div class="toolbar-filters">
+        <label class="sr-only" for="level-select" data-i18n="controls.level">Wilayah</label><select id="level-select"></select>
+        <label class="sr-only" for="metric-select" data-i18n="controls.metric">Metrik</label><select id="metric-select"></select>
+        <details id="date-menu" class="toolbar-menu date-menu">
+          <summary id="date-summary" aria-label="Date range">2000–2026</summary>
+          <div class="menu-surface date-menu-content">
+            <div class="date-inputs"><label for="date-start-month"><span data-i18n="ui.from">Dari</span><input id="date-start-month" type="month" /></label><label for="date-end-month"><span data-i18n="ui.to">Hingga</span><input id="date-end-month" type="month" /></label></div>
+            <div class="period-shortcuts"><button id="period-full" type="button" data-i18n="ui.full">Seluruh periode</button><button id="period-latest" type="button" data-i18n="ui.latest">Tahun terakhir</button></div>
+            <div class="timeline-bar"><button id="timeline-play" type="button" aria-label="Play timeline"><svg viewBox="0 0 16 16" width="12" height="12"><polygon points="4,2 14,8 4,14" fill="currentColor"/></svg></button><div class="timeline-track-wrap"><input id="date-from" type="range" aria-label="Awal periode" class="timeline-range timeline-range--from"/><input id="date-to" type="range" aria-label="Akhir periode" class="timeline-range timeline-range--to"/><div id="timeline-fill" class="timeline-track-fill"></div></div></div>
+            <div class="timeline-labels"><span id="timeline-from-label"></span><span id="timeline-to-label"></span></div>
           </div>
-        <div class="freshness-line"><span class="status-dot" aria-hidden="true"></span><span id="data-freshness">Memuat cakupan data…</span></div>
-          <span id="release-date" class="release-date"></span>
-        </header>
-
-        <!-- Search -->
-        <div class="sidebar-section">
-          <div class="search-wrap">
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <label class="sr-only" for="search-input">Cari wilayah</label><input id="search-input" type="search" autocomplete="off" />
-          </div>
-          <div id="search-results" class="search-results"></div>
-        </div>
-
-        <details id="explore-filters" class="explore-filters">
-          <summary><span data-i18n="refresh.filters_summary">Filter &amp; periode</span><span id="filter-summary"></span><span class="filter-chevron" aria-hidden="true">⌄</span></summary>
-          <div class="filter-details-body">
-        <!-- Filters -->
-        <div class="sidebar-section">
-          <div class="section-head">
-            <h2 data-i18n="controls.filters"></h2>
-            <button id="reset-button" class="btn-ghost" type="button" data-i18n="controls.reset"></button>
-          </div>
-          <div class="filter-group">
-            <label for="level-select" data-i18n="controls.level"></label>
-            <select id="level-select"></select>
-          </div>
-          <div class="filter-group">
-            <label for="metric-select" data-i18n="controls.metric"></label>
-            <select id="metric-select"></select>
-            <p id="metric-help" class="control-help text-muted"></p>
-          </div>
-        </div>
-
-        <div class="date-controls">
-          <div class="date-inputs"><label for="date-start-month"><span data-i18n="refresh.from">Dari</span><input id="date-start-month" type="month" /></label><span aria-hidden="true">→</span><label for="date-end-month"><span data-i18n="refresh.to">Hingga</span><input id="date-end-month" type="month" /></label></div>
-          <div class="period-shortcuts"><button id="period-full" type="button" data-i18n="refresh.full_record">Seluruh periode</button><button id="period-latest" type="button" data-i18n="refresh.latest_year">Tahun terakhir</button></div>
-        </div>
-        </div>
         </details>
-        <div class="place-navigation">
-          <div class="place-heading-row"><div><p class="eyebrow" data-i18n="refresh.exploring">JELAJAHI WILAYAH</p><h2 id="place-heading">Indonesia</h2></div><span class="place-mark" aria-hidden="true">↗</span></div>
-          <nav class="panel-tabs" aria-label="Explorer panels">
-            <button type="button" data-panel-tab="overview" class="is-active" aria-pressed="true" data-i18n="refresh.overview">Ringkasan</button>
-            <button type="button" data-panel-tab="trends" aria-pressed="false" data-i18n="refresh.trends">Tren</button>
-            <button type="button" data-panel-tab="reports" aria-pressed="false" data-i18n="refresh.reports">Laporan</button>
-            <button type="button" data-panel-tab="data" aria-pressed="false" data-i18n="refresh.data">Data</button>
-          </nav>
+      </div>
+      <details id="workspace-menu" class="toolbar-menu workspace-menu">
+        <summary aria-label="Menu">•••</summary>
+        <div class="menu-surface workspace-menu-content">
+          <div class="language-toggle"><button type="button" class="lang-btn is-active" data-language="id">Indonesia</button><button type="button" class="lang-btn" data-language="en">English</button></div>
+          <div id="basemap-toggle" class="basemap-toggle"></div>
+          <button type="button" id="reset-button" data-i18n="controls.reset">Reset</button>
+          <button type="button" id="export-data" data-i18n="ui.download">Unduh data</button>
+          <button type="button" id="copy-view" data-i18n="ui.share">Salin tautan</button>
+          <button type="button" id="about-toggle" data-i18n="ui.about">Tentang data</button>
         </div>
-        <p id="app-status" class="app-status" role="status" aria-live="polite"></p><button id="retry-load" type="button" class="btn-ghost is-hidden" data-i18n="refresh.retry">Coba lagi</button>
-        <div class="explorer-panel" data-panel="overview">
-
-        <!-- Selection Detail -->
-        <div class="sidebar-section">
-          <div class="section-head">
-            <h2 data-i18n="panel.selection"></h2>
-            <span id="selection-period" class="period-badge"></span>
-          </div>
-          <div id="selection-empty" class="empty-state" data-i18n="panel.none_selected"></div>
-          <div id="selection-details" class="selection-details is-hidden">
-            <div class="selection-header">
-              <div>
-                <h3 id="selection-name"></h3>
-                <p id="selection-parent" class="text-muted"></p>
-              </div>
-              <span id="selection-level-badge" class="level-pill"></span>
-            </div>
-            <dl class="detail-grid">
-              <div>
-                <dt><span id="selection-metric-label" data-i18n="selection.metric_value"></span></dt>
-                <dd id="selection-metric-value"></dd>
-              </div>
-              <div>
-                <dt data-i18n="selection.coverage_ratio"></dt>
-                <dd id="selection-coverage"></dd>
-              </div>
-            </dl>
-          </div>
+      </details>
+    </header>
+    <div class="workspace-status"><p id="app-status" role="status" aria-live="polite"></p><button id="retry-load" type="button" class="is-hidden" data-i18n="ui.retry">Coba lagi</button></div>
+    <aside id="sidebar" class="location-inspector" aria-labelledby="selection-name" hidden>
+      <header class="inspector-header"><div><h2 id="selection-name"></h2><p id="selection-parent"></p><strong id="compact-metric-value"></strong></div><div class="inspector-header-actions"><button id="inspector-minimize" type="button" aria-label="Minimize details">−</button><button id="sidebar-toggle" type="button" aria-label="Close details">×</button></div></header>
+      <div class="sidebar-inner inspector-body">
+        <div id="selection-empty" class="is-hidden"></div>
+        <div id="selection-details" class="selection-details">
+          <div class="selected-metric"><span id="selection-metric-label"></span><strong id="selection-metric-value">—</strong><span id="selection-period"></span></div>
         </div>
-
-          <div class="landing-guide" id="landing-guide"><span class="guide-number" data-i18n="refresh.examples_label">01 / MULAI DI SINI</span><h3 data-i18n="refresh.guide_title">Setiap tempat punya cerita air.</h3><p data-i18n="refresh.guide_copy">Cari wilayah atau pilih di peta untuk menelusuri catatan banjir dari waktu ke waktu.</p><div class="example-places"><button type="button" data-place-code="31">Jakarta <span>↗</span></button><button type="button" data-place-code="32.73">Kota Bandung <span>↗</span></button></div></div>
-        <p class="stats-note text-muted" data-i18n="refresh.stats_note">Angka agregat menjumlahkan pasangan kejadian dan wilayah. Satu kejadian dapat tercatat di beberapa wilayah.</p>
-        <!-- Quick Stats -->
-        <div class="sidebar-section">
-          <div class="section-head">
-            <h2 data-i18n="panel.stats"></h2>
-            <span id="stats-level-pill" class="level-pill"></span>
-          </div>
-          <div class="stat-grid">
-            <div class="stat-card stat-card--primary">
-              <span class="stat-label" data-i18n="panel.stats.events_total"></span>
-              <strong id="stat-total-events" class="stat-value">0</strong>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label" data-i18n="panel.stats.units_with_data"></span>
-              <strong id="stat-units-with-data" class="stat-value">0</strong>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label" data-i18n="panel.stats.rendered_units"></span>
-              <strong id="stat-rendered-units" class="stat-value">0</strong>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label" data-i18n="panel.stats.date_window"></span>
-              <strong id="stat-date-window" class="stat-value">—</strong>
-            </div>
-          </div>
-        </div>
-
-        </div>
-        <div class="explorer-panel is-hidden" data-panel="trends">
-        <!-- Trend Chart -->
-        <div class="sidebar-section">
-          <div class="section-head">
-            <h2 id="trend-section-title" data-i18n="panel.trends"></h2>
-            <span id="trend-period" class="period-badge"></span>
-          </div>
-          <div class="chart-shell">
-            <canvas id="trend-chart" height="180"></canvas>
-          </div>
-          <div id="trend-empty" class="empty-state" data-i18n="map.empty"></div>
-        </div>
-
-        </div>
-        <div class="explorer-panel is-hidden" data-panel="data">
-        <!-- Evidence -->
-        <div id="evidence-section" class="sidebar-section">
-          <div class="section-head">
-            <h2 id="evidence-section-title" data-i18n="panel.evidence"></h2>
-          </div>
-          <div id="evidence-empty" class="empty-state" data-i18n="evidence.none_selected"></div>
-          <div id="evidence-panel" class="evidence-panel is-hidden">
-            <div class="evidence-topline">
-              <span id="evidence-month" class="period-badge"></span>
-              <span id="evidence-gap-signal" class="evidence-gap-signal"></span>
-            </div>
-            <p id="evidence-window-note" class="text-muted evidence-window-note is-hidden"></p>
-            <p id="evidence-note" class="evidence-note"></p>
-            <p id="evidence-gap-context" class="text-muted evidence-gap-context"></p>
-            <dl class="evidence-metric-grid">
-              <div>
-                <dt data-i18n="evidence.score.internal"></dt>
-                <dd id="evidence-internal-score"></dd>
-              </div>
-              <div>
-                <dt class="evidence-source-head">
-                  <span id="evidence-source-label"></span>
-                  <button id="evidence-source-info" class="info-dot" type="button" aria-label="Source details">?</button>
-                </dt>
-                <dd id="evidence-external-score"></dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-        
-        </div>
-        <div class="explorer-panel is-hidden" data-panel="reports">
-          <p class="reports-context text-muted" data-i18n="refresh.reports_note">Pilih wilayah untuk melihat laporan dengan sumber yang dapat ditelusuri. Cakupan laporan belum menyeluruh.</p>
-        <!-- Field Reports Panel -->
-        <div id="qualitative-section" class="sidebar-section is-hidden">
+        <section class="trend-section"><div class="section-head"><h3 class="sr-only" id="trend-section-title" data-i18n="panel.trends">Tren</h3><span id="trend-period"></span></div><div class="chart-shell"><canvas id="trend-chart" height="180"></canvas></div><p id="trend-empty" class="empty-state"></p></section>
+        <details id="reports-disclosure" class="reports-disclosure"><summary data-i18n="ui.reports">Laporan</summary><div id="qualitative-section" class="report-content is-hidden">
           <div class="section-head">
             <h2 data-i18n="panel.qualitative">Laporan Lapangan</h2>
             <span id="qualitative-state-badge" class="period-badge is-hidden"></span>
           </div>
-          <p id="qualitative-intro" class="section-intro" data-i18n="panel.qualitative_intro">Ringkasan laporan warga, media lokal, dan catatan lapangan untuk periode terpilih.</p>
-          <div id="qualitative-empty" class="empty-state" data-i18n="qualitative.empty">Belum ada laporan lapangan yang dapat ditampilkan untuk wilayah dan periode ini. Peta, metrik, dan sinyal kuantitatif di panel lain tetap tersedia.</div>
+          <p id="qualitative-intro" hidden></p>
+          <div id="qualitative-empty" class="empty-state" data-i18n="ui.no_reports">Belum ada laporan lapangan yang dapat ditampilkan untuk wilayah dan periode ini. Peta, metrik, dan sinyal kuantitatif di panel lain tetap tersedia.</div>
           <div id="qualitative-panel" class="qualitative-panel is-hidden">
             <div class="qualitative-topline">
               <span id="qualitative-period" class="period-badge"></span>
@@ -254,23 +121,13 @@
               <div id="qualitative-related-list" class="qualitative-related-list"></div>
             </div>
           </div>
-        </div>
-
-        </div>
-        <div class="explorer-panel is-hidden" data-panel="data">
-        <dl class="detail-grid data-identifiers">
-              <div>
-                <dt data-i18n="selection.code"></dt>
-                <dd id="selection-code"></dd>
-              </div>
-              <div>
-                <dt data-i18n="selection.boundary_source"></dt>
-                <dd id="selection-boundary-source"></dd>
-              </div>
-        </dl>
-        <!-- Methodology -->
-        <div class="sidebar-section">
-          <details id="methodology-panel" class="accordion-panel" open>
+        </div></details>
+      </div>
+      <footer class="inspector-footer"><button id="copy-link" type="button" data-i18n="ui.share">Salin tautan</button><button id="export-location" type="button" data-i18n="ui.download">Unduh data</button></footer>
+    </aside>
+    <div class="legend-panel"><div class="legend-head"><strong id="map-title"></strong></div><div class="legend-bar" id="map-legend"></div><p id="map-note" hidden></p></div>
+    <footer class="map-credits"><a href="https://faizkrisnadi.com" target="_blank" rel="noreferrer">Faiz Krisnadi</a><span>·</span><a href="https://openfreemap.org" target="_blank" rel="noreferrer">OpenFreeMap</a><span>· ©</span><a href="https://www.openmaptiles.org/" target="_blank" rel="noreferrer">OpenMapTiles</a><span>· ©</span><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a><span>·</span><a href="https://maplibre.org/" target="_blank" rel="noreferrer">MapLibre</a></footer>
+    <dialog id="data-dialog"><header class="dialog-header"><h2 data-i18n="ui.about">Tentang data</h2><form method="dialog"><button id="about-close" type="submit" aria-label="Close">×</button></form></header><div class="dialog-body"><p id="data-freshness"></p><p id="release-date"></p><p id="metric-definition"></p><details id="methodology-panel" class="accordion-panel" open>
             <summary class="accordion-summary">
               <span class="accordion-copy">
                 <strong data-i18n="panel.method"></strong>
@@ -284,77 +141,38 @@
               <p class="text-muted method-summary" data-i18n="method.note.qualitative_sample">Bagian Laporan Lapangan saat ini masih berupa sampel kurasi awal dari laporan lokal, belum mencakup seluruh kejadian banjir nasional.</p>
               <ul id="methodology-list" class="methodology-list"></ul>
             </div>
-          </details>
-        </div>
-
-        </div>
-        <div class="explorer-actions"><button id="copy-link" type="button" data-i18n="refresh.copy_link">Salin tautan ↗</button><button id="export-data" type="button" data-i18n="refresh.download">Unduh data ↓</button></div>
-        <!-- Footer -->
-        <footer class="sidebar-footer">
-          <p>© 2026 <a class="footer-owner-link" href="https://faizkrisnadi.com" target="_blank" rel="noreferrer">Faiz Krisnadi</a>.</p>
-          <p class="map-attribution-copy">
-            <span data-i18n="footer.map_attribution_label">Basemap:</span>
-            <a href="https://openfreemap.org" target="_blank" rel="noreferrer">OpenFreeMap</a>
-            · © <a href="https://www.openmaptiles.org/" target="_blank" rel="noreferrer">OpenMapTiles</a>
-            · <span data-i18n="footer.map_attribution_data">Data from</span>
-            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>
-            · <a href="https://maplibre.org/" target="_blank" rel="noreferrer">MapLibre</a>
-          </p>
-        </footer>
-      </div>
-    </aside>
-
-    <!-- ═══════════ MAP OVERLAYS ═══════════ -->
-
-    <!-- Top-right controls -->
-    <div class="map-controls-tr">
-      <div class="language-toggle">
-        <button class="lang-btn is-active" data-language="id" type="button">ID</button>
-        <button class="lang-btn" data-language="en" type="button">EN</button>
-      </div>
-      <div id="basemap-toggle" class="basemap-toggle"></div>
-    </div>
-
-    <!-- Bottom-left legend -->
-    <div class="legend-panel">
-      <div class="legend-head">
-        <span class="legend-label" data-i18n="map.legend"></span>
-        <strong id="map-title"></strong>
-      </div>
-      <div class="legend-bar" id="map-legend"></div>
-      <p id="map-note" class="text-muted legend-note"></p>
-    </div>
-
-    <!-- ═══════════ TIMELINE SLIDER ═══════════ -->
-    <div class="timeline-bar">
-      <button id="timeline-play" class="timeline-play-btn" type="button" aria-label="Play timeline">
-        <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
-      </button>
-      <span class="timeline-value" id="timeline-from-label"></span>
-      <div class="timeline-track-wrap">
-        <input id="date-from" aria-label="Awal periode" type="range" class="timeline-range timeline-range--from" />
-        <input id="date-to" aria-label="Akhir periode" type="range" class="timeline-range timeline-range--to" />
-        <div class="timeline-track-fill" id="timeline-fill"></div>
-      </div>
-      <span class="timeline-value" id="timeline-to-label"></span>
-    </div>
-
-    <!-- Hidden elements for compat -->
-    <span id="coverage-chip" class="is-hidden"></span>
-    <span id="coverage-banner" class="is-hidden"></span>
-    <p id="coverage-warning" class="is-hidden"></p>
-    <span id="groundsource-status" class="is-hidden"></span>
-    <span id="hero-groundsource-status" class="is-hidden"></span>
-    <span id="hero-default-level" class="is-hidden"></span>
-    <span id="hero-default-metric" class="is-hidden"></span>
-    <span id="hero-total-events" class="is-hidden"></span>
-
-    <script
-      src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"
-      crossorigin="anonymous"
-    ></script>
+          </details><div hidden><div id="evidence-section" class="sidebar-section">
+          <div class="section-head">
+            <h2 id="evidence-section-title" data-i18n="panel.evidence"></h2>
+          </div>
+          <div id="evidence-empty" class="empty-state" data-i18n="evidence.none_selected"></div>
+          <div id="evidence-panel" class="evidence-panel is-hidden">
+            <div class="evidence-topline">
+              <span id="evidence-month" class="period-badge"></span>
+              <span id="evidence-gap-signal" class="evidence-gap-signal"></span>
+            </div>
+            <p id="evidence-window-note" class="text-muted evidence-window-note is-hidden"></p>
+            <p id="evidence-note" class="evidence-note"></p>
+            <p id="evidence-gap-context" class="text-muted evidence-gap-context"></p>
+            <dl class="evidence-metric-grid">
+              <div>
+                <dt data-i18n="evidence.score.internal"></dt>
+                <dd id="evidence-internal-score"></dd>
+              </div>
+              <div>
+                <dt class="evidence-source-head">
+                  <span id="evidence-source-label"></span>
+                  <button id="evidence-source-info" class="info-dot" type="button" aria-label="Source details">?</button>
+                </dt>
+                <dd id="evidence-external-score"></dd>
+              </div>
+            </dl>
+          </div>
+        </div></div></div></dialog>
+    <div hidden aria-hidden="true" id="compat-hooks"><span id="coverage-banner"></span><span id="coverage-chip"></span><span id="coverage-warning"></span><span id="explore-filters"></span><span id="filter-summary"></span><span id="groundsource-status"></span><span id="hero-default-level"></span><span id="hero-default-metric"></span><span id="hero-groundsource-status"></span><span id="hero-total-events"></span><span id="landing-guide"></span><span id="metric-help"></span><span id="place-heading"></span><span id="selection-boundary-source"></span><span id="selection-code"></span><span id="selection-coverage"></span><span id="selection-level-badge"></span><span id="stat-date-window"></span><span id="stat-rendered-units"></span><span id="stat-total-events"></span><span id="stat-units-with-data"></span><span id="stats-level-pill"></span></div>
+    <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="report-integrity.js?v=20261023" defer></script>
-    <script src="app.js?v=20261023a" type="module"></script>
+    <script src="app.js?v=20261023b" type="module"></script>
   </body>
 </html>
