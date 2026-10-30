@@ -9,6 +9,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from audit_report_sources import source_url_error
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
@@ -79,6 +81,11 @@ def is_publishable_row(row: dict[str, Any]) -> bool:
         and "publishable" in publishable_status
         and published
     )
+
+
+def is_publication_eligible_row(row: dict[str, Any]) -> bool:
+    """Review gate plus the same source-link screen the browser applies fail-closed."""
+    return is_publishable_row(row) and source_url_error(row.get("source_url")) is None
 
 
 def supporting_record_payload(row: dict[str, Any]) -> dict[str, Any]:
@@ -209,6 +216,10 @@ def build_assets(reviewed_dir: Path) -> tuple[list[dict[str, Any]], list[dict[st
                     row.get("event_id", ""),
                 ),
             )
+            # Stable re-sort: a record whose source link survives public URL screening
+            # anchors the group when one exists. Records with placeholder links stay in
+            # the payload as supporting evidence but cannot headline a report.
+            publishable_rows.sort(key=lambda row: source_url_error(row.get("source_url")) is not None)
             featured = publishable_rows[0]
             supporting = publishable_rows[1:]
             payload = event_payload(featured, supporting)
@@ -225,13 +236,22 @@ def build_assets(reviewed_dir: Path) -> tuple[list[dict[str, Any]], list[dict[st
                 key=lambda item: (item.get("event_date", ""), item.get("event_id", "")),
                 reverse=True,
             )
+            # Review states describe what the public site will actually render, so they
+            # count only records whose source links pass the same URL screening the
+            # browser applies. Placeholder-linked records remain in the events payload.
+            eligible_events = [item for item in publishable_events if source_url_error(item.get("source_url")) is None]
 
             additional_count = 0
-            if publishable_events:
-                additional_count += max(0, len(publishable_events) - 1)
-                additional_count += sum(len(item.get("supporting_records", [])) for item in publishable_events)
+            if eligible_events:
+                additional_count += max(0, len(eligible_events) - 1)
+                additional_count += sum(
+                    1
+                    for item in eligible_events
+                    for record in item.get("supporting_records", [])
+                    if source_url_error(record.get("source_url")) is None
+                )
                 public_state = "has_featured_report_and_more" if additional_count > 0 else "has_featured_report_only"
-                featured_event_id = publishable_events[0].get("event_id", "")
+                featured_event_id = eligible_events[0].get("event_id", "")
             else:
                 has_reviewed_status = any(
                     row.get("review_status", "").strip().lower() == "reviewed" for row in period_rows

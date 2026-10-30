@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from validate_public_site_data import validate_public_site_data  # noqa: E402
+from validate_public_site_data import validate_public_site_data, validate_public_site_data_report  # noqa: E402
 
 
 class PublicSiteDataValidationTest(unittest.TestCase):
@@ -43,6 +43,149 @@ class PublicSiteDataValidationTest(unittest.TestCase):
             (site_dir / "regencies" / "index.json").write_text(json.dumps(payload), encoding="utf-8")
             errors = validate_public_site_data(site_dir)
             self.assertTrue(any("Duplicate regency qualitative index entry" in error for error in errors))
+
+    def test_validate_public_site_data_passes_consistent_summary_and_month_rollup(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            site_dir = Path(temp_dir)
+            self._write_fixture(site_dir)
+            self._write_json(
+                site_dir / "metrics" / "province" / "month" / "2024-01.json",
+                [
+                    {
+                        "code": "11",
+                        "month_start": "2024-01-01",
+                        "unique_event_count": 2,
+                        "flood_days": 1,
+                        "sum_intersection_area_km2": 3.5,
+                        "max_coverage_ratio": 0.25,
+                    }
+                ],
+            )
+            self._write_json(
+                site_dir / "metrics" / "province" / "summary_all_time.json",
+                [
+                    {
+                        "code": "11",
+                        "unique_event_count": 2,
+                        "flood_days": 1,
+                        "sum_intersection_area_km2": 3.5,
+                        "max_coverage_ratio": 0.25,
+                    }
+                ],
+            )
+            self.assertEqual(validate_public_site_data(site_dir), [])
+
+    def test_validate_public_site_data_flags_summary_month_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            site_dir = Path(temp_dir)
+            self._write_fixture(site_dir)
+            self._write_json(
+                site_dir / "metrics" / "province" / "month" / "2024-01.json",
+                [
+                    {
+                        "code": "11",
+                        "month_start": "2024-01-01",
+                        "unique_event_count": 7,
+                        "flood_days": 1,
+                        "sum_intersection_area_km2": 3.5,
+                        "max_coverage_ratio": 0.25,
+                    }
+                ],
+            )
+            self._write_json(
+                site_dir / "metrics" / "province" / "summary_all_time.json",
+                [
+                    {
+                        "code": "11",
+                        "unique_event_count": 2,
+                        "flood_days": 1,
+                        "sum_intersection_area_km2": 3.5,
+                        "max_coverage_ratio": 0.25,
+                    }
+                ],
+            )
+            errors = validate_public_site_data(site_dir)
+            self.assertTrue(
+                any("summary_all_time.json disagrees with month shards for `11`" in error for error in errors)
+            )
+
+    def test_validate_public_site_data_flags_unlisted_month_shard_with_records(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            site_dir = Path(temp_dir)
+            self._write_fixture(site_dir)
+            self._write_json(
+                site_dir / "metrics" / "province" / "month" / "2024-02.json",
+                [
+                    {
+                        "code": "11",
+                        "month_start": "2024-02-01",
+                        "unique_event_count": 1,
+                        "flood_days": 1,
+                        "sum_intersection_area_km2": 1.0,
+                        "max_coverage_ratio": 0.1,
+                    }
+                ],
+            )
+            errors = validate_public_site_data(site_dir)
+            self.assertTrue(
+                any(
+                    "Month shard 2024-02.json for province contains records but is not listed" in error
+                    for error in errors
+                )
+            )
+
+    def test_validate_public_site_data_flags_unknown_featured_event(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            site_dir = Path(temp_dir)
+            self._write_fixture(site_dir)
+            self._write_json(
+                site_dir / "regencies" / "aceh__kota_banda_aceh_geography_review_states.json",
+                [
+                    {
+                        "admin_code": "11.71",
+                        "admin_level": "regency",
+                        "public_state": "has_featured_report_only",
+                        "featured_event_id": "ghost-event",
+                    }
+                ],
+            )
+            errors = validate_public_site_data(site_dir)
+            self.assertTrue(any("reference unknown featured event `ghost-event`" in error for error in errors))
+
+    def test_validate_public_site_data_warns_on_placeholder_featured_event(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            site_dir = Path(temp_dir)
+            self._write_fixture(site_dir)
+            self._write_json(
+                site_dir / "regencies" / "aceh__kota_banda_aceh_qualitative_events.json",
+                [
+                    {
+                        "admin_code": "11.71",
+                        "admin_level": "regency",
+                        "event_id": "ev-1",
+                        "source_name": "Fixture Source",
+                        "source_date": "2024-01-01",
+                        "source_url": "https://example.com/story",
+                        "summary": "Fixture summary",
+                    }
+                ],
+            )
+            self._write_json(
+                site_dir / "regencies" / "aceh__kota_banda_aceh_geography_review_states.json",
+                [
+                    {
+                        "admin_code": "11.71",
+                        "admin_level": "regency",
+                        "public_state": "has_featured_report_only",
+                        "featured_event_id": "ev-1",
+                    }
+                ],
+            )
+            errors, warnings = validate_public_site_data_report(site_dir)
+            self.assertEqual(errors, [])
+            self.assertTrue(
+                any("source link is not publishable (placeholder_source_url)" in warning for warning in warnings)
+            )
 
     def _write_fixture(self, site_dir: Path) -> None:
         (site_dir / "boundaries").mkdir(parents=True)

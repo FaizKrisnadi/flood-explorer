@@ -64,4 +64,9 @@ Two of those states are explicitly non-negative:
 - `not_reviewed_yet` means no review decision has been published yet.
 - `reviewed_but_no_publishable_report` means the period was reviewed, but the current release has no publishable qualitative record.
 
+Publishability is decided by the review gate plus source-link eligibility screening
+(`scripts/audit_report_sources.py`), the same screen the browser applies fail-closed
+before rendering any record. Review states therefore only claim `has_featured_report_*`
+when the featured record's source link can actually be displayed.
+
 Neither state should be rendered as evidence that flooding did not happen.

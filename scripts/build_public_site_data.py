@@ -291,18 +291,31 @@ def write_metric_shards(site_dir: Path, level: str, month_rows: list[dict]) -> d
     return assets
 
 
-def copy_or_write_json(src: Path | None, dest: Path, default_payload) -> None:
+def copy_or_write_json(src: Path | None, dest: Path, default_payload) -> bool:
+    """Copy processed input when present; otherwise keep prior-release output.
+
+    Returns True when dest now reflects the processed inputs, False when a
+    previous release's file was intentionally kept (recorded as carryover).
+    """
     if src and src.exists():
         write_json(dest, json.loads(src.read_text(encoding="utf-8")))
-        return
+        return True
     if dest.exists():
-        return
+        return False
     write_json(dest, default_payload)
+    return True
 
 
 def sync_qualitative_assets(processed_dir: Path, site_dir: Path) -> dict:
-    copy_or_write_json(processed_dir / QUALITATIVE_GLOBAL_EVENTS_FILE, site_dir / QUALITATIVE_GLOBAL_EVENTS_FILE, [])
-    copy_or_write_json(processed_dir / QUALITATIVE_GLOBAL_STATES_FILE, site_dir / QUALITATIVE_GLOBAL_STATES_FILE, [])
+    carryover: list[str] = []
+    if not copy_or_write_json(
+        processed_dir / QUALITATIVE_GLOBAL_EVENTS_FILE, site_dir / QUALITATIVE_GLOBAL_EVENTS_FILE, []
+    ):
+        carryover.append(QUALITATIVE_GLOBAL_EVENTS_FILE)
+    if not copy_or_write_json(
+        processed_dir / QUALITATIVE_GLOBAL_STATES_FILE, site_dir / QUALITATIVE_GLOBAL_STATES_FILE, []
+    ):
+        carryover.append(QUALITATIVE_GLOBAL_STATES_FILE)
 
     site_regency_dir = site_dir / QUALITATIVE_REGENCY_DIR
     processed_regency_dir = processed_dir / QUALITATIVE_REGENCY_DIR
@@ -310,10 +323,12 @@ def sync_qualitative_assets(processed_dir: Path, site_dir: Path) -> dict:
         if site_regency_dir.exists():
             shutil.rmtree(site_regency_dir)
         shutil.copytree(processed_regency_dir, site_regency_dir)
+    elif any(site_regency_dir.glob("*.json")):
+        carryover.append(f"{QUALITATIVE_REGENCY_DIR}/")
     site_regency_dir.mkdir(parents=True, exist_ok=True)
     write_json(site_regency_dir / "index.json", build_regency_index(site_regency_dir, site_dir))
 
-    return {
+    manifest = {
         "global_events_path": QUALITATIVE_GLOBAL_EVENTS_FILE,
         "global_states_path": QUALITATIVE_GLOBAL_STATES_FILE,
         "regency_index_path": f"{QUALITATIVE_REGENCY_DIR}/index.json",
@@ -321,6 +336,11 @@ def sync_qualitative_assets(processed_dir: Path, site_dir: Path) -> dict:
         "supported_levels": list(QUALITATIVE_SUPPORTED_LEVELS),
         "route_version": QUALITATIVE_ROUTE_VERSION,
     }
+    if carryover:
+        # Files above are kept rather than deleted, so the manifest must say which
+        # published assets were carried over instead of rebuilt from processed inputs.
+        manifest["carryover_from_previous_release"] = carryover
+    return manifest
 
 
 def main() -> int:
