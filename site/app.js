@@ -1,4 +1,4 @@
-import { calendarMonths, clampMonth, latestYearRange, legendBreaks, colorIndex, toCsv } from "./explorer-utils.mjs?v=20261023";
+import { calendarMonths, clampMonth, formatFullDate, latestYearRange, legendBreaks, colorIndex, toCsv } from "./explorer-utils.mjs?v=20261030";
 
 /* ═══════════════════════════════════════════════════
    INDONESIA FLOOD EXPLORER — Map workspace
@@ -1095,14 +1095,7 @@ function applyRouteStateFromUrl() {
 }
 
 function formatFullDateLabel(monthStart) {
-  if (!monthStart) return "—";
-  const date = new Date(monthStart);
-  const locale = state.language === "id" ? "id-ID" : "en-US";
-  return new Intl.DateTimeFormat(locale, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(date);
+  return formatFullDate(monthStart, state.language);
 }
 
 function formatTrendAxisLabel(monthStart, index, total) {
