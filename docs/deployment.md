@@ -27,8 +27,16 @@ The static publish directory is `site/`. Before deploying, verify the account an
 existing Pages project owning `flood.faizkrisnadi.com`; do not create a replacement
 project or change DNS to work around missing access.
 
-Verified target: account `8696dea3eebe1ad3490426a695715556`, Pages project
-`peta-banjir-indonesia`, production branch `main`. This is a direct-upload project;
+The deploy script requires the target account id to be exported before it runs;
+it is no longer hardcoded in this repository:
+
+```sh
+export CLOUDFLARE_ACCOUNT_ID=<account id that owns the Pages project>
+bash scripts/deploy.sh
+```
+
+Verified target: Pages project `peta-banjir-indonesia`, production branch `main`.
+This is a direct-upload project;
 pushing GitHub does not trigger publishing. Publish a clean committed checkout:
 
 ```sh
