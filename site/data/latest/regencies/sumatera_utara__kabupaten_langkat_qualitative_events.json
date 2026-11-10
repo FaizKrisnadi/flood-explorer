@@ -1,23 +1,23 @@
 [
   {
     "event_id": "sumatera_utara-kabupaten_langkat-2026-01-19-main",
-    "event_date": "2026-01-19",
+    "event_date": "2026-01-08",
     "admin_level": "regency",
     "admin_code": "12.05",
     "location_label": "Kabupaten Langkat",
     "source_name": "Langkat Terkini",
     "source_url": "https://langkatterkini.com/dua-sungai-meluap-di-kuala-langkat-koramil-dan-rumah-warga-terendam-banjir",
     "source_date": "2026-01-09",
-    "headline": "Kabupaten Langkat flood update for January 2026",
-    "summary": "Banjir di Kabupaten Langkat caused minor damage to neighborhood access roads selama periode peninjauan terbatas.",
-    "summary_id": "Banjir di Kabupaten Langkat caused minor damage to neighborhood access roads selama periode peninjauan terbatas.",
-    "summary_en": "Flooding in Kabupaten Langkat caused minor damage to neighborhood access roads during the bounded review window.",
+    "headline": "Two rivers overflow in Kuala, Langkat, flooding homes and a military post",
+    "summary": "Sungai Tembo dan Sungai Gumit meluap pada malam 8 Januari 2026 dan menggenangi permukiman di Kecamatan Kuala, Langkat, dengan ketinggian 50–100 cm. Sekitar 120 rumah dan Koramil 04/Kuala terdampak; tidak ada korban jiwa dan warga diarahkan ke dua lokasi pengungsian.",
+    "summary_id": "Sungai Tembo dan Sungai Gumit meluap pada malam 8 Januari 2026 dan menggenangi permukiman di Kecamatan Kuala, Langkat, dengan ketinggian 50–100 cm. Sekitar 120 rumah dan Koramil 04/Kuala terdampak; tidak ada korban jiwa dan warga diarahkan ke dua lokasi pengungsian.",
+    "summary_en": "The Tembo and Gumit rivers overflowed on the evening of 8 January 2026, flooding neighbourhoods in Kuala district, Langkat, 50–100 cm deep. About 120 homes and the Koramil 04/Kuala post were affected; no deaths were reported and residents were directed to two shelters.",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "damage",
+    "claim_type": "flooding",
     "impact_tags": [
-      "road_damage",
-      "flooding"
+      "flooding",
+      "evacuation"
     ],
     "canonical_event_group": "ceg-sumatera_utara__kabupaten_langkat-2026-01",
     "period_start": "2026-01-01",

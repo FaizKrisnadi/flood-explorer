@@ -1,23 +1,23 @@
 [
   {
     "event_id": "jawa_timur-kabupaten_banyuwangi-2026-01-18-main",
-    "event_date": "2026-01-18",
+    "event_date": "2026-01-21",
     "admin_level": "regency",
     "admin_code": "35.10",
     "location_label": "Kabupaten Banyuwangi",
     "source_name": "BWI24Jam",
     "source_url": "http://bwi24jam.co.id/sungai-gonggo-meluap-2-desa-di-pesanggaran-banyuwangi-terendam-banjir",
     "source_date": "2026-01-22",
-    "headline": "Kabupaten Banyuwangi flood update for January 2026",
-    "summary": "Banjir di Kabupaten Banyuwangi disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
-    "summary_id": "Banjir di Kabupaten Banyuwangi disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
-    "summary_en": "Flooding in Kabupaten Banyuwangi disrupted local drainage and neighborhood services during the bounded review window.",
+    "headline": "Gonggo river overflow floods two villages in Pesanggaran, Banyuwangi",
+    "summary": "Sungai Gonggo meluap pada 21 Januari 2026 dan merendam sekitar 150 rumah di Desa Sumberagung dan Pesanggaran, Kecamatan Pesanggaran. Jalan menuju Pulau Merah sempat tergenang sekitar 500 meter.",
+    "summary_id": "Sungai Gonggo meluap pada 21 Januari 2026 dan merendam sekitar 150 rumah di Desa Sumberagung dan Pesanggaran, Kecamatan Pesanggaran. Jalan menuju Pulau Merah sempat tergenang sekitar 500 meter.",
+    "summary_en": "The Gonggo river overflowed on 21 January 2026, flooding about 150 homes in Sumberagung and Pesanggaran villages, Pesanggaran district. About 500 m of the road to Pulau Merah was briefly under water.",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "service_disruption",
+    "claim_type": "flooding",
     "impact_tags": [
-      "service_disruption",
-      "flooding"
+      "flooding",
+      "road_closure"
     ],
     "canonical_event_group": "ceg-jawa_timur__kabupaten_banyuwangi-2026-01",
     "period_start": "2026-01-01",

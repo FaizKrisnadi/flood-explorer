@@ -1,22 +1,21 @@
 [
   {
     "event_id": "dki-jaksel-2026-01-21-main",
-    "event_date": "2026-01-21",
+    "event_date": "2026-01-22",
     "admin_level": "regency",
     "admin_code": "31.74",
     "location_label": "Jakarta Selatan",
     "source_name": "BPBD DKI Jakarta",
     "source_url": "https://bpbd.jakarta.go.id/berita/aTRuM2NwSUQzd2RMOUVGYmV5UlFqQT09/update-info-terkini-genangan-22-januari-2026-s-d-pukul-20-00-wib",
     "source_date": "2026-01-22",
-    "headline": "South Jakarta flood slows arterial traffic",
-    "summary": "Banjir di Jakarta Selatan menyebabkan genangan permukiman dan perlambatan arus kendaraan pada jalan arteri utama.",
-    "summary_id": "Banjir di Jakarta Selatan menyebabkan genangan permukiman dan perlambatan arus kendaraan pada jalan arteri utama.",
-    "summary_en": "Flooding in South Jakarta caused neighborhood inundation and slowed vehicle movement on major arterial roads.",
+    "headline": "BPBD: 46 neighbourhood units flooded in South Jakarta on 22 January",
+    "summary": "Hujan deras pada 22 Januari 2026 menggenangi 132 RT dan 22 ruas jalan di Jakarta; di Jakarta Selatan tercatat 46 RT terendam, termasuk 26 RT di Kelurahan Petogogan (sekitar 50 cm, luapan Kali Krukut) dan 9 RT di Pela Mampang (hingga 90 cm). Sumber: BPBD DKI Jakarta.",
+    "summary_id": "Hujan deras pada 22 Januari 2026 menggenangi 132 RT dan 22 ruas jalan di Jakarta; di Jakarta Selatan tercatat 46 RT terendam, termasuk 26 RT di Kelurahan Petogogan (sekitar 50 cm, luapan Kali Krukut) dan 9 RT di Pela Mampang (hingga 90 cm). Sumber: BPBD DKI Jakarta.",
+    "summary_en": "Heavy rain on 22 January 2026 flooded 132 neighbourhood units (RT) and 22 road segments across Jakarta. South Jakarta had 46 RT under water, including 26 in Petogogan (about 50 cm, Krukut river overflow) and 9 in Pela Mampang (up to 90 cm). Source: BPBD DKI Jakarta.",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "mobility_disruption",
+    "claim_type": "flooding",
     "impact_tags": [
-      "road_closure",
       "flooding"
     ],
     "canonical_event_group": "ceg-dki-jaksel-2026-01",

@@ -53,7 +53,7 @@ The numbers behind the map:
 - **Apr 2000 – Feb 2026** of monthly flood footprints — 250 month buckets per geography level.
 - **38 provinces · 514 regencies/cities · 7,285 districts**, all at 100% boundary coverage for the published levels.
 - **4 metrics** per geography: recorded events, flood days, cumulative overlap area, and maximum coverage ratio.
-- **66 curated qualitative reports**, each rendered only when its source link passes eligibility screening.
+- **66 qualitative reports on file, 35 currently published** — each is rendered only when its source link passes eligibility screening; the rest stay withheld until a verifiable source is added.
 
 ## What the Map Shows
 

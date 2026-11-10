@@ -1,22 +1,21 @@
 [
   {
     "event_id": "dki-jakbar-2026-01-16-main",
-    "event_date": "2026-01-16",
+    "event_date": "2026-01-18",
     "admin_level": "regency",
     "admin_code": "31.73",
     "location_label": "Jakarta Barat",
     "source_name": "iNews",
     "source_url": "https://www.inews.id/news/megapolitan/banjir-rendam-16-titik-jakarta-usai-diguyur-hujan-deras-ketinggian-capai-60-cm",
     "source_date": "2026-01-18",
-    "headline": "West Jakarta flood closes local roads",
-    "summary": "Banjir di Jakarta Barat memicu genangan permukiman dan menutup sementara beberapa ruas penghubung lokal.",
-    "summary_id": "Banjir di Jakarta Barat memicu genangan permukiman dan menutup sementara beberapa ruas penghubung lokal.",
-    "summary_en": "Flooding in West Jakarta caused neighborhood inundation and temporarily closed several local connector roads.",
+    "headline": "West Jakarta: 13 neighbourhood units flooded after heavy overnight rain",
+    "summary": "Hujan deras sejak Sabtu malam menyebabkan banjir di Jakarta pada 18 Januari 2026. BPBD DKI mencatat 13 RT di Jakarta Barat terendam (Kedaung Kali Angke 8 RT, Tegal Alur 4 RT, Jelambar 1 RT) dengan ketinggian 25–60 cm.",
+    "summary_id": "Hujan deras sejak Sabtu malam menyebabkan banjir di Jakarta pada 18 Januari 2026. BPBD DKI mencatat 13 RT di Jakarta Barat terendam (Kedaung Kali Angke 8 RT, Tegal Alur 4 RT, Jelambar 1 RT) dengan ketinggian 25–60 cm.",
+    "summary_en": "Heavy rain from Saturday night caused flooding across Jakarta on 18 January 2026. BPBD DKI recorded 13 neighbourhood units (RT) flooded in West Jakarta (Kedaung Kali Angke 8, Tegal Alur 4, Jelambar 1), with water 25–60 cm deep.",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "mobility_disruption",
+    "claim_type": "flooding",
     "impact_tags": [
-      "road_closure",
       "flooding"
     ],
     "canonical_event_group": "ceg-dki-jakbar-2026-01",

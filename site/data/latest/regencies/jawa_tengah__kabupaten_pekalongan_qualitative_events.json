@@ -1,23 +1,23 @@
 [
   {
     "event_id": "jawa_tengah-kabupaten_pekalongan-2026-01-22-main",
-    "event_date": "2026-01-22",
+    "event_date": "2026-01-16",
     "admin_level": "regency",
     "admin_code": "33.26",
     "location_label": "Kabupaten Pekalongan",
     "source_name": "Kompas.com",
     "source_url": "https://regional.kompas.com/read/2026/01/20/151358678/banjir-rendam-28-desa-di-kabupaten-pekalongan-ribuan-warga-mengungsi",
     "source_date": "2026-01-20",
-    "headline": "Kabupaten Pekalongan flood update for January 2026",
-    "summary": "Banjir di Kabupaten Pekalongan disrupted mobility on key road links selama periode peninjauan terbatas.",
-    "summary_id": "Banjir di Kabupaten Pekalongan disrupted mobility on key road links selama periode peninjauan terbatas.",
-    "summary_en": "Flooding in Kabupaten Pekalongan disrupted mobility on key road links during the bounded review window.",
+    "headline": "Flood covers 28 villages in Kabupaten Pekalongan",
+    "summary": "Banjir yang bermula sejak 16 Januari 2026 merendam 28 desa di enam kecamatan Kabupaten Pekalongan per 20 Januari, dengan ketinggian air 10–120 cm dan tertinggi di Desa Pait, Kecamatan Siwalan. Kompas.com melaporkan ribuan warga mengungsi.",
+    "summary_id": "Banjir yang bermula sejak 16 Januari 2026 merendam 28 desa di enam kecamatan Kabupaten Pekalongan per 20 Januari, dengan ketinggian air 10–120 cm dan tertinggi di Desa Pait, Kecamatan Siwalan. Kompas.com melaporkan ribuan warga mengungsi.",
+    "summary_en": "Flooding that began on 16 January 2026 had submerged 28 villages across six districts of Kabupaten Pekalongan by 20 January, with water 10–120 cm deep and highest in Pait village, Siwalan district. Kompas.com reports thousands of residents evacuated.",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "mobility_disruption",
+    "claim_type": "flooding",
     "impact_tags": [
-      "road_closure",
-      "flooding"
+      "flooding",
+      "evacuation"
     ],
     "canonical_event_group": "ceg-jawa_tengah__kabupaten_pekalongan-2026-01",
     "period_start": "2026-01-01",

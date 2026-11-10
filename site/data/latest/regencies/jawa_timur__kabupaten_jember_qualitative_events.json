@@ -1,22 +1,21 @@
 [
   {
     "event_id": "jawa_timur-kabupaten_jember-2026-01-08-main",
-    "event_date": "2026-01-08",
+    "event_date": "2026-01-09",
     "admin_level": "regency",
     "admin_code": "35.09",
     "location_label": "Kabupaten Jember",
     "source_name": "BPBD Jawa Timur",
     "source_url": "https://files.bpbd.jatimprov.go.id/LAPHAR/2026/01_JANUARI/10%20Januari%202026.pdf",
     "source_date": "2026-01-10",
-    "headline": "Kabupaten Jember flood update for January 2026",
-    "summary": "Banjir di Kabupaten Jember disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
-    "summary_id": "Banjir di Kabupaten Jember disrupted local drainage and neighborhood services selama periode peninjauan terbatas.",
-    "summary_en": "Flooding in Kabupaten Jember disrupted local drainage and neighborhood services during the bounded review window.",
+    "headline": "River overflow floods homes in Mumbulsari, Jember",
+    "summary": "Sungai di Desa Mumbulsari, Kabupaten Jember, meluap ke permukiman pada 9 Januari 2026 setelah hujan lebat dan tersumbat sampah serta bambu di bawah jembatan. Genangan 5–10 cm surut sekitar 2,5 jam kemudian (laporan harian BPBD Jawa Timur).",
+    "summary_id": "Sungai di Desa Mumbulsari, Kabupaten Jember, meluap ke permukiman pada 9 Januari 2026 setelah hujan lebat dan tersumbat sampah serta bambu di bawah jembatan. Genangan 5–10 cm surut sekitar 2,5 jam kemudian (laporan harian BPBD Jawa Timur).",
+    "summary_en": "A river in Mumbulsari village, Jember, overflowed into homes on 9 January 2026 after heavy rain and a blockage of rubbish and bamboo under a bridge. The 5–10 cm of water receded about 2.5 hours later (BPBD East Java daily report).",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "service_disruption",
+    "claim_type": "flooding",
     "impact_tags": [
-      "service_disruption",
       "flooding"
     ],
     "canonical_event_group": "ceg-jawa_timur__kabupaten_jember-2026-01",

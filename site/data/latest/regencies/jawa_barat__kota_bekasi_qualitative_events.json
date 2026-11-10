@@ -1,22 +1,21 @@
 [
   {
     "event_id": "jabar-bekasi-2026-01-09-main",
-    "event_date": "2026-01-09",
+    "event_date": "2026-01-12",
     "admin_level": "regency",
     "admin_code": "32.75",
     "location_label": "Kota Bekasi",
     "source_name": "Kompas.com",
     "source_url": "https://megapolitan.kompas.com/read/2026/01/12/15323891/tiga-perumahan-di-bekasi-terendam-banjir-ketinggian-air-capai-70-cm",
     "source_date": "2026-01-12",
-    "headline": "Bekasi flood disrupts collector roads",
-    "summary": "Banjir di Bekasi menyebabkan genangan permukiman dan gangguan lalu lintas di jalan kolektor utama.",
-    "summary_id": "Banjir di Bekasi menyebabkan genangan permukiman dan gangguan lalu lintas di jalan kolektor utama.",
-    "summary_en": "Flooding in Bekasi caused residential inundation and traffic disruption on major collector roads.",
+    "headline": "Three housing complexes flooded in Bekasi after heavy rain",
+    "summary": "Hujan deras pada 12 Januari 2026 merendam tiga permukiman di Kota Bekasi: Kalibaru (20 cm), Perumahan Harapan Indah (50 cm), dan Perumahan Dosen IKIP (sekitar 70 cm). BPBD mengoperasikan pompa untuk mempercepat surutnya air.",
+    "summary_id": "Hujan deras pada 12 Januari 2026 merendam tiga permukiman di Kota Bekasi: Kalibaru (20 cm), Perumahan Harapan Indah (50 cm), dan Perumahan Dosen IKIP (sekitar 70 cm). BPBD mengoperasikan pompa untuk mempercepat surutnya air.",
+    "summary_en": "Heavy rain on 12 January 2026 flooded three residential areas in Kota Bekasi: Kalibaru (20 cm), Harapan Indah housing (50 cm) and Perumahan Dosen IKIP (about 70 cm). Pumps were operated to speed up drainage.",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "mobility_disruption",
+    "claim_type": "flooding",
     "impact_tags": [
-      "road_closure",
       "flooding"
     ],
     "canonical_event_group": "ceg-jabar-bekasi-2026-01",

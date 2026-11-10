@@ -1,22 +1,21 @@
 [
   {
     "event_id": "jatim-blitar-2026-01-27-main",
-    "event_date": "2026-01-27",
+    "event_date": "2026-01-30",
     "admin_level": "regency",
     "admin_code": "35.72",
     "location_label": "Kota Blitar",
     "source_name": "BPBD Jawa Timur",
     "source_url": "https://files.bpbd.jatimprov.go.id/LAPHAR/2026/01_JANUARI/31%20Januari%202026.pdf",
     "source_date": "2026-01-31",
-    "headline": "Blitar flood delays classes near affected school areas",
-    "summary": "Banjir di Blitar menyebabkan genangan di kawasan sekolah dan menunda kegiatan belajar pada beberapa lokasi terdampak.",
-    "summary_id": "Banjir di Blitar menyebabkan genangan di kawasan sekolah dan menunda kegiatan belajar pada beberapa lokasi terdampak.",
-    "summary_en": "Flooding in Blitar caused inundation near school areas and delayed classes at several affected sites.",
+    "headline": "Blitar city street briefly flooded by overflowing drainage on 30 January",
+    "summary": "Hujan lebat pada 30 Januari 2026 membuat saluran drainase meluap dan menggenangi Jl. Mahakam, Kelurahan Tanjungsari, Kota Blitar, setinggi sekitar 20 cm. Genangan surut total sekitar satu jam setelahnya, dan tidak ada korban dilaporkan (laporan harian BPBD Jawa Timur).",
+    "summary_id": "Hujan lebat pada 30 Januari 2026 membuat saluran drainase meluap dan menggenangi Jl. Mahakam, Kelurahan Tanjungsari, Kota Blitar, setinggi sekitar 20 cm. Genangan surut total sekitar satu jam setelahnya, dan tidak ada korban dilaporkan (laporan harian BPBD Jawa Timur).",
+    "summary_en": "Heavy rain on 30 January 2026 made drainage overflow onto Jl. Mahakam in Tanjungsari, Kota Blitar, with water about 20 cm deep. It fully receded about an hour later and no casualties were reported (BPBD East Java daily report).",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "school_closure",
+    "claim_type": "flooding",
     "impact_tags": [
-      "school_disruption",
       "flooding"
     ],
     "canonical_event_group": "ceg-jatim-blitar-2026-01",

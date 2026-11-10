@@ -1,23 +1,23 @@
 [
   {
     "event_id": "jateng-pekalongan-2026-01-20-main",
-    "event_date": "2026-01-20",
+    "event_date": "2026-01-16",
     "admin_level": "regency",
     "admin_code": "33.75",
     "location_label": "Kota Pekalongan",
     "source_name": "detikJateng",
     "source_url": "https://www.detik.com/jateng/berita/d-8317966/rel-ka-kebanjiran-di-pekalongan-bakal-ditinggikan-50-cm",
     "source_date": "2026-01-21",
-    "headline": "Pekalongan flood disrupts urban coastal services",
-    "summary": "Banjir di Pekalongan menyebabkan genangan di kawasan pesisir perkotaan dan mengganggu layanan permukiman setempat.",
-    "summary_id": "Banjir di Pekalongan menyebabkan genangan di kawasan pesisir perkotaan dan mengganggu layanan permukiman setempat.",
-    "summary_en": "Flooding in Pekalongan caused inundation in urban coastal areas and disrupted local neighborhood services.",
+    "headline": "Flooded railway at Pekalongan cancels 124 train trips",
+    "summary": "Banjir di jalur rel Km 88+400 hingga Km 89+100 di Pekalongan pada 16–19 Januari 2026 membuat 124 perjalanan kereta api dibatalkan. KAI meninggikan rel sepanjang 600 meter sekitar 50 cm; per 21 Januari 85 persen perjalanan kembali normal.",
+    "summary_id": "Banjir di jalur rel Km 88+400 hingga Km 89+100 di Pekalongan pada 16–19 Januari 2026 membuat 124 perjalanan kereta api dibatalkan. KAI meninggikan rel sepanjang 600 meter sekitar 50 cm; per 21 Januari 85 persen perjalanan kembali normal.",
+    "summary_en": "Flooding on the rail line at Km 88+400 to Km 89+100 in Pekalongan between 16 and 19 January 2026 caused 124 train trips to be cancelled. KAI is raising 600 m of track by about 50 cm; by 21 January 85 percent of services were back to normal.",
     "media_type": "article",
     "media_url": "",
-    "claim_type": "service_disruption",
+    "claim_type": "mobility_disruption",
     "impact_tags": [
-      "service_disruption",
-      "flooding"
+      "flooding",
+      "rail_disruption"
     ],
     "canonical_event_group": "ceg-jateng-pekalongan-2026-01",
     "period_start": "2026-01-01",
