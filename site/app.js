@@ -1101,7 +1101,9 @@ function formatFullDateLabel(monthStart) {
 function formatTrendAxisLabel(monthStart, index, total) {
   if (!monthStart) return "";
   const step = Math.max(1, Math.ceil((total - 1) / 5));
-  if (index !== 0 && index !== total - 1 && index % step !== 0) return "";
+  const isEdge = index === 0 || index === total - 1;
+  // Drop a stepped label that would sit too close to (and overlap) the final label.
+  if (!isEdge && (index % step !== 0 || total - 1 - index < step)) return "";
   return total <= 24 ? formatMonthLabel(monthStart.slice(0, 7)) : monthStart.slice(0, 4);
 }
 
@@ -2546,6 +2548,8 @@ async function renderTrendChart(code, renderVersion, highlightedMonth = null) {
           ticks: {
             color: "#9a8e7f",
             maxRotation: 0,
+            // Keep the first/last year labels inside the chart instead of clipped at the edge.
+            align: "inner",
             autoSkip: false,
             maxTicksLimit: 6,
             font: { family: "system-ui", size: 10 },
