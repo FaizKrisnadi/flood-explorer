@@ -16,6 +16,7 @@ export function clampMonth(value, first, last) {
 }
 
 export function latestYearRange(months) {
+  if (!Array.isArray(months) || months.length === 0) return ['', ''];
   const last = months[months.length - 1];
   return last ? [`${last.slice(0, 4)}-01`, last] : ['', ''];
 }
@@ -33,13 +34,17 @@ export function colorIndex(value, maximum, bins = 5) {
 export function csvCell(value) {
   let text = String(value ?? '');
   // Spreadsheet applications may execute formula-looking cells.
-  if (/^[=+@\t\r]/.test(text) || /^-\D/.test(text)) text = `'${text}`;
+  const trimmed = text.trimStart();
+  if (/^[\t\r\n]/.test(text) || /^[=+@]/.test(trimmed) || (/^-/.test(trimmed) && !/^-\d+(\.\d+)?$/.test(trimmed))) text = `'${text}`;
   return `"${text.replaceAll('"', '""')}"`;
 }
 
 export function toCsv(rows) {
   return '\ufeff' + rows.map(row => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
 }
+const DATE_FORMAT_OPTIONS = { day: 'numeric', month: 'short', year: 'numeric' };
+const dateFormatters = new Map();
+function getDateFormatter(locale, utc = false) { const key = `${locale}:${utc ? 'utc' : 'local'}`; let formatter = dateFormatters.get(key); if (!formatter) { formatter = new Intl.DateTimeFormat(locale, utc ? { ...DATE_FORMAT_OPTIONS, timeZone: 'UTC' } : DATE_FORMAT_OPTIONS); dateFormatters.set(key, formatter); } return formatter; }
 
 // Date-only strings parse as UTC midnight, so they must be formatted in UTC;
 // re-rendering them in the viewer's local zone shifts the label a day west of UTC.
@@ -48,14 +53,7 @@ export function formatFullDate(value, language = 'en') {
   const raw = String(value ?? '').trim();
   if (!raw) return '—';
   const locale = language === 'id' ? 'id-ID' : 'en-US';
-  const options = { day: 'numeric', month: 'short', year: 'numeric' };
-  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
-    const [year, month, day] = raw.split('-').map(Number);
-    return new Intl.DateTimeFormat(locale, { ...options, timeZone: 'UTC' }).format(
-      new Date(Date.UTC(year, month - 1, day))
-    );
-  }
-  const parsed = new Date(raw);
-  if (Number.isNaN(parsed.getTime())) return raw;
-  return new Intl.DateTimeFormat(locale, options).format(parsed);
+if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) { const [year, month, day] = raw.split('-').map(Number); const utcDate = new Date(Date.UTC(year, month - 1, day)); if (utcDate.getUTCFullYear() !== year || utcDate.getUTCMonth() !== month - 1 || utcDate.getUTCDate() !== day) return raw; return getDateFormatter(locale, true).format(utcDate); }
+  const parsed = new Date(raw); if (Number.isNaN(parsed.getTime())) return raw; return getDateFormatter(locale, false).format(parsed);
+
 }
