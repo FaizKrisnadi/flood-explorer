@@ -244,6 +244,7 @@ function createEmptyQualitativeStore() {
     regencyIndexByCode: new Map(),
     regencyIndexBySlug: new Map(),
     regencyBundleCache: new Map(),
+    regencyBundlePending: new Map(),
   };
 }
 
@@ -424,23 +425,36 @@ async function loadRegencyQualitativeBundle(adminCode) {
     return store.regencyBundleCache.get(adminCode);
   }
 
-  const entry = store.regencyIndexByCode.get(adminCode);
-  try {
-    const [events, states] = await Promise.all([
-      loadJson(`./data/latest/${entry.eventsPath}`),
-      loadJson(`./data/latest/${entry.statesPath}`),
-    ]);
-    const bundle = {
-      entry,
-      events: Array.isArray(events) ? publishableReports(events).map(normalizeQualitativeEvent) : [],
-      states: Array.isArray(states) ? states.map(normalizeQualitativeState) : [],
-    };
-    store.regencyBundleCache.set(adminCode, bundle);
-    return bundle;
-  } catch (error) {
-    console.warn("Failed to load regency qualitative bundle", adminCode, error);
-    throw error;
+  const pendingRequests = store.regencyBundlePending || (store.regencyBundlePending = new Map());
+  if (pendingRequests.has(adminCode)) {
+    return pendingRequests.get(adminCode);
   }
+
+  const entry = store.regencyIndexByCode.get(adminCode);
+  const eventsPath = entry?.eventsPath ? normalizeAssetPath(entry.eventsPath) : "";
+  const statesPath = entry?.statesPath ? normalizeAssetPath(entry.statesPath) : "";
+  const requestPromise = (async () => {
+    try {
+      const [events, states] = await Promise.all([
+        eventsPath ? loadJson(`./data/latest/${eventsPath}`) : Promise.resolve([]),
+        statesPath ? loadJson(`./data/latest/${statesPath}`) : Promise.resolve([]),
+      ]);
+      const bundle = {
+        events: publishableReports(Array.isArray(events) ? events : []).map(normalizeQualitativeEvent),
+        states: (Array.isArray(states) ? states : []).map(normalizeQualitativeState),
+      };
+      store.regencyBundleCache.set(adminCode, bundle);
+      return bundle;
+    } catch (error) {
+      console.warn(`Failed to load qualitative bundle for ${adminCode}`, error);
+      return null;
+    } finally {
+      pendingRequests.delete(adminCode);
+    }
+  })();
+
+  pendingRequests.set(adminCode, requestPromise);
+  return requestPromise;
 }
 
 function monthTokenForDate(dateValue) {
@@ -1241,7 +1255,9 @@ function playTimeline() {
     playBtn.innerHTML = '<svg viewBox="0 0 16 16"><rect x="4" y="3" width="3" height="10"/><rect x="9" y="3" width="3" height="10"/></svg>';
   }
 
+    let isTimelineRenderPending = false;
   timelinePlayInterval = setInterval(() => {
+      if (isTimelineRenderPending) return;
     if (!state.allMonths.length) {
       syncDateRangeDefaults();
       syncTimelineSliders();
@@ -1267,7 +1283,10 @@ function playTimeline() {
     if (timelineToLabel) timelineToLabel.textContent = formatMonthLabel(availableDates[toIdx]);
 
     updateTimelineFill();
-    void renderExplorer();
+      isTimelineRenderPending = true;
+      void Promise.resolve(renderExplorer()).finally(() => {
+        isTimelineRenderPending = false;
+      });
     syncRouteState({ replace: true });
   }, 800);
 }
@@ -2029,19 +2048,27 @@ function updateBoundarySource() {
 
 function bindMapInteractions() {
   if (state.mapInteractionsBound) return;
+  let lastHoveredAdminCode = null;
 
   state.handlers.mousemove = (event) => {
     const feature = event.features?.[0];
     if (!feature) return;
     state.map.getCanvas().style.cursor = "pointer";
     const popup = ensureMapHoverPopup();
-    popup
-      .setLngLat(event.lngLat)
-      .setDOMContent(buildMapHoverPopupNode(feature));
+    const adminCode = feature.properties?.admin_code ?? null;
+    if (popup.isOpen() && adminCode !== null && adminCode === lastHoveredAdminCode) {
+      popup.setLngLat(event.lngLat);
+    } else {
+      lastHoveredAdminCode = adminCode;
+      popup
+        .setLngLat(event.lngLat)
+        .setDOMContent(buildMapHoverPopupNode(feature));
+    }
     if (!popup.isOpen()) popup.addTo(state.map);
   };
 
   state.handlers.mouseleave = () => {
+    lastHoveredAdminCode = null;
     state.map.getCanvas().style.cursor = "";
     state.hoverPopup?.remove();
   };
@@ -2141,11 +2168,11 @@ async function renderMap(renderVersion) {
       state.currentGeojsonData.features.find((feature) => feature.properties.code === state.selectedCode) || null;
   }
 
-  unbindMapInteractions();
   ensureBoundaryLayers();
   updateBoundarySource();
-  bindMapInteractions();
-
+  if (!state.mapInteractionsBound) {
+    bindMapInteractions();
+  }
   mapTitle.textContent = metricDisplayLabel();
   fitCurrentMapView();
 }
@@ -2256,10 +2283,21 @@ function metricDisplayLabel() {
   return t(`ui.metric.${state.currentMetric}`) + (state.currentMetric === "sum_intersection_area_km2" ? " (km²)" : "");
 }
 
+const metricNumberFormatterCache = new Map();
+
+function getMetricNumberFormatter(locale, options = { maximumFractionDigits: 2 }) {
+  const key = `${locale}:${JSON.stringify(options)}`;
+  let formatter = metricNumberFormatterCache.get(key);
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(locale, options);
+    metricNumberFormatterCache.set(key, formatter);
+  }
+  return formatter;
+}
+
 function formatMetric(value) {
-  return new Intl.NumberFormat(state.language === "id" ? "id-ID" : "en-US", {
-    maximumFractionDigits: 2,
-  }).format(value || 0);
+  const locale = state.language === "id" ? "id-ID" : "en-US";
+  return getMetricNumberFormatter(locale, { maximumFractionDigits: 2 }).format(value || 0);
 }
 
 function parentLabel(properties) {
