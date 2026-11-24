@@ -135,6 +135,9 @@ def prepare_boundary_index(level: str, processed_dir: Path, projector: Transform
         geometries[invalid_mask] = shapely.make_valid(geometries[invalid_mask])
 
     projected_geometries = shapely.transform(geometries, projector.transform, interleaved=False)
+    projected_invalid_mask = ~shapely.is_valid(projected_geometries)
+    if projected_invalid_mask.any():
+        projected_geometries[projected_invalid_mask] = shapely.make_valid(projected_geometries[projected_invalid_mask])
     unit_area_km2 = shapely.area(projected_geometries) / 1_000_000
     geo_key = f"{level}_code"
     return {
@@ -174,7 +177,8 @@ def intersection_areas_km2(candidate_projected, level_index: dict, pairs: np.nda
         )
     except GEOSException:
         repaired = shapely.make_valid(candidate_projected[pairs[0]])
-        intersections = shapely.intersection(repaired, level_index["projected_geometries"][pairs[1]])
+        repaired_boundary = shapely.make_valid(level_index["projected_geometries"][pairs[1]])
+        intersections = shapely.intersection(repaired, repaired_boundary)
     return shapely.area(intersections) / 1_000_000
 
 
@@ -195,11 +199,17 @@ def build_event_sample(
         if len(sample_rows) >= sample_limit:
             return
         source_index = int(source_indices[event_position])
+        raw_start = start_dates[source_index]
+        raw_end = end_dates[source_index]
+        start_text = "" if raw_start is None else str(raw_start).strip()
+        end_text = "" if raw_end is None else str(raw_end).strip()
+        if not end_text or end_text.lower() in {"nan", "nat", "none"}:
+            end_text = start_text
         sample_rows.append(
             {
                 "uuid": str(uuids[source_index]),
-                "start_date": str(start_dates[source_index]),
-                "end_date": str(end_dates[source_index] or start_dates[source_index]),
+                "start_date": start_text,
+                "end_date": end_text,
                 "area_km2": float(footprint_area_km2[event_position]),
                 "geometry": candidate_geometries[event_position],
             }
@@ -226,7 +236,8 @@ def aggregate_level(
     event_positions = pairs[0][valid_pairs]
     unit_positions = pairs[1][valid_pairs]
     area_values = areas_km2[valid_pairs]
-    coverage_values = area_values / level_index["unit_area_km2"][unit_positions]
+    unit_areas = level_index["unit_area_km2"][unit_positions]
+    coverage_values = np.divide(area_values, unit_areas, out=np.zeros_like(area_values, dtype=float), where=unit_areas > 0)
     geo_codes = level_index["codes"][unit_positions]
     event_dates = start_dates[source_indices[event_positions]]
 
@@ -321,7 +332,7 @@ def main() -> int:
 
         source_indices = np.flatnonzero(required_mask)
         source_geometries = shapely.from_wkb([geometry_blobs[index] for index in source_indices])
-        source_geometries = repair_batch_geometries(source_geometries)
+    
 
         non_empty_mask = ~shapely.is_empty(source_geometries)
         if not non_empty_mask.any():
@@ -351,7 +362,7 @@ def main() -> int:
             continue
 
         source_indices = source_indices[bbox_mask]
-        candidate_geometries = source_geometries[bbox_mask]
+        candidate_geometries = repair_batch_geometries(source_geometries[bbox_mask])
         candidate_projected = shapely.transform(candidate_geometries, projector.transform, interleaved=False)
         footprint_area_km2 = area_values[source_indices].copy()
         missing_area_mask = ~np.isfinite(footprint_area_km2)
