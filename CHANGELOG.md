@@ -7,6 +7,8 @@ and this project uses [Semantic Versioning](https://semver.org/) as a release
 reference even though public data releases may be published independently of
 application changes.
 
+- Hardened CI, security headers, ETL geometry validation, and frontend map interactions (#9).
+
 ## [Unreleased]
 
 ### Added
