@@ -2048,7 +2048,7 @@ function updateBoundarySource() {
 
 function bindMapInteractions() {
   if (state.mapInteractionsBound) return;
-  let lastHoveredAdminCode = null;
+ state.lastHoveredAdminCode = null;
 
   state.handlers.mousemove = (event) => {
     const feature = event.features?.[0];
@@ -2056,10 +2056,10 @@ function bindMapInteractions() {
     state.map.getCanvas().style.cursor = "pointer";
     const popup = ensureMapHoverPopup();
     const adminCode = feature.properties?.admin_code ?? null;
-    if (popup.isOpen() && adminCode !== null && adminCode === lastHoveredAdminCode) {
+    if (popup.isOpen() && adminCode !== null && adminCode === state.lastHoveredAdminCode) {
       popup.setLngLat(event.lngLat);
     } else {
-      lastHoveredAdminCode = adminCode;
+      state.lastHoveredAdminCode = adminCode;
       popup
         .setLngLat(event.lngLat)
         .setDOMContent(buildMapHoverPopupNode(feature));
@@ -2068,7 +2068,7 @@ function bindMapInteractions() {
   };
 
   state.handlers.mouseleave = () => {
-    lastHoveredAdminCode = null;
+    state.lastHoveredAdminCode = null;
     state.map.getCanvas().style.cursor = "";
     state.hoverPopup?.remove();
   };
@@ -2170,6 +2170,8 @@ async function renderMap(renderVersion) {
 
   ensureBoundaryLayers();
   updateBoundarySource();
+   state.lastHoveredAdminCode = null;
+   state.hoverPopup?.remove();
   if (!state.mapInteractionsBound) {
     bindMapInteractions();
   }
